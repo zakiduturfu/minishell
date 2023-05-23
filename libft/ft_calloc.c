@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/05/22 15:00:15 by zlemery          ###   ########.fr       */
+/*   Created: 2022/11/11 21:37:10 by zlemery           #+#    #+#             */
+/*   Updated: 2022/11/26 13:27:50 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
-
-#include <stdio.h>
+#include "libft.h"
 #include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include "../libft/libft.h"
+#include <stddef.h>
 
-#endif
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	char	*tab;
+	size_t	len;
+
+	if (!nmemb || !size)
+		return (malloc(0));
+	len = nmemb * size;
+	if (len / size != nmemb)
+		return (NULL);
+	tab = malloc(nmemb * size);
+	if (!tab)
+		return (NULL);
+	ft_memset(tab, '\0', (nmemb * size));
+	return (tab);
+}

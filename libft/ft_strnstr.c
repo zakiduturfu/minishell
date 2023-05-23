@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/05/22 15:00:15 by zlemery          ###   ########.fr       */
+/*   Created: 2022/11/11 17:11:46 by zlemery           #+#    #+#             */
+/*   Updated: 2022/11/20 18:51:21 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
+#include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include "../libft/libft.h"
+char	*ft_strnstr(const char *str1, const char *str2, size_t n)
+{
+	size_t	i;
+	size_t	j;
 
-#endif
+	i = 0;
+	j = 0;
+	if (str2[i] == '\0')
+		return ((char *)str1);
+	while (str1[i] != '\0' && (i + j) < n)
+	{
+		while (str1[i + j] == str2[j])
+		{
+			if (str2[j + 1] == '\0')
+				return ((char *)str1 + i);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}

@@ -1,0 +1,111 @@
+readline: 
+		char *readline(const char *prompt)
+	fonction qui lit une ligne depuis le terminal et le retourne. il utilise un prompt.
+	si rien n'est renvoyer il renvoie un prompt vide. il retourne un char alloue avec malloc.
+
+
+rl_clear_history: clear l'historique en delete toute les entrees et "frees private data 
+	Readline saves in the history list" ??
+
+rl_on_new_line:	indique a la fonction mise a jour que nous sommes passe a un nouveau prompt vide.
+				generalement a la sortie d'une nouvelle line
+
+rl_replace_line: remplace le rl_line_buffer avec text, (pas compris)
+
+rl_redisplay: change ce qui est afficher a l'ecran et retransmettre le contenu de rl_line_buffer
+
+add_history: place une string a la fin de l'historique. le champs associe est set a NULL
+
+printf: ba printf
+
+malloc:bah malloc
+
+free: ba free 
+
+write: ba write
+
+acces: verifie l'acces
+
+open: deja connue
+
+read: deja connue
+
+close:deja connue
+
+fork: fait une copie du process
+
+wait: deja connue 
+
+waitpid: deja connue
+
+wait3: pareil que waitpid mais retourne
+
+wait4:
+
+signal:
+
+sigaction:
+
+sigemptyset:
+
+sigaddset:
+
+kill:
+
+exit:
+
+getcwd:
+
+chdir:
+
+stat:
+
+lstat:
+
+fstat:
+
+unlink:
+
+execve:
+
+dup:
+
+dup2:
+
+pipe:
+
+opendir:
+
+readdir:
+
+closedir:
+
+strerror:
+
+perror:
+
+isatty:
+
+ttyname:
+
+ttyslot:
+
+ioctl:
+
+getenv:
+
+tcsetattr:
+
+tcgetattr:
+
+tgetent:
+
+tgetflag:
+
+tgetnum:
+
+tgetstr:
+
+tgoto:
+
+tputs:

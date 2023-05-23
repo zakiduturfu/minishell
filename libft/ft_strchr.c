@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/05/22 15:00:15 by zlemery          ###   ########.fr       */
+/*   Created: 2022/11/11 13:37:43 by zlemery           #+#    #+#             */
+/*   Updated: 2022/11/20 17:54:23 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
+#include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include "../libft/libft.h"
+char	*ft_strchr(const char *s, int c)
+{
+	int				i;
+	unsigned char	m;
 
-#endif
+	i = 0;
+	m = (unsigned char)c;
+	if (!s)
+		return (0);
+	while (s[i] != '\0' && s[i] != m)
+		i++;
+	if (s[i] == m)
+		return ((char *)s + i);
+	return (0);
+}
