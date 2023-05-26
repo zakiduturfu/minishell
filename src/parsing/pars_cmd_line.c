@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/05/23 18:02:07 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/05/26 16:11:09 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,43 +17,49 @@ int	chev_not_sep(char *line)
 	int	i;
 	int	cnt;
 
+	i = 1;
 	cnt = 0;
-	i = 0;
+	if (line[0] == '<' && line [i] != ' ' && line[i] != '<')
+		cnt++;
 	while (line[i])
 	{
-		if (line[i] == '<' && line[i + 1] != ' ' && line[i + 1] != '<')
-			cnt++;
-		if (line[i] == '>' && line[i + 1] != '>' && line[i + 1] != ' ')
-			cnt++;
-		if (line[i] == '<' && line[i + 1] == '<' && line[i + 2] != ' ')
-			cnt++;
-		if (line[i] == '>' && line[i + 1] == '>' && line[i + 2] != ' ')
-			cnt++;
+		if ((line[i] == '<' || line[i] == '>')
+			&& (line[i - 1] != ' ' && line[i - 1] != '>')
+				&& (line[i + 1] != ' ' && line[i + 1] != '>'))
+			cnt += 2;
+		else if ((line[i] == '<' || line[i] == '>')
+			&& ((line[i - 1] != ' ' && line[i - 1] != '>')
+				|| (line[i + 1] != ' ' && line[i + 1] != '>')))
+			cnt += 1;
 		i++;
 	}
 	return (cnt);
 }
-
+/*
 int	need_sep(char *line)
 {
 
-}
-
+}*/
+/*
 char	*sep_redir(char *line)
 {
 	int		count;
+	int		i;
 	char	new_line;
 
+	i = 0;
 	count = chev_not_sep(line);
 	new_line = malloc(sizeof(char *) * ft_strlen(line) + (count + 1));
 	if (!new_line)
 		return (NULL);
 	while (new_line)
-}
+	{
 
-int	pars_cmd_line(char *line)
+	}
+}*/
+/*int	pars_cmd_line(char *line)
 {
 	if (!line)
 		return (0);
-	line = sep_redir(line);
-}
+//	line = sep_redir(line);
+}*/
