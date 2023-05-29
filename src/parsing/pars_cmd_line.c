@@ -6,13 +6,13 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/05/26 16:11:09 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/05/29 18:18:01 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	chev_not_sep(char *line)
+/*int	chev_not_sep(char *line)
 {
 	int	i;
 	int	cnt;
@@ -34,6 +34,25 @@ int	chev_not_sep(char *line)
 		i++;
 	}
 	return (cnt);
+}*/
+
+int	chev_not_sep(char *line)
+{
+	int		ret;
+	char	c;
+	int		i;
+
+	i = 0;
+	ret = 0;
+	c = line[i];
+	while (line[i])
+	{
+		if (line[i + 1] == '<')
+		{
+			if (line[i + 2] == '<')
+		}
+		i++;
+	}
 }
 /*
 int	need_sep(char *line)
