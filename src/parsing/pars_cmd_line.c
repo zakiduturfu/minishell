@@ -6,53 +6,62 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/05/29 18:18:01 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/05/30 15:41:25 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/*int	chev_not_sep(char *line)
+char	*ft_is_word(char *new, char *old, int start, int end)
 {
-	int	i;
-	int	cnt;
 
-	i = 1;
-	cnt = 0;
-	if (line[0] == '<' && line [i] != ' ' && line[i] != '<')
-		cnt++;
-	while (line[i])
+}
+
+char	*sep_chev(char *line, int sep)
+{
+	int		size;
+	char	*new_line;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	size = ft_strlen(line);
+	new_line = malloc(sizeof(char *) * (size + (sep * 2)));
+	if (!new_line)
+		return (NULL);
+	while (i <= (size + (sep * 2)))
 	{
-		if ((line[i] == '<' || line[i] == '>')
-			&& (line[i - 1] != ' ' && line[i - 1] != '>')
-				&& (line[i + 1] != ' ' && line[i + 1] != '>'))
-			cnt += 2;
-		else if ((line[i] == '<' || line[i] == '>')
-			&& ((line[i - 1] != ' ' && line[i - 1] != '>')
-				|| (line[i + 1] != ' ' && line[i + 1] != '>')))
-			cnt += 1;
-		i++;
+		while (line[i] != '<' && line[i] != '>')
+			i++;
+		if (line[i + 2] == '<' || line[i + 2] == '>')
+			i = i + 2;
 	}
-	return (cnt);
-}*/
+}
 
 int	chev_not_sep(char *line)
 {
 	int		ret;
-	char	c;
+	int		chev;
 	int		i;
 
 	i = 0;
 	ret = 0;
-	c = line[i];
+	chev = 0;
 	while (line[i])
 	{
-		if (line[i + 1] == '<')
+		if (line[i] == '<' || line[i] == '>')
 		{
-			if (line[i + 2] == '<')
+			chev = 1;
+			if (line[i + 1] == '<' || line[i + 1] == '>')
+				chev = 2;
+			ret = ret + chev;
+			i = i + chev;
 		}
-		i++;
+		else
+			i++;
 	}
+	return (ret);
 }
 /*
 int	need_sep(char *line)
