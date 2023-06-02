@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:56:46 by zlemery           #+#    #+#             */
-/*   Updated: 2023/05/30 15:03:51 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/05/31 13:39:24 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
+	char	*cmd;
 	char	**cmd_line;
 
 	(void)av;
@@ -25,6 +26,7 @@ int	main(int ac, char **av, char **env)
 		{
 			line = readline("> ");
 			printf("nombre de chevron = %d\n", chev_not_sep(line));
+			cmd = sep_chev(line, chev_not_sep(line));
 			cmd_line = ft_split(line, ' ');
 			while (*cmd_line)
 			{

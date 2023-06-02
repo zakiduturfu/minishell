@@ -15,7 +15,7 @@ OBJS = ${SRCS_ALL:.c=.o}
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -g -lreadline
+CFLAGS = -Wall -Werror -Wextra -g3 -lreadline
 
 all: ${NAME}
 

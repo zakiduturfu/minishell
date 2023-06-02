@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/05/30 15:41:25 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/05/31 14:04:17 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,29 @@
 
 char	*ft_is_word(char *new, char *old, int start, int end)
 {
+	int	i;
+	int	chev;
 
+	chev = 0;
+	i = start;
+	while (start <= end)
+	{
+		if (old[i] == '<' || old[i] == '>' && chev == 0)
+		{
+			new[start++] = ' ';
+			chev = 1;
+		}
+		else if (old[i] == '<' || old[i] == '>' && chev == 1)
+			new[start++] = old[i++];
+		else if (chev == 1 && old[i] != '<' && old[i] != '>')
+		{
+			new[start++] = ' ';
+			chev = 0;
+		}
+		else
+			new[start++] = old[i++];
+	}
+	return (new);
 }
 
 char	*sep_chev(char *line, int sep)
@@ -30,13 +52,20 @@ char	*sep_chev(char *line, int sep)
 	new_line = malloc(sizeof(char *) * (size + (sep * 2)));
 	if (!new_line)
 		return (NULL);
-	while (i <= (size + (sep * 2)))
+	while (i < (size + (sep * 2)))
 	{
-		while (line[i] != '<' && line[i] != '>')
+		while ((line[i] != '<' && line[i] != '>') && line[i]){
 			i++;
-		if (line[i + 2] == '<' || line[i + 2] == '>')
-			i = i + 2;
+			printf("azzazaz%d\n", i);
+		}
+		if (line[i + 1] == '<' || line[i + 1] == '>')
+			i = i + 1;
+		ft_is_word(new_line, line, j, i);
+		j = i;
+		printf("%c\n taille = %d, iiiiii = %d\n", new_line[i], (size + (sep * 2)), i);
 	}
+	new_line[i] = '\0';
+	return (new_line);
 }
 
 int	chev_not_sep(char *line)
