@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/05/31 13:34:41 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/06/13 12:16:03 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@
 #include <readline/readline.h>
 #include "../libft/libft.h"
 
-typedef struct s_word
+typedef struct s_token
 {
-	struct s_word	*next;
+	struct	s_token	*next;
+	struct	s_token	*prev;
 	char			*word;
-}	t_word;
+	int				type;
+}	t_token;
 
 
-int		chev_not_sep(char *line);
-char	*sep_chev(char *line, int sep);
+char	*line_arg(char *line);
+void	pars_line(char *line);
 
 #endif

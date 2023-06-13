@@ -6,117 +6,92 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/05/31 14:04:17 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/06/13 16:17:04 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <stdint.h>
 
-char	*ft_is_word(char *new, char *old, int start, int end)
+int	is_quote(char *line, int i)
 {
-	int	i;
-	int	chev;
+	int	 j;
+	int	count;
 
-	chev = 0;
-	i = start;
-	while (start <= end)
+	j = 0;
+	count = 0;
+	while (j < i)
 	{
-		if (old[i] == '<' || old[i] == '>' && chev == 0)
-		{
-			new[start++] = ' ';
-			chev = 1;
-		}
-		else if (old[i] == '<' || old[i] == '>' && chev == 1)
-			new[start++] = old[i++];
-		else if (chev == 1 && old[i] != '<' && old[i] != '>')
-		{
-			new[start++] = ' ';
-			chev = 0;
-		}
-		else
-			new[start++] = old[i++];
+		if (line[j] == '\'')
+			count++;
+		j++;
 	}
+	return (count);
+}
+
+int	is_sep(char *line, int i)
+{
+	if (ft_strchr("<>|;", line[i]) && is_quote(line, i) == 0)
+		return (1);
+	else
+		return (0);
+}
+
+char	*space_sep(char *line)
+{
+	int		i;
+	int		count;
+	char	*new;
+
+	i = 0;
+	count = 0;
+	while (line[i])
+	{
+		if (is_sep(line, i) == 1)
+			count++;
+		i++;
+	}
+	new = malloc(sizeof(char *) * (i + (2 * count) + 1));
+	if (!new)
+		return (NULL);
 	return (new);
 }
 
-char	*sep_chev(char *line, int sep)
+char	*line_arg(char *line)
 {
-	int		size;
-	char	*new_line;
+	char	*new;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	size = ft_strlen(line);
-	new_line = malloc(sizeof(char *) * (size + (sep * 2)));
-	if (!new_line)
-		return (NULL);
-	while (i < (size + (sep * 2)))
-	{
-		while ((line[i] != '<' && line[i] != '>') && line[i]){
-			i++;
-			printf("azzazaz%d\n", i);
-		}
-		if (line[i + 1] == '<' || line[i + 1] == '>')
-			i = i + 1;
-		ft_is_word(new_line, line, j, i);
-		j = i;
-		printf("%c\n taille = %d, iiiiii = %d\n", new_line[i], (size + (sep * 2)), i);
-	}
-	new_line[i] = '\0';
-	return (new_line);
-}
-
-int	chev_not_sep(char *line)
-{
-	int		ret;
-	int		chev;
-	int		i;
-
-	i = 0;
-	ret = 0;
-	chev = 0;
+	new = space_sep(line);
 	while (line[i])
 	{
-		if (line[i] == '<' || line[i] == '>')
+		if ((is_sep(line, i) == 1) && is_quote(line, i) != 2)
 		{
-			chev = 1;
-			if (line[i + 1] == '<' || line[i + 1] == '>')
-				chev = 2;
-			ret = ret + chev;
-			i = i + chev;
+			new[j++] = ' ';
+			new[j++] = line[i++];
+			new[j++] = ' ';
 		}
 		else
-			i++;
+			new[j++] = line[i++];
 	}
-	return (ret);
+	new[j] = '\0';
+	printf("nouvelle ligne: %s\n", new);
+	return (new);
 }
-/*
-int	need_sep(char *line)
-{
 
-}*/
-/*
-char	*sep_redir(char *line)
+void	pars_line(char *line)
 {
-	int		count;
-	int		i;
-	char	new_line;
+	char	*cmd;
+	char	**cmd_line;
 
-	i = 0;
-	count = chev_not_sep(line);
-	new_line = malloc(sizeof(char *) * ft_strlen(line) + (count + 1));
-	if (!new_line)
-		return (NULL);
-	while (new_line)
+	cmd = line_arg(line);
+	cmd_line = ft_split(cmd, ' ');
+	while (*cmd_line)
 	{
-
+		printf("%s\n", *cmd_line);
+		cmd_line++;
 	}
-}*/
-/*int	pars_cmd_line(char *line)
-{
-	if (!line)
-		return (0);
-//	line = sep_redir(line);
-}*/
+}
