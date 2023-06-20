@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/06/15 16:35:03 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/06/20 15:26:33 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,26 @@ int	is_quote(char *line, int i)
 	}
 	return (count);
 }
+int	ignore_sep(char *line, int i)
+{
+	if (line[i] == '\\' && line[i + 1] && line[i + 1] == '|')
+		return (1);
+	else if (line[i] == '\\' && line[i + 1] && line[i + 1] == ';')
+		return (1);
+	else if (line[i] == '\\' && line[i + 1] && line[i + 1] == '>'
+		&& line[i + 2] && line[i + 2] == '>')
+		return (1);
+	else if (line[i] == '\\' && line[i + 1] && line[i + 1] == '>')
+		return (1);
+	return (0);
+}
 
 int	is_sep(char *line, int i)
 {
-	if (i > 0 && ft_strchr("<>|;", line[i]) && is_quote(line, i) == 0)
+	if (i > 0 && ft_strchr("<>|;", line[i]) && is_quote(line, i) == 0
+		&& line[i - 1] == '\\')
+		return (0);
+	if (ft_strchr("<>|;", line[i]) && is_quote(line, i) == 0)
 		return (1);
 	else
 		return (0);
@@ -76,10 +92,12 @@ char	*line_arg(char *line)
 	new = space_sep(line);
 	while (line[i])
 	{
-		if ((is_sep(line, i) == 1) && is_quote(line, i) != 0)
+		if ((is_sep(line, i) == 1) && is_quote(line, i) == 0)
 		{
 			new[j++] = ' ';
 			new[j++] = line[i++];
+			if (is_quote(line, i) == 0 && (line[i] == '>' || line[i] == '<'))
+				new[j++] = line[i++];
 			new[j++] = ' ';
 		}
 		else
@@ -90,16 +108,46 @@ char	*line_arg(char *line)
 	return (new);
 }
 
-void	pars_line(char *line)
+void	affiche_test(char *cmd)
 {
-	char	*cmd;
 	char	**cmd_line;
 
-	cmd = line_arg(line);
-	cmd_line = ft_split(cmd, ' ');
+	cmd_line = ft_split(cmd, '|');
 	while (*cmd_line)
 	{
 		printf("%s\n", *cmd_line);
 		cmd_line++;
+	}
+}
+
+char	**split_to_pipe(char *line)
+{
+	int		i;
+	char	**new_line;
+
+	i = 0;
+	while (line[i])
+	{
+		while (line[i] != '|' && line[i])
+			i++;
+		*new_line = malloc(sizeof())
+	}
+}
+
+void	pars_line(char *line)
+{
+	char	*cmd;
+	char	cmd_line;
+	t_token	*token;
+
+	cmd = line_arg(line);
+	affiche_test(cmd);
+	token->type = NULL;
+	token->word = NULL;
+	cmd_line = split_to_pipe(cmd);
+	while (*cmd_line)
+	{
+		get_token(*cmd_line, token);
+		*cmd_line++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:56:46 by zlemery           #+#    #+#             */
-/*   Updated: 2023/06/13 15:19:20 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/06/20 15:16:23 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av, char **env)
 	{
 		while (line)
 		{
-			line = readline("> ");
+			line = readline("minishell>");
 			pars_line(line);
 			if (strncmp("exit", line, 4) == 0)
 				exit(0);

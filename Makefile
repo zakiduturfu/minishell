@@ -3,7 +3,8 @@ NAME = minishell
 FOLDER = ./
 
 SRCS = ./src/main.c \
-	./src/parsing/pars_cmd_line.c
+	./src/parsing/pars_cmd_line.c \
+	./src/parsing/token.c
 
 HEADER = include
 

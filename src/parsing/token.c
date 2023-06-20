@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/06/20 14:42:30 by zlemery          ###   ########.fr       */
+/*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
+/*   Updated: 2023/06/20 14:56:43 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include "../libft/libft.h"
+#include "../../include/minishell.h"
 
-typedef struct s_token
+void	get_token(char *line, t_token *token)
 {
-	char			*word;
-	char			*type;
-}	t_token;
+	int	i;
 
-
-char	*line_arg(char *line);
-void	pars_line(char *line);
-int		is_quote(char *line, int i);
-int		is_sep(char *line, int i);
-
-#endif
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == ' ')
+			i++;
+	}
+}
