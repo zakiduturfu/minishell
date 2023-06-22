@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/06/20 15:26:33 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/06/22 17:56:04 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	is_quote(char *line, int i)
 	}
 	return (count);
 }
+
 int	ignore_sep(char *line, int i)
 {
 	if (line[i] == '\\' && line[i + 1] && line[i + 1] == '|')
@@ -120,34 +121,22 @@ void	affiche_test(char *cmd)
 	}
 }
 
-char	**split_to_pipe(char *line)
-{
-	int		i;
-	char	**new_line;
-
-	i = 0;
-	while (line[i])
-	{
-		while (line[i] != '|' && line[i])
-			i++;
-		*new_line = malloc(sizeof())
-	}
-}
-
 void	pars_line(char *line)
 {
 	char	*cmd;
-	char	cmd_line;
-	t_token	*token;
+	int		i = 0;
+	char	**cmd_line;
+	t_shell	*shell;
 
 	cmd = line_arg(line);
 	affiche_test(cmd);
-	token->type = NULL;
-	token->word = NULL;
-	cmd_line = split_to_pipe(cmd);
-	while (*cmd_line)
+	shell = malloc(sizeof(t_shell));
+	cmd_line = ft_split(cmd, '|');
+	get_token(*cmd_line, shell->token);	
+	printf("ca va crash = %s\n", shell->token->word);
+/*	while (*cmd_line)
 	{
 		get_token(*cmd_line, token);
 		*cmd_line++;
-	}
+	}*/
 }
