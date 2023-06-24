@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/06/24 18:28:14 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/06/24 21:04:29 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,27 @@ int	token_alloc(char *line, int *i)
 	}
 	return (j - count + 1);
 }
+int	is_token(char *line, int *i)
+{
+	char	quote;
+
+	quote = ' ';
+	while (line[*i] && (line[*i] != ' ' || quote != ' '))
+	{
+		if (quote == ' ' && (line[*i] == '\'' || line[*i] == '\"'))
+			quote = line[(*i)++];
+		else if (quote != ' ' && line[*i] == quote)
+		{
+			quote = ' ';
+			*i += 1;
+		}
+		else
+			*i += 1;
+		if (line[*i] == '\\' && line[(*i)++])
+			*i += 1;
+	}
+	return (1);
+}
 
 int	ignore_space(char *line, int i)
 {
@@ -46,17 +67,33 @@ int	ignore_space(char *line, int i)
 	return (i);
 }
 
-t_token	*recup_token(char *line, int *i)
+int	size_token(char *line)
 {
-	t_token	*token;
+	int		i;
+	int		count;
+
+	i = 0;
+	count = 0;
+	i = ignore_space(line, i);
+	while (line[i])
+	{
+		if (is_token(line, &i) == 1)
+			count++;
+		i = ignore_space(line, i);
+	}
+	return (count);
+}
+
+t_token	*recup_token(char *line, int *i, t_token ***token)
+{
 	int		j;
 	char	quote;
 
 	j = 0;
 	quote = ' ';
-	token = NULL;
-	if (!(token = malloc(sizeof(t_token)))
-		|| !(token->word = malloc(sizeof(char) * token_alloc(line, i))))
+	printf("tokkkkkkkken %d\n", size_token(line) + 1);
+	if (!(*token = malloc(sizeof(t_token) * (size_token(line) + 1)))
+		|| !((**token)->word = malloc(sizeof(char) * token_alloc(line, i))))
 			return (NULL);
 	while (line[*i] && (line[*i] != ' ' || quote != ' '))
 	{
@@ -68,14 +105,13 @@ t_token	*recup_token(char *line, int *i)
 			*i += 1;
 		}
 		else
-			token->word[j++] = line[(*i)++];
+			(**token)->word[j++] = line[(*i)++];
 		if (line[*i] == '\\' && line[(*i)++])
 			*i += 1;
-		printf("%d\n", *i);
 	}
-	token->word[j] = '\0';
+	(**token)->word[j] = '\0';
 //	printf("%p\n%p\n%s\n", token->word, token, token->word);
-	return (token);
+	return (**token);
 }
 
 t_token	**get_token(char *line)
@@ -90,9 +126,10 @@ t_token	**get_token(char *line)
 	token = malloc(sizeof(t_token *));
 	while (line[i])
 	{
-		*token = recup_token(line, &i);
+		token[j] = recup_token(line, &i, &token);
+		printf("token->word = %s\n", token[j]->word);
 		i = ignore_space(line, i);
-		(*token)++;
+		j++;
 	}
 	return (token);
 }
