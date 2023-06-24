@@ -16,15 +16,16 @@ OBJS = ${SRCS_ALL:.c=.o}
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -g3 -lreadline
+CFLAGS = -Wall -Werror -Wextra -g
+CLINK = -lreadline
 
 all: ${NAME}
 
 .c.o:
-	${CC} ${CLFAGS} -I${LIBFT} -I${HEADER} -c $< -o $@
+	${CC} ${CFLAGS} -I${LIBFT} -I${HEADER} -c $< -o $@
 
 ${NAME}: ${OBJS} ${LIB_PATH}
-	${CC} ${CFLAGS} -I${HEADER} -I${LIBFT} -L${LIBFT} -o $@ $^
+	${CC} ${CFLAGS} ${CLINK} -I${HEADER} -I${LIBFT} -L${LIBFT} -o $@ $^
 
 ${LIB_PATH}:
 	cd ${LIBFT} && make

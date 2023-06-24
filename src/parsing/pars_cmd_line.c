@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/06/22 17:56:04 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/06/24 16:42:40 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,19 +124,32 @@ void	affiche_test(char *cmd)
 void	pars_line(char *line)
 {
 	char	*cmd;
-	int		i = 0;
 	char	**cmd_line;
 	t_shell	*shell;
 
 	cmd = line_arg(line);
 	affiche_test(cmd);
-	shell = malloc(sizeof(t_shell));
 	cmd_line = ft_split(cmd, '|');
-	get_token(*cmd_line, shell->token);	
-	printf("ca va crash = %s\n", shell->token->word);
+	shell = NULL;
+//	printf("%p\n%p\n%p\n", cmd, cmd_line, shell);
+	shell->token = get_token(*cmd_line);
 /*	while (*cmd_line)
 	{
 		get_token(*cmd_line, token);
 		*cmd_line++;
 	}*/
 }
+/*
+void	v2_pars_line(char *line)
+{
+	char	*tmp;
+	char	**cmd_line;
+	t_shell	*shell;
+
+	tmp = line_arg(line);
+	affiche_test(tmp);
+	cmd_line = ft_split(tmp, '|');
+	shell->token->word = NULL;
+	shell->token->next = NULL;
+	get_token(*cmd_line, shell->token);
+}*/

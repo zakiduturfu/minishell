@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:56:46 by zlemery           #+#    #+#             */
-/*   Updated: 2023/06/20 15:16:23 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/06/24 17:46:25 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
-	char	*cmd;
-	char	**cmd_line;
 
 	(void)av;
+	(void)env;
 	line = " ";
 	if (ac == 1)
 	{
