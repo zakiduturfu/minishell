@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/06/24 16:06:53 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/04 22:36:31 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ typedef struct s_token
 
 typedef	struct s_shell
 {
-	t_token	**token;
+	char	**token;
+	char	*type;
 }	t_shell;
 
 char	*line_arg(char *line);
@@ -34,8 +35,7 @@ void	pars_line(char *line);
 int		ignore_sep(char *line, int i);
 int		is_quote(char *line, int i);
 int		is_sep(char *line, int i);
-
 int		token_alloc(char *line, int *i);
-t_token	**get_token(char *line);
+void	get_token(char *line, char **token);
 void	v2_pars_line(char *line);
 #endif

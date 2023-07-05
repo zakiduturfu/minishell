@@ -25,7 +25,7 @@ all: ${NAME}
 	${CC} ${CFLAGS} -I${LIBFT} -I${HEADER} -c $< -o $@
 
 ${NAME}: ${OBJS} ${LIB_PATH}
-	${CC} ${CFLAGS} ${CLINK} -I${HEADER} -I${LIBFT} -L${LIBFT} -o $@ $^
+	${CC} ${CFLAGS} -I${HEADER} -I${LIBFT} -L${LIBFT} -o $@ $^ ${CLINK}
 
 ${LIB_PATH}:
 	cd ${LIBFT} && make

@@ -109,3 +109,6 @@ tgetstr:
 tgoto:
 
 tputs:
+
+
+dans cat | ls close la pipe pour faire crash le cat.

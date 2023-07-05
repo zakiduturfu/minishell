@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/06/24 20:36:15 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/05 05:04:00 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,15 +124,18 @@ void	affiche_test(char *cmd)
 void	pars_line(char *line)
 {
 	char	*cmd;
-	char	**cmd_line;
+	int	i = 0;
 	t_shell	*shell;
 
 	cmd = line_arg(line);
 	affiche_test(cmd);
-	cmd_line = ft_split(cmd, '|');
 	shell = malloc(sizeof(t_shell));
-	shell->token = get_token(*cmd_line);
-	printf("%p\n",shell->token[0]->word);
+	shell->token = ft_split(cmd, '|');
+	while (shell->token[i])
+	{
+		printf("%s\n", shell->token[i]);
+		i++;
+	}
 /*	while (*cmd_line)
 	{
 		get_token(*cmd_line, token);
