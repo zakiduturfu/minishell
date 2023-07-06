@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/05 05:04:00 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/06 15:18:00 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,28 +131,8 @@ void	pars_line(char *line)
 	affiche_test(cmd);
 	shell = malloc(sizeof(t_shell));
 	shell->token = ft_split(cmd, '|');
-	while (shell->token[i])
-	{
-		printf("%s\n", shell->token[i]);
-		i++;
-	}
-/*	while (*cmd_line)
-	{
-		get_token(*cmd_line, token);
-		*cmd_line++;
-	}*/
-}
-/*
-void	v2_pars_line(char *line)
-{
-	char	*tmp;
-	char	**cmd_line;
-	t_shell	*shell;
+	if(!shell->token)
+		return ;
+/*	if c'est un buitin
 
-	tmp = line_arg(line);
-	affiche_test(tmp);
-	cmd_line = ft_split(tmp, '|');
-	shell->token->word = NULL;
-	shell->token->next = NULL;
-	get_token(*cmd_line, shell->token);
-}*/
+}
