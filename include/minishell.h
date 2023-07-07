@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/04 22:36:31 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/07 03:54:22 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,13 @@
 #include <readline/readline.h>
 #include "../libft/libft.h"
 
-typedef struct s_token
-{
-	char	*word;
-}	t_token;
-
 typedef	struct s_shell
 {
 	char	**token;
+	int		here;
+	int		fdin;
 	char	*type;
+	int		nb_cmd;
 }	t_shell;
 
 char	*line_arg(char *line);
@@ -35,7 +33,14 @@ void	pars_line(char *line);
 int		ignore_sep(char *line, int i);
 int		is_quote(char *line, int i);
 int		is_sep(char *line, int i);
+int		is_token(char *line, int *i);
 int		token_alloc(char *line, int *i);
-void	get_token(char *line, char **token);
+char	**get_token(char *line);
+int		count_cmd(char **tab);
+int		ignore_space(char *line, int i);
+int		size_token(char *line);
+int		split_built(char *cmd);
+int		is_builtin(char **cmd);
+int		ft_strcmp(const char *str1, const char *str2);
 void	v2_pars_line(char *line);
 #endif

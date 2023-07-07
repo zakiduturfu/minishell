@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/05 02:08:42 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/07 03:54:25 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	token_alloc(char *line, int *i)
 	}
 	return (j - count + 1);
 }
+
 int	is_token(char *line, int *i)
 {
 	char	quote;
@@ -60,30 +61,6 @@ int	is_token(char *line, int *i)
 	return (1);
 }
 
-int	ignore_space(char *line, int i)
-{
-	while (line[i] == ' ')
-		i++;
-	return (i);
-}
-
-int	size_token(char *line)
-{
-	int		i;
-	int		count;
-
-	i = 0;
-	count = 0;
-	i = ignore_space(line, i);
-	while (line[i])
-	{
-		if (is_token(line, &i) == 1)
-			count++;
-		i = ignore_space(line, i);
-	}
-	return (count);
-}
-
 char	*recup_token(char *line, int *i)
 {
 	int		j;
@@ -92,8 +69,8 @@ char	*recup_token(char *line, int *i)
 
 	j = 0;
 	quote = ' ';
-//	printf("tokkkkkkkken %d\n", size_token(line) + 1);
-	if (!(token = malloc(sizeof(char) * token_alloc(line, i))))
+	token = malloc(sizeof(char) * token_alloc(line, i));
+	if (!token)
 		return (NULL);
 	while (line[*i] && (line[*i] != ' ' || quote != ' '))
 	{
@@ -110,24 +87,62 @@ char	*recup_token(char *line, int *i)
 			*i += 1;
 	}
 	token[j] = '\0';
-//	printf("%p\n%p\n%s\n", token->word, token, token->word);
 	return (token);
 }
 
-void	get_token(char *line, char **token)
+char	**get_token(char *line)
 {
 	int		i;
 	int		j;
+	char	**token;
 
 	i = 0;
 	j = 0;
-	token = malloc(sizeof(char *) * size_token(line));
+	token = malloc(sizeof(char *) * (size_token(line) + 1));
+	if (!token)
+		return (NULL);
 	i = ignore_space(line, i);
 	while (line[i])
 	{
 		token[j] = recup_token(line, &i);
-		printf("%s\n", token[j]);
+		printf("%p\n", token[j]);
 		i = ignore_space(line, i);
 		j++;
 	}
+	token[j] = 0;
+	return (token);
+}
+
+int	split_built(char *cmd)
+{
+	int		ret;
+	char	**tab;
+
+	ret = 0;
+	tab = get_token(cmd);
+	if (!tab)
+		return (0);
+	ret = is_builtin(tab);
+	free_all(tab);
+	return (ret);
+}
+
+void	find_redir(t_shell *shell)
+{
+	char	**tab;
+	int		i;
+
+	i = 0;
+	tab = get_token(shell->token[0]);
+	if (!ft_strcmp("<<", shell->token[0]))
+		shell->here = 1;
+	free_all(tab);
+	tab = get_token(shell->token[shell->nb_cmd]);
+	while (tab[i])
+	{
+		if (!ft_strcmp(">>", tab[i]))
+			shell->here += 1;
+		i++;
+	}
+	free_all(tab);
 }

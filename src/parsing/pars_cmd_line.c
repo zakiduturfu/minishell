@@ -6,11 +6,12 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/06 15:18:00 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/07 04:00:04 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <readline/readline.h>
 #include <stdint.h>
 
 int	is_quote(char *line, int i)
@@ -124,15 +125,28 @@ void	affiche_test(char *cmd)
 void	pars_line(char *line)
 {
 	char	*cmd;
-	int	i = 0;
 	t_shell	*shell;
 
 	cmd = line_arg(line);
-	affiche_test(cmd);
+//	affiche_test(cmd);
 	shell = malloc(sizeof(t_shell));
 	shell->token = ft_split(cmd, '|');
-	if(!shell->token)
+	if (!shell->token)
 		return ;
-/*	if c'est un buitin
-
+	free(cmd);
+	shell->nb_cmd = (count_cmd(shell->token));
+	if (shell->nb_cmd == 1 && split_built(shell->token[0]) == 1)
+		exec_only_built(shell);
+	else if (is_builtin(shell->token))
+		exec_built();
+	find_redir(shell);
+	free_all(shell->token);
+	free(shell);
+/*	if(!shell->token)
+		return ;*/
+/*	if is_buitin
+		exec_builtin
+	else if is redire_rection
+		exec_pipex
+*/
 }

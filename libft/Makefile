@@ -36,9 +36,9 @@ SRCS = ft_isalpha.c \
 
 OBJS = ${SRCS:.c=.o}
 
-CC = gcc
+CC = cc
 
-CFLAGS = -Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra -g
 
 NAME = libft.a
 
