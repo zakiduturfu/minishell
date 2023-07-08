@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/07 04:00:04 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/08 02:13:06 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,14 +139,8 @@ void	pars_line(char *line)
 		exec_only_built(shell);
 	else if (is_builtin(shell->token))
 		exec_built();
-	find_redir(shell);
+	if (find_redir(shell))
+		init_cmd(shell);
 	free_all(shell->token);
 	free(shell);
-/*	if(!shell->token)
-		return ;*/
-/*	if is_buitin
-		exec_builtin
-	else if is redire_rection
-		exec_pipex
-*/
 }

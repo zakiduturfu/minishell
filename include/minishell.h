@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/07 03:54:22 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/08 00:06:04 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef	struct s_shell
 {
 	char	**token;
 	int		here;
+	int		append;
 	int		fdin;
 	char	*type;
 	int		nb_cmd;
@@ -41,6 +42,7 @@ int		ignore_space(char *line, int i);
 int		size_token(char *line);
 int		split_built(char *cmd);
 int		is_builtin(char **cmd);
+int		find_redir(t_shell *shell);
 int		ft_strcmp(const char *str1, const char *str2);
 void	v2_pars_line(char *line);
 #endif

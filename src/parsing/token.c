@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/07 03:54:25 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/08 01:15:17 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,22 +127,79 @@ int	split_built(char *cmd)
 	return (ret);
 }
 
-void	find_redir(t_shell *shell)
+
+int	find_redir(t_shell *shell)
 {
 	char	**tab;
 	int		i;
 
 	i = 0;
 	tab = get_token(shell->token[0]);
+	if (!tab)
+		return (0);
 	if (!ft_strcmp("<<", shell->token[0]))
 		shell->here = 1;
 	free_all(tab);
 	tab = get_token(shell->token[shell->nb_cmd]);
+	if (!tab)
+		return (0);
 	while (tab[i])
 	{
 		if (!ft_strcmp(">>", tab[i]))
-			shell->here += 1;
+			shell->append = 1;
 		i++;
 	}
 	free_all(tab);
+	return (1);
+}
+
+int	check_redir(char **line)
+{
+	int	i;
+	int	red;
+
+	i = 0;
+	red = 0;
+	while (line[i])
+	{
+		if (line[i][0] == '<' || line[i][0] == '>')
+			red++;
+		if (line[i][0] == '<' || line[i][0] == '>')
+			return (-1);
+		i++;
+	}
+	return (i - red);
+}
+
+char	**delete_redir(char **line)
+{
+	int		i;
+	char	**ret;
+	int		size;
+
+	i = 0;
+	size = check_redir(line);
+	if (size == -1)
+		return ("ERROR");
+	ret = malloc(sizeof(char *) * (size + 1));
+	while (line[i])
+	{
+		if (line[i][0] == '<' || line[i][0] == '>')
+			i++;
+		else
+		ret[i] = ft_strdup(line[i]);
+		i++;
+	}
+	ret[i] = 0;
+	return (ret);
+}
+
+void	init_start_cmd(t_shell *shell)
+{
+	char	**tab;
+
+	tab = get_token(shell->token);
+	if (!tab)
+		return ;
+	tab = delete_redir(tab);
 }

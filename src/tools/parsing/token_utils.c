@@ -6,11 +6,11 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 23:06:12 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/07 03:54:24 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/08 01:30:21 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../../include/minishell.h"
 
 int	count_cmd(char **tab)
 {
@@ -24,10 +24,8 @@ int	count_cmd(char **tab)
 
 int	is_builtin(char **cmd)
 {
-	if (ft_strcmp("cd", cmd[0]) == 0){
-		printf("1\n");
-		return (1);
-	}
+	if (ft_strcmp("cd", cmd[0]) == 0)
+		return (1); 
 	else if (ft_strcmp("echo", cmd[0]) == 0)
 		return (1);
 	else if (ft_strcmp("exit", cmd[0]) == 0)
