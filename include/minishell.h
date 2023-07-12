@@ -42,7 +42,7 @@ int		ignore_space(char *line, int i);
 int		size_token(char *line);
 int		split_built(char *cmd);
 int		is_builtin(char **cmd);
-int		find_redir(t_shell *shell);
+int		find_redir(char **line);
 int		ft_strcmp(const char *str1, const char *str2);
 void	v2_pars_line(char *line);
 #endif

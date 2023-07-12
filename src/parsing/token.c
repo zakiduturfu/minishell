@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/08 01:15:17 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/12 03:39:01 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	split_built(char *cmd)
 	return (ret);
 }
 
-
+/*
 int	find_redir(t_shell *shell)
 {
 	char	**tab;
@@ -152,23 +152,24 @@ int	find_redir(t_shell *shell)
 	free_all(tab);
 	return (1);
 }
-
-int	check_redir(char **line)
+*/
+int	find_redir(char **redir)
 {
 	int	i;
-	int	red;
 
 	i = 0;
-	red = 0;
-	while (line[i])
+	while (redir[i])
 	{
-		if (line[i][0] == '<' || line[i][0] == '>')
-			red++;
-		if (line[i][0] == '<' || line[i][0] == '>')
-			return (-1);
-		i++;
+		if (!ft_strcmp(">", redir[i]))
+			return (1);
+		else if (!ft_strcmp(">>", redir[i]))
+			return (1);
+		else if (!ft_strcmp("<", redir[i]))
+			return (2);
+		else if (!ft_strcmp("<<", redir[i]))
+			return (2);
 	}
-	return (i - red);
+	return (0);
 }
 
 char	**delete_redir(char **line)
@@ -178,28 +179,35 @@ char	**delete_redir(char **line)
 	int		size;
 
 	i = 0;
-	size = check_redir(line);
-	if (size == -1)
-		return ("ERROR");
+	size = find_redir(line);
+	if (!size)
+		return (line);
 	ret = malloc(sizeof(char *) * (size + 1));
 	while (line[i])
 	{
 		if (line[i][0] == '<' || line[i][0] == '>')
 			i++;
 		else
-		ret[i] = ft_strdup(line[i]);
+			ret[i] = ft_strdup(line[i]);
 		i++;
 	}
 	ret[i] = 0;
 	return (ret);
 }
 
-void	init_start_cmd(t_shell *shell)
+char	**init_start_cmd(t_shell *shell, char *cmd_line)
 {
+	int		i;
 	char	**tab;
 
-	tab = get_token(shell->token);
+	i = 0;
+	tab = get_token(cmd_line);
 	if (!tab)
-		return ;
+		return (NULL);
+	if (find_redir(tab))
+		open_redir(shell);
 	tab = delete_redir(tab);
+	while (tab[i])
+		tab[i++] = delete_quote(tab[i]);
+	return (tab);
 }
