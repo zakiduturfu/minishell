@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 23:06:12 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/08 01:30:21 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/18 15:48:53 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	count_cmd(char **tab)
 int	is_builtin(char **cmd)
 {
 	if (ft_strcmp("cd", cmd[0]) == 0)
-		return (1); 
+		return (1);
 	else if (ft_strcmp("echo", cmd[0]) == 0)
 		return (1);
 	else if (ft_strcmp("exit", cmd[0]) == 0)
@@ -42,26 +42,19 @@ int	is_builtin(char **cmd)
 		return (0);
 }
 
-int	ignore_space(char *line, int i)
-{
-	while (line[i] == ' ')
-		i++;
-	return (i);
-}
-
-int	size_token(char *line)
+int	size_token(char *line, char c)
 {
 	int		i;
 	int		count;
 
 	i = 0;
 	count = 0;
-	i = ignore_space(line, i);
+	i = t_ignore_sep(line, i, c);
 	while (line[i])
 	{
-		if (is_token(line, &i) == 1)
+		if (is_token(line, &i, c) == 1)
 			count++;
-		i = ignore_space(line, i);
+		i = t_ignore_sep(line, i, c);
 	}
 	return (count);
 }

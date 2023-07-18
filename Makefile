@@ -5,6 +5,7 @@ FOLDER = ./
 SRCS = ./src/main.c \
 	./src/parsing/pars_cmd_line.c \
 	./src/parsing/token.c \
+	./src/parsing/split_token.c \
 	./src/tools/parsing/token_utils.c
 
 HEADER = include
