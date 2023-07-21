@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/18 16:02:08 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/21 03:15:05 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,15 +130,15 @@ void	pars_line(char *line)
 	cmd = line_arg(line);
 //	affiche_test(cmd);
 	shell = malloc(sizeof(t_shell));
-	shell->token = split_token(cmd, '|');
+	if (!init_struct(t_shell))
+		return ;
 	if (!shell->token)
 		return ;
 	free(cmd);
 	shell->nb_cmd = (count_cmd(shell->token));
 	if (shell->nb_cmd == 1 && split_built(shell->token[0]) == 1)
 		exec_only_built(shell);
-	if (find_redir(shell))
-		init_cmd(shell);
+	exec_pipex(sell);
 	free_all(shell->token);
 	free(shell);
 }

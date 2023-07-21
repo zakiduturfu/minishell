@@ -1,3 +1,17 @@
+A completer:
+			-reecrire la ligne donner par readline avec les bonne separation
+			-on split aux pipes
+			-on initialise le nombre de pipes dont on aura besoin
+			-on regarde si il y'a la commande here doc et combien il y'en a
+			-on on execute les commandes comme avec pipex
+
+
+
+
+
+
+
+
 readline: 
 		char *readline(const char *prompt)
 	fonction qui lit une ligne depuis le terminal et le retourne. il utilise un prompt.

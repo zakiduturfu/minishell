@@ -6,11 +6,12 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/18 15:58:38 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/21 03:08:02 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <unistd.h>
 
 int	is_token(char *line, int *i, char c)
 {
@@ -47,50 +48,28 @@ int	split_built(char *cmd)
 	free_all(tab);
 	return (ret);
 }
-
-/*
-int	find_redir(t_shell *shell)
+int	init_struct(t_shell *shell, char *line)
 {
-	char	**tab;
-	int		i;
-
-	i = 0;
-	tab = get_token(shell->token[0]);
-	if (!tab)
-		return (0);
-	if (!ft_strcmp("<<", shell->token[0]))
-		shell->here = 1;
-	free_all(tab);
-	tab = get_token(shell->token[shell->nb_cmd]);
-	if (!tab)
-		return (0);
-	while (tab[i])
-	{
-		if (!ft_strcmp(">>", tab[i]))
-			shell->append = 1;
-		i++;
-	}
-	free_all(tab);
+	shell->token = split_token(line, '|');
+	if (!shell->token)
+		return (-1);
+	shell->nb_cmd = count_cmd(shell->token);
 	return (1);
 }
-*/
 
-int	find_redir(char **redir)
+int	is_redir(char *redir)
 {
 	int	i;
 
 	i = 0;
-	while (redir[i])
-	{
-		if (!ft_strcmp(">", redir[i]))
-			return (1);
-		else if (!ft_strcmp(">>", redir[i]))
-			return (1);
-		else if (!ft_strcmp("<", redir[i]))
-			return (2);
-		else if (!ft_strcmp("<<", redir[i]))
-			return (2);
-	}
+	if (!ft_strcmp(">", redir))
+		return (1);
+	else if (!ft_strcmp(">>", redir))
+		return (3);
+	else if (!ft_strcmp("<", redir))
+		return (2);
+	else if (!ft_strcmp("<<", redir))
+		return (2);
 	return (0);
 }
 
@@ -117,6 +96,40 @@ char	**delete_redir(char **line)
 	return (ret);
 }
 
+void	open_redir(t_shell *shell, char *cmd)
+{
+	int	redir;
+
+	redir = is_redir(cmd);
+	if (redir == 1 || redir == 3)
+		open_fdout(shell);
+	if (redir == 2)
+		open_fdin(shell);
+	if (redir == 4)
+		here_doc ;
+	if (redir == 1 || redir == 3)
+		dup_and_close(shell->fdout, STDOUT_FILENO);
+	if (redir == 2)
+		dup_and_close(shell->fdin, STDIN_FILENO);
+}
+
+void	find_redir(t_shell *shell, char **cmd)
+{
+	int	i;
+
+	i = 0;
+	if (index != 0)
+		dup_and_close();
+	if (index != shell->nb_cmd - 1)
+		dup_and_close(, STDOUT_FILENO);
+	while (cmd[i])
+	{
+		open_redir(shell, cmd[i]);
+		i++;
+	}
+	//s'occuper des redirections du here_doc;
+}
+
 char	**init_start_cmd(t_shell *shell, char *cmd_line, int index)
 {
 	int		i;
@@ -128,11 +141,11 @@ char	**init_start_cmd(t_shell *shell, char *cmd_line, int index)
 		return (NULL);
 	if (index)
 	{
-		if (find_redir(tab))
+		if (check_redir(shell, tab))
 		{
 			/* close les pipes pour cause d'erreur*/
 		}
-			open_redir(shell);
+		find_redir(tab);
 	}
 	tab = delete_redir(tab);
 	while (tab[i])
