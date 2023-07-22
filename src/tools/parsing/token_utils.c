@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 23:06:12 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/21 03:15:26 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/07/22 01:45:19 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,28 @@ int	is_builtin(char **cmd)
 		return (1);
 	else
 		return (0);
+}
+
+int	check_redir(char **cmd)
+{
+	int	i;
+
+	i = -1;
+	while (cmd[i++])
+	{
+		if ((cmd[i][0] == '<' || cmd[i][0] == '>') && !cmd[i + 1])
+			return (-1);
+		//message d'erreur pars error near `
+	}
+	i = -1;
+	while (cmd[i++])
+	{
+		if ((cmd[i][0] == '<' || cmd[i][0] == '>')
+			&& (cmd[i + 1] == '<' || cmd[i][0] == '>'))
+			return (-1);
+		//message d'erreur pars errors near `
+	}
+	return (0);
 }
 
 int	size_token(char *line, char c)
