@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/22 01:45:19 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/02 03:05:50 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,29 +111,34 @@ void	open_redir(t_shell *shell, char *cmd)
 	if (redir == 2)
 		open_fdin(shell);
 	if (redir == 4)
-		here_doc ;
+		open_here_doc(shell);
 	if (redir == 1 || redir == 3)
 		dup_and_close(shell->fdout, STDOUT_FILENO);
 	if (redir == 2)
 		dup_and_close(shell->fdin, STDIN_FILENO);
 }
 
-void	find_redir(t_shell *shell, char **cmd)
+void	find_redir(t_shell *shell, char **cmd, int index)
 {
 	int	i;
 
 	i = 0;
 	if (index != 0)
-		dup_and_close(pipefd[0], STDIN_FILENO);
+		dup_and_close(prev_pipe, STDIN_FILENO);
 	if (index != shell->nb_cmd - 1)
-		dup_and_close(pipefd[1], STDOUT_FILENO);
+		dup_and_close(shell->pipefd[1], STDOUT_FILENO);
+	if (index > 0)
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
+	}
 	while (cmd[i])
 	{
 		open_redir(shell, cmd[i]);
 		i++;
 	}
 	i = -1;
-	while (++i < shell->here)
+	while (++i < shell->nb_here)
 		//close les here_doc
 	//s'occuper des redirections du here_doc;
 }

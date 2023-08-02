@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/22 02:04:12 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/02 01:42:03 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ typedef	struct s_shell
 {
 	char	**token;
 	int		pipefd[2];
-	int		here;
+	int		prev_pipe;
+	int		nb_here;
 	int		fdin;
 	int		fdout;
 	pid_t	*pid;
+	char	*path;
 	char	*type;
 	int		nb_cmd;
 }	t_shell;
