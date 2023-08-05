@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 03:13:43 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/02 03:55:59 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/05 00:31:12 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*recup_path(t_shell *shell, char *cmd)
 	int		i;
 
 	i = -1;
-	if (ft_strchr("/", cmd))
+	if (ft_strchr("/", cmd[0]))
 	{
 		if (access(cmd, 0) == 0)
 			return (cmd);
@@ -69,8 +69,8 @@ void	child_err(t_shell *shell, char **cmd)
 	while (cmd[i++])
 		free(cmd[i]);
 	free(cmd);
-	if (pipefd[1])
-		close(pipefd[1]);
+	if (shell->pipefd[1])
+		close(shell->pipefd[1]);
 }
 void	parent_process(t_shell *shell)
 {
@@ -87,11 +87,12 @@ void	child_process(t_shell *shell, int i)
 	cmd = init_start_cmd(shell, shell->token[i], 2);
 	if (!cmd)
 		return (-1);
-	/*if builtin finder*/
+	if (is_builtin(cmd))
+		exec_builtin(shell);
 	if (cmd[0])
 		shell->path = recup_path(shell, cmd[0]);
 	if (shell->path)
-		exec
+		exec_child(shell, cmd, shell->path);
 	child_err(shell, cmd);
 	exit(0);
 
@@ -117,7 +118,7 @@ int	exec_process(t_shell *shell)
 	int	i;
 
 	i = -1;
-	while (++i + shell->nb_here < (shell->nb_cmd + shell->nb_here))
+	while (++i < (shell->nb_cmd))
 	{
 		if (exec(shell, i) == -1)
 			return (-1);

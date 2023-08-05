@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/02 03:04:55 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/04 03:32:48 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,6 @@ int	pars_line(char *line)
 	shell = malloc(sizeof(t_shell));
 	if (!init_struct(shell, cmd))
 		return (-1);
-	if (!shell->token)
-		return ;
 	free(cmd);
 	shell->nb_cmd = (count_cmd(shell->token));
 	if (shell->nb_cmd == 1 && split_built(shell) == 1)

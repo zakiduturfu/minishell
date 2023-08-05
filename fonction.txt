@@ -7,11 +7,6 @@ A completer:
 
 
 
-
-
-
-
-
 readline: 
 		char *readline(const char *prompt)
 	fonction qui lit une ligne depuis le terminal et le retourne. il utilise un prompt.
@@ -126,3 +121,16 @@ tputs:
 
 
 dans cat | ls close la pipe pour faire crash le cat.
+
+citations de la doc du bash:
+
+The shell then parses these tokens into commands and other constructs, removes the special meaning of certain words or characters, expands others, redirects input and output as needed, executes the specified command, waits for the command’s exit status, and makes that exit status available for further inspection or processing.
+
+
+objectif de la soiree faire les expansions et recup la variable d'environnement (qui est une variable globale) et gerer les quotes, essayer de run le code si possible (temps disponible 4h, 1h pour les expensions, 30 min pour les quotes, 30 min a run le code si possible)
+
+il restera les signaux, le here doc, essayer de exec les commande correctement avec les fork et les redirections,
+trouver si c'est un builtin, verifier tout les mallocs,gerer les cas speciaux comme ";", trouver un mate pour les buitlins.
+
+comment changer ma variable par la variable d'env ?: on prend un index et on l'incremente jusqu'a ce qu'on tombe sur '$'.
+On va recuperer le nom de la variable d'environnement, le = 17 - 17 + 1 = 1
