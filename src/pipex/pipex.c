@@ -6,12 +6,12 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 03:13:43 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/05 00:31:12 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/21 19:06:39 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
+/*
 char	**get_cmd_path(char **env)
 {
 	int		i;
@@ -65,7 +65,7 @@ void	child_err(t_shell *shell, char **cmd)
 	int	i;
 
 	i = -1;
-	/*messsage d'erreur commande introuvable*/
+	//messsage d'erreur commande introuvable
 	while (cmd[i++])
 		free(cmd[i]);
 	free(cmd);
@@ -80,6 +80,8 @@ void	parent_process(t_shell *shell)
 		close(shell->prev_pipe);
 	shell->prev_pipe = shell->pipefd[0];
 }
+*/
+/*
 void	child_process(t_shell *shell, int i)
 {
 	char	**cmd;
@@ -97,6 +99,7 @@ void	child_process(t_shell *shell, int i)
 	exit(0);
 
 }
+
 
 int	exec(t_shell *shell, int i)
 {
@@ -124,22 +127,22 @@ int	exec_process(t_shell *shell)
 			return (-1);
 		if (split_built(shell))
 			//wait_pid
-		/*waitpid*/
-
+		//waitpid
 	}
 }
 
 
 int	exec_pipex(t_shell *shell)
 {
-	if (here_alloc(shell) == -1)
-		return (-1);
-	if (exec_hd(shell) == -1)
-		return (-1);
+	// if (here_alloc(shell) == -1)
+	// 	return (-1);
+	// if (exec_hd(shell) == -1)
+	// 	return (-1);
 	if (exec_process(shell) == -1)
 		return (-1);
 	return (0);
-}
+}*/
+
 
 void	dup_and_close(int oldfd, int newfd)
 {

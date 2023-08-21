@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:46:39 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/01 23:13:30 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/21 14:54:45 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ char	**split_token(char *line, char c)
 	while (line[i])
 	{
 		token[j] = recup_token(line, &i, c);
-		printf("%p\n", token[j]);
 		i = t_ignore_sep(line, i, c);
 		j++;
 	}

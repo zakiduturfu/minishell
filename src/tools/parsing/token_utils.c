@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 23:06:12 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/22 01:45:19 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/21 19:40:02 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	check_redir(char **cmd)
 	while (cmd[i++])
 	{
 		if ((cmd[i][0] == '<' || cmd[i][0] == '>')
-			&& (cmd[i + 1] == '<' || cmd[i][0] == '>'))
+			&& (cmd[i + 1][0] == '<' || cmd[i][0] == '>'))
 			return (-1);
 		//message d'erreur pars errors near `
 	}
@@ -88,8 +88,9 @@ int	ft_strcmp(const char *str1, const char *str2)
 	i = 0;
 	while (str1[i] != '\0' || str2[i] != '\0')
 	{
+		printf("%c\n", str2[i]);
 		if (str1[i] != str2[i])
-			return (str1 - str2);
+			return (str1[i] - str2[i]);
 		i++;
 	}
 	return (0);

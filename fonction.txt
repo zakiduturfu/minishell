@@ -134,3 +134,6 @@ trouver si c'est un builtin, verifier tout les mallocs,gerer les cas speciaux co
 
 comment changer ma variable par la variable d'env ?: on prend un index et on l'incremente jusqu'a ce qu'on tombe sur '$'.
 On va recuperer le nom de la variable d'environnement, le = 17 - 17 + 1 = 1
+
+
+<fonction.txt ls|wc -c >out

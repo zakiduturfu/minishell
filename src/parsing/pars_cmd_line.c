@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/04 03:32:48 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/21 19:16:42 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,22 +122,56 @@ void	affiche_test(char *cmd)
 	}
 }
 
-int	pars_line(char *line)
+void	test_cmd(t_shell *shell)
+{
+	int		i;
+	int		j;
+	char	**cmd;
+
+	i = 0;
+	j = 0;
+	while (i < shell->nb_cmd)
+	{
+		cmd = init_start_cmd(shell, shell->token[i], 2);
+		if (cmd)
+		{
+			while (cmd[j])
+			{
+				printf("cmd = %s\n", cmd[j]);
+				j++;
+			}
+		}
+		printf("fdin = %d\n", shell->fdin);
+		printf("fdout = %d\n", shell->fdout);
+		i++;
+		shell->index = i;
+		free_all(cmd);
+	}
+
+}
+
+int	pars_line(char *line, char **env)
 {
 	char	*cmd;
 	t_shell	*shell;
 
+	(void)env;
 	cmd = line_arg(line);
-//	affiche_test(cmd);
 	shell = malloc(sizeof(t_shell));
-	if (!init_struct(shell, cmd))
+	if (init_struct(shell, cmd) == -1)
 		return (-1);
 	free(cmd);
-	shell->nb_cmd = (count_cmd(shell->token));
 	if (shell->nb_cmd == 1 && split_built(shell) == 1)
-		exec_only_built(shell);
-	if (exec_pipex(shell) == -1)
+		printf("pas de  bin\n");
+	test_cmd(shell);
+//		exec_only_built(shell);
+/*	if (exec_pipex(shell) == -1)
+	{
+		free_all(shell->token);
+		free(shell);
 		return (-1);
+	}*/
 	free_all(shell->token);
 	free(shell);
+	return (1);
 }
