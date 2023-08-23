@@ -1,0 +1,75 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/23 17:17:32 by zlemery           #+#    #+#             */
+/*   Updated: 2023/08/23 18:07:29 by zlemery          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+void	open_fdin(t_shell *shell, char **cmd, int i)
+{
+	shell->fdin = open(cmd[i + 1], O_RDONLY);
+	if (shell->fdin == -1)
+		printf("ERRREUR fdin");
+}
+
+void	open_fdout(t_shell *shell, char **cmd, int i)
+{
+	if (is_redir(cmd[i]) == 1)
+		shell->fdout = open(cmd[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (is_redir(cmd[i]) == 3)
+		shell->fdout = open(cmd[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (shell->fdout == -1)
+		printf("ERREUR fdout");
+}
+
+void	open_redir(t_shell *shell, char **cmd, int i)
+{
+	int	redir;
+
+	redir = is_redir(cmd[i]);
+	if (redir == 1 || redir == 3)
+		open_fdout(shell, cmd, i);
+	if (redir == 2)
+		open_fdin(shell, cmd, i);
+	if (redir == 4)
+		printf("here_doc\n");
+//		open_here_doc(shell);
+	if (redir == 1 || redir == 3)
+		dup_and_close(shell->fdout, STDOUT_FILENO);
+	if (redir == 2)
+		dup_and_close(shell->fdin, STDIN_FILENO);
+}
+
+void	find_redir(t_shell *shell, char **cmd, int j)
+{
+	int	i;
+
+	i = 0;
+	(void)j;
+	if (shell->index != 0)
+		dup_and_close(shell->prev_pipe, STDIN_FILENO);
+	if (shell->index != shell->nb_cmd - 1)
+		dup_and_close(shell->pipefd[1], STDOUT_FILENO);
+	if (j > 0)
+	{
+		close(shell->pipefd[0]);
+		close(shell->pipefd[1]);
+	}
+	while (cmd[i])
+	{
+		open_redir(shell, cmd, i);
+		i++;
+	}
+/*	i = -1;
+	while (++i < shell->nb_here)
+		//close les here_doc
+	//s'occuper des redirections du here_doc;
+*/
+}

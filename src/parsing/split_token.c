@@ -6,20 +6,20 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:46:39 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/21 14:54:45 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/23 17:35:52 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	t_ignore_sep(char *line, int i, char c)
+int	t_ignore_sep(char *line, int i, char c, char *av)
 {
-	while (line[i] == c)
+	while (line[i] == c && !is_in_quote(av, i, c))
 		i++;
 	return (i);
 }
 
-int	token_alloc(char *line, int *i, char c)
+int	token_alloc(char *line, int *i, char c, char *av)
 {
 	int		j;
 	int		count;
@@ -28,7 +28,7 @@ int	token_alloc(char *line, int *i, char c)
 	j = 0;
 	count = 0;
 	quote = c;
-	while (line[*i + j] && (line[*i + j] != c || quote != c))
+	while (line[*i + j] && (line[*i + j] != c || is_in_quote(av, (*i + j), c)))
 	{
 		if (quote == c && (line[*i + j] == '\'' || line[*i + j] == '\"'))
 			quote = line[*i + j++];
@@ -40,13 +40,13 @@ int	token_alloc(char *line, int *i, char c)
 		}
 		else
 			j++;
-		if (line[*i + j - 1] == '\\')
+		if (line[*i + j - 1] == '\\' && !is_in_quote(av, j, c))
 			count++;
 	}
 	return (j - count + 1);
 }
 
-char	*recup_token(char *line, int *i, char c)
+char	*recup_token(char *line, int *i, char c, char *av)
 {
 	int		j;
 	char	quote;
@@ -54,10 +54,10 @@ char	*recup_token(char *line, int *i, char c)
 
 	j = 0;
 	quote = c;
-	token = malloc(sizeof(char) * token_alloc(line, i, c));
+	token = malloc(sizeof(char) * token_alloc(line, i, c, av));
 	if (!token)
 		return (NULL);
-	while (line[*i] && (line[*i] != c || quote != c))
+	while (line[*i] && (line[*i] != c || is_in_quote(av, *i, c)))
 	{
 		if (quote == c && (line[*i] == '\'' || line[*i] == '\"'))
 			quote = line[(*i)++];
@@ -68,31 +68,35 @@ char	*recup_token(char *line, int *i, char c)
 		}
 		else
 			token[j++] = line[(*i)++];
-		if (line[*i] == '\\' && line[(*i)++])
+		if (line[*i] == '\\' && line[(*i)++] && !is_in_quote(av, *i, c))
 			*i += 1;
 	}
 	token[j] = '\0';
 	return (token);
 }
 
-char	**split_token(char *line, char c)
+char	**split_token(char *line, char c, char *av)
 {
 	int		i;
 	int		j;
+	int		k = 0;
 	char	**token;
 
 	i = 0;
 	j = 0;
-	token = malloc(sizeof(char *) * (size_token(line, c) + 1));
+	token = malloc(sizeof(char *) * (size_token(line, c, av) + 1));
 	if (!token)
 		return (NULL);
-	i = t_ignore_sep(line, i, c);
+	i = t_ignore_sep(line, i, c, av);
 	while (line[i])
 	{
-		token[j] = recup_token(line, &i, c);
-		i = t_ignore_sep(line, i, c);
+		token[j] = recup_token(line, &i, c, av);
+		i = t_ignore_sep(line, i, c, av);
 		j++;
 	}
 	token[j] = 0;
+	printf("size token for [%c] = %d\n", c, size_token(line, c, av));
+	while (token[k])
+		printf("------------------\nsplit de [%c]= %s\n", c, token[k++]);
 	return (token);
 }

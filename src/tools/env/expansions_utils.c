@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:59:59 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/21 16:33:02 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/23 17:34:36 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,24 @@ int	search_expand(char *str)
 	while (str[i] && str[i] != '$')
 		i++;
 	return (i);
+}
+
+char	**find_expansion(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		tab[i] = ft_expansions(tab[i]);
+		if (!tab[i])
+		{
+			free_all(tab);
+			return (NULL);
+		}
+		i++;
+	}
+	return (tab);
 }
 
 int	free_expand(char **tab, int index)

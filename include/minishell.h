@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/21 18:35:22 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/23 18:02:10 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,28 +61,51 @@ void	free_env_tab(char **env);
 int		tab_value(char **tab, char *str, int i);
 
 /* /src/tools/env/expansions_utils.c */
-int	free_expand(char **tab, int index);
-int	search_expand(char *str);
+int		free_expand(char **tab, int index);
+char	**find_expansion(char **tab);
+int		search_expand(char *str);
 
-
-char	*line_arg(char *line);
-int		pars_line(char *line, char **env);
-int		ignore_sep(char *line, int i);
-int		is_quote(char *line, int i);
-int		is_sep(char *line, int i);
-int		is_token(char *line, int *i, char c);
-int		token_alloc(char *line, int *i, char c);
-char	**split_token(char *line, char c);
-int		count_cmd(char **tab);
-int		t_ignore_sep(char *line, int i, char c);
-int		size_token(char *line, char c);
-int		split_built(t_shell *shell);
-int		init_struct(t_shell *shell, char *line);
-int		is_builtin(char **cmd);
-int		ft_strcmp(const char *str1, const char *str2);
-int		exec_pipex(t_shell *shell);
-int		check_redir(char **cmd);
-char	**init_start_cmd(t_shell *shell, char *cmd_line, int index);
+/* /src/file/redirections.c */
+void	open_fdin(t_shell *shell, char **cmd, int i);
+void	open_fdout(t_shell *shell, char **cmd, int i);
+void	open_redir(t_shell *shell, char **cmd, int i);
 void	find_redir(t_shell *shell, char **cmd, int j);
+
+/* /src/parsing/pars_cmd_line.c */
+char	*space_sep(char *line);
+char	*line_arg(char *line);
+int		init_struct(t_shell *shell, char *av);
+int		pars_line(char *line, char **env);
+
+/* /src/parsing/split_token.c */
+char	**split_token(char *line, char c, char *av);
+char	*recup_token(char *line, int *i, char c, char *av);
+int		token_alloc(char *line, int *i, char c, char *av);
+int		t_ignore_sep(char *line, int i, char c, char *av);
+
+/* /src/parsing/token.c */
+int		is_token(char *line, int *i, char c, char *av);
+int		find_built(t_shell *shell, char *av);
+char	**init_start_cmd(t_shell *shell, char *cmd_line, int index, char *av);
+
+/* /src/tools/parsing/token_utils.c*/
+int		is_in_quote(char *line, int i, char c);
+int		ft_strcmp(const char *str1, const char *str2);
+int		size_token(char *line, char c, char *av);
+int		check_redir(char **cmd);
+int		is_builtin(char *cmd);
+int		count_cmd(char **tab);
+
+/* /src/tools/parsing/pars_cmd_line_utils.c */
+int		is_sep(char *line, int i);
+int		is_quote(char *line, int i);
+int		ignore_sep(char *line, int i);
+
+/* /src/tools/file/redirections_utiles.c*/
+char	**delete_redir(char **line);
+int		count_redir(char **line);
+int		is_redir(char *redir);
+
+int		pipex(t_shell *shell, char *av, char **env);
 void	dup_and_close(int oldfd, int newfd);
 #endif

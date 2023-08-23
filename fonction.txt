@@ -137,3 +137,5 @@ On va recuperer le nom de la variable d'environnement, le = 17 - 17 + 1 = 1
 
 
 <fonction.txt ls|wc -c >out
+
+echo "<infile cat | ls > out" | echo "coucou" > outfile

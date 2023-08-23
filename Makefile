@@ -6,13 +6,16 @@ SRCS = ./src/main.c \
 	./src/parsing/pars_cmd_line.c \
 	./src/parsing/token.c \
 	./src/parsing/split_token.c \
+	./src/file/redirections.c \
 	./src/pipex/pipex.c \
 	./src/env/env.c \
 	./src/env/shlvl.c \
 	./src/env/expansions.c \
 	./src/tools/parsing/token_utils.c \
+	./src/tools/pars_cmd_line.c \
 	./src/tools/env/env_utils.c \
-	./src/tools/env/expansions_utils.c
+	./src/tools/env/expansions_utils.c \
+	./src/tools/file/redirections_utils.c
 
 HEADER = include
 

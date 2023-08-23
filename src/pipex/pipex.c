@@ -6,12 +6,12 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 03:13:43 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/21 19:06:39 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/23 18:09:57 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-/*
+
 char	**get_cmd_path(char **env)
 {
 	int		i;
@@ -80,17 +80,19 @@ void	parent_process(t_shell *shell)
 		close(shell->prev_pipe);
 	shell->prev_pipe = shell->pipefd[0];
 }
-*/
-/*
-void	child_process(t_shell *shell, int i)
+
+
+void	child_process(t_shell *shell, int i, char *av, char **env)
 {
 	char	**cmd;
 
+	shell->index = i;
 	cmd = init_start_cmd(shell, shell->token[i], 2);
 	if (!cmd)
-		return (-1);
-	if (is_builtin(cmd))
-		exec_builtin(shell);
+		exit(127);
+	if (is_builtin(cmd[0]))
+		printf("exec built\n");
+//		exec_builtin(shell);
 	if (cmd[0])
 		shell->path = recup_path(shell, cmd[0]);
 	if (shell->path)
@@ -99,7 +101,6 @@ void	child_process(t_shell *shell, int i)
 	exit(0);
 
 }
-
 
 int	exec(t_shell *shell, int i)
 {
@@ -115,8 +116,7 @@ int	exec(t_shell *shell, int i)
 	return (0);
 }
 
-
-int	exec_process(t_shell *shell)
+int	exec_process(t_shell *shell, char *av, char **env)
 {
 	int	i;
 
@@ -125,23 +125,22 @@ int	exec_process(t_shell *shell)
 	{
 		if (exec(shell, i) == -1)
 			return (-1);
-		if (split_built(shell))
+		if (find_built(shell, av))
 			//wait_pid
 		//waitpid
 	}
 }
 
-
-int	exec_pipex(t_shell *shell)
+int	pipex(t_shell *shell, char *av, char **env);
 {
 	// if (here_alloc(shell) == -1)
 	// 	return (-1);
 	// if (exec_hd(shell) == -1)
 	// 	return (-1);
-	if (exec_process(shell) == -1)
+	if (exec_process(shell, av, env) == -1)
 		return (-1);
 	return (0);
-}*/
+}
 
 
 void	dup_and_close(int oldfd, int newfd)

@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/21 19:16:42 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/23 18:06:25 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,21 @@
 #include <readline/readline.h>
 #include <stdint.h>
 
-int	is_quote(char *line, int i)
-{
-	int	j;
-	int	count;
 
-	j = 0;
-	count = 0;
-	while (line[j] && j != i)
-	{
-		if (j > 0 && line[j - 1] == '\\')
-			;
-		else if (count == 0 && line[j] == '\"')
-			count = 1;
-		else if (count == 0 && line[j] == '\'')
-			count = 2;
-		else if (count == 1 && count == '\"')
-			count = 0;
-		else if (count == 2 && line[j] == '\'')
-			count = 0;
-		j++;
-	}
-	return (count);
-}
-
-int	ignore_sep(char *line, int i)
+int	init_struct(t_shell *shell, char *av)
 {
-	if (line[i] == '\\' && line[i + 1] && line[i + 1] == '|')
-		return (1);
-	else if (line[i] == '\\' && line[i + 1] && line[i + 1] == ';')
-		return (1);
-	else if (line[i] == '\\' && line[i + 1] && line[i + 1] == '>'
-		&& line[i + 2] && line[i + 2] == '>')
-		return (1);
-	else if (line[i] == '\\' && line[i + 1] && line[i + 1] == '>')
-		return (1);
+	shell->index = 0;
+	shell->fdin = 0;
+	shell->fdout = 0;
+	shell->token = split_token(av, '|', av);
+	if (!shell->token)
+		return (-1);
+	shell->nb_cmd = count_cmd(shell->token);
+	if (shell->nb_cmd)
+		shell->pid = malloc(sizeof(int) * shell->nb_cmd);
+	if (!shell->pid)
+		return (-1);
 	return (0);
-}
-
-int	is_sep(char *line, int i)
-{
-	if (i > 0 && ft_strchr("<>|;", line[i]) && is_quote(line, i) == 0
-		&& line[i - 1] == '\\')
-		return (0);
-	if (ft_strchr("<>|;", line[i]) && is_quote(line, i) == 0)
-		return (1);
-	else
-		return (0);
 }
 
 char	*space_sep(char *line)
@@ -109,7 +77,7 @@ char	*line_arg(char *line)
 	printf("nouvelle ligne: %s\n", new);
 	return (new);
 }
-
+/*
 void	affiche_test(char *cmd)
 {
 	char	**cmd_line;
@@ -120,19 +88,19 @@ void	affiche_test(char *cmd)
 		printf("%s\n", *cmd_line);
 		cmd_line++;
 	}
-}
+}*/
 
-void	test_cmd(t_shell *shell)
+void	test_cmd(t_shell *shell, char *av)
 {
 	int		i;
 	int		j;
 	char	**cmd;
 
 	i = 0;
-	j = 0;
 	while (i < shell->nb_cmd)
 	{
-		cmd = init_start_cmd(shell, shell->token[i], 2);
+		j = 0;
+		cmd = init_start_cmd(shell, shell->token[i], 2, av);
 		if (cmd)
 		{
 			while (cmd[j])
@@ -143,34 +111,31 @@ void	test_cmd(t_shell *shell)
 		}
 		printf("fdin = %d\n", shell->fdin);
 		printf("fdout = %d\n", shell->fdout);
+		printf("--------------------------\n");
 		i++;
 		shell->index = i;
 		free_all(cmd);
 	}
-
 }
 
 int	pars_line(char *line, char **env)
 {
-	char	*cmd;
+	char	*av;
 	t_shell	*shell;
 
-	(void)env;
-	cmd = line_arg(line);
+	av = line_arg(line);
 	shell = malloc(sizeof(t_shell));
-	if (init_struct(shell, cmd) == -1)
+	if (init_struct(shell, av) == -1)
 		return (-1);
-	free(cmd);
-	if (shell->nb_cmd == 1 && split_built(shell) == 1)
+	if (shell->nb_cmd == 1 && find_built(shell, av) == 1)
 		printf("pas de  bin\n");
-	test_cmd(shell);
 //		exec_only_built(shell);
-/*	if (exec_pipex(shell) == -1)
+	if (pipex(shell, av, env) == -1)
 	{
 		free_all(shell->token);
 		free(shell);
 		return (-1);
-	}*/
+	}
 	free_all(shell->token);
 	free(shell);
 	return (1);
