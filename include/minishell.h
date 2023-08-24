@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/23 18:02:10 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/24 16:37:57 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <readline/readline.h>
+#include <sys/wait.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include "../libft/libft.h"
@@ -66,6 +67,7 @@ char	**find_expansion(char **tab);
 int		search_expand(char *str);
 
 /* /src/file/redirections.c */
+void	dup_and_close(int oldfd, int newfd);
 void	open_fdin(t_shell *shell, char **cmd, int i);
 void	open_fdout(t_shell *shell, char **cmd, int i);
 void	open_redir(t_shell *shell, char **cmd, int i);

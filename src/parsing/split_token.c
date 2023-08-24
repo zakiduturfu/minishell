@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:46:39 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/23 17:35:52 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/24 16:53:45 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,11 @@ char	**split_token(char *line, char c, char *av)
 {
 	int		i;
 	int		j;
-	int		k = 0;
 	char	**token;
 
 	i = 0;
 	j = 0;
-	token = malloc(sizeof(char *) * (size_token(line, c, av) + 1));
+	token = malloc(sizeof(char *) * ((size_token(line, c, av) + 1)));
 	if (!token)
 		return (NULL);
 	i = t_ignore_sep(line, i, c, av);
@@ -95,8 +94,6 @@ char	**split_token(char *line, char c, char *av)
 		j++;
 	}
 	token[j] = 0;
-	printf("size token for [%c] = %d\n", c, size_token(line, c, av));
-	while (token[k])
-		printf("------------------\nsplit de [%c]= %s\n", c, token[k++]);
+//	printf("token = %p\n", token);
 	return (token);
 }

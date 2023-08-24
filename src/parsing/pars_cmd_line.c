@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/23 18:06:25 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/24 15:52:29 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	init_struct(t_shell *shell, char *av)
 	shell->index = 0;
 	shell->fdin = 0;
 	shell->fdout = 0;
+	shell->prev_pipe = 0;
 	shell->token = split_token(av, '|', av);
 	if (!shell->token)
 		return (-1);
@@ -122,7 +123,9 @@ int	pars_line(char *line, char **env)
 {
 	char	*av;
 	t_shell	*shell;
+	int		i;
 
+	i = 0;
 	av = line_arg(line);
 	shell = malloc(sizeof(t_shell));
 	if (init_struct(shell, av) == -1)
@@ -136,7 +139,14 @@ int	pars_line(char *line, char **env)
 		free(shell);
 		return (-1);
 	}
+	while (i < shell->nb_cmd)
+	{
+		waitpid(-1, NULL, 0);
+		i++;
+	}
+	free(shell->pid);
 	free_all(shell->token);
+	free(av);
 	free(shell);
 	return (1);
 }

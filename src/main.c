@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:56:46 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/23 17:45:09 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/24 13:44:03 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ int	main(int ac, char **av, char **env)
 				free_env_tab(new_env);
 				exit(0);
 			}
-			if (pars_line(line, new_env) == -1)
-				printf("error\n");
 			else if (strcmp("env", line) == 0)
 			{
 				while (*new_env)
 					printf("%s\n", *new_env++);
 			}
+			if (pars_line(line, new_env) == -1)
+				printf("error\n");
 			free(line);
 		}
 	}

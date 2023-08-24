@@ -70,5 +70,6 @@ char	**delete_redir(char **line)
 		}
 	}
 	ret[j] = 0;
+	free_all(line);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 11:41:51 by zlemery           #+#    #+#             */
-/*   Updated: 2023/07/07 03:07:38 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/24 16:50:52 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	count(char const *s, char c)
 	return (len);
 }
 
-char	**free_all(char **tab)
+void	**free_all(char **tab)
 {
 	int	i;
 

@@ -6,17 +6,23 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:17:32 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/23 18:07:29 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/24 16:36:28 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+void	dup_and_close(int oldfd, int newfd)
+{
+	dup2(oldfd, newfd);
+	close(oldfd);
+}
+
 void	open_fdin(t_shell *shell, char **cmd, int i)
 {
 	shell->fdin = open(cmd[i + 1], O_RDONLY);
 	if (shell->fdin == -1)
-		printf("ERRREUR fdin");
+		ft_putstr_fd("infile: no such file or directory", 2);
 }
 
 void	open_fdout(t_shell *shell, char **cmd, int i)
@@ -26,7 +32,7 @@ void	open_fdout(t_shell *shell, char **cmd, int i)
 	else if (is_redir(cmd[i]) == 3)
 		shell->fdout = open(cmd[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (shell->fdout == -1)
-		printf("ERREUR fdout");
+		ft_putstr_fd("infile: no such file or directory", 2);
 }
 
 void	open_redir(t_shell *shell, char **cmd, int i)
@@ -56,7 +62,7 @@ void	find_redir(t_shell *shell, char **cmd, int j)
 	if (shell->index != 0)
 		dup_and_close(shell->prev_pipe, STDIN_FILENO);
 	if (shell->index != shell->nb_cmd - 1)
-		dup_and_close(shell->pipefd[1], STDOUT_FILENO);
+		dup2(shell->pipefd[1], STDOUT_FILENO);
 	if (j > 0)
 	{
 		close(shell->pipefd[0]);
