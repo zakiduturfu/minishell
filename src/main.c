@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:56:46 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/24 13:44:03 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/25 16:42:27 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
+	int		i;
 	char	**new_env;
 
+	i = 0;
 	(void)av;
 	line = " ";
 	if (ac == 1)
@@ -36,12 +38,15 @@ int	main(int ac, char **av, char **env)
 			}
 			else if (strcmp("env", line) == 0)
 			{
-				while (*new_env)
-					printf("%s\n", *new_env++);
+				while (new_env[i])
+					printf("%s\n", new_env[i++]);
 			}
-			if (pars_line(line, new_env) == -1)
-				printf("error\n");
-			free(line);
+			else
+			{
+				if (pars_line(line, new_env) == -1)
+					printf("error\n");
+				free(line);
+			}
 		}
 	}
 }

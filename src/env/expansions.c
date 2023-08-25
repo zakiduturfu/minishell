@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:56:18 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/21 17:59:05 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/25 15:54:07 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ char	*ft_expansions(char *str)
 				return (NULL);
 			if (tab_value(tab, str, i) == -1)
 				return (NULL);
+			free(str);
 			return (tab[3]);
 		}
 	}

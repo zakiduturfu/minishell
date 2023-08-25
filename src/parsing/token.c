@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/24 16:53:22 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/25 15:56:49 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ int	find_built(t_shell *shell, char *av)
 
 	ret = 0;
 	tab = init_start_cmd(shell, shell->token[0], 0, av);
-	ret = is_builtin(tab[0]);
 	if (tab)
-		free_all(tab);
-//	printf("tab = %p\n", tab);
+	{
+		ret = is_builtin(tab[0]);
+		if (tab)
+			free_all(tab);
+	}
 	return (ret);
 }
 
@@ -72,9 +74,5 @@ char	**init_start_cmd(t_shell *shell, char *cmd_line, int index, char *av)
 		find_redir(shell, tab, index);
 	}
 	tab = delete_redir(tab);
-//	while (tab[i])
-//		tab[i++] = delete_quote(tab[i]);
-	// while (tab[i])
-	// 	printf("cmd process = %s\n", tab[i++]);
 	return (tab);
 }

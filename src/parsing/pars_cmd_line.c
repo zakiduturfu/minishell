@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/24 15:52:29 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/25 16:48:57 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,20 @@ void	test_cmd(t_shell *shell, char *av)
 	}
 }
 
+int is_empty_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ' && (line[i] < 7 || line[i] > 13))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	pars_line(char *line, char **env)
 {
 	char	*av;
@@ -126,6 +140,8 @@ int	pars_line(char *line, char **env)
 	int		i;
 
 	i = 0;
+	if (!is_empty_line(line))
+		return (-1);
 	av = line_arg(line);
 	shell = malloc(sizeof(t_shell));
 	if (init_struct(shell, av) == -1)
@@ -139,9 +155,10 @@ int	pars_line(char *line, char **env)
 		free(shell);
 		return (-1);
 	}
+	close(shell->pipefd[0]);
 	while (i < shell->nb_cmd)
 	{
-		waitpid(-1, NULL, 0);
+		waitpid(shell->pid[i], NULL, 0);
 		i++;
 	}
 	free(shell->pid);

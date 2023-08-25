@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/24 16:37:57 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/25 15:54:56 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,14 @@ char	**delete_redir(char **line);
 int		count_redir(char **line);
 int		is_redir(char *redir);
 
+/* /src/pipex/process.c */
+void	child_err(t_shell *shell, char **cmd, char **env, char *av);
+char	**get_cmd_path(char **env);
+char	*recup_path(char *cmd, char **env);
+void	child_process(t_shell *shell, int i, char *av, char **env);
+void	parent_process(t_shell *shell);
+
+/* /src/pipex/pipex.c */
 int		pipex(t_shell *shell, char *av, char **env);
 void	dup_and_close(int oldfd, int newfd);
 #endif

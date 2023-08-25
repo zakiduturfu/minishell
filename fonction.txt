@@ -141,3 +141,4 @@ On va recuperer le nom de la variable d'environnement, le = 17 - 17 + 1 = 1
 echo "<infile cat | ls > out" | echo "coucou" > outfile
 
 <infile ls | cat > out
+

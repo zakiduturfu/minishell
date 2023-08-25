@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 13:32:34 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/24 16:46:42 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/25 15:19:45 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 size_t	ft_strlen(char const *str);
 size_t	ft_strlcat(char *dest, const char *src, size_t n);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
-void	**free_all(char **tab);
+void	free_all(char **tab);
 char	**ft_split(char  *s, char c);
 char	*ft_itoa(int n);
 char	*ft_strchr(const char *s, int c);
