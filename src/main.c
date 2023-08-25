@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:56:46 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/25 16:42:27 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/25 20:36:46 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ int	main(int ac, char **av, char **env)
 			else
 			{
 				if (pars_line(line, new_env) == -1)
-					printf("error\n");
-				free(line);
+					free(line);
+				else
+					free(line);
 			}
 		}
 	}

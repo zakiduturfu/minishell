@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:22:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/25 15:33:29 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/25 20:38:58 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ int	count_redir(char **line)
 
 int	is_redir(char *redir)
 {
-	int	i;
-
-	i = 0;
+	
 	if (!ft_strcmp(">", redir))
 		return (1);
 	else if (!ft_strcmp(">>", redir))

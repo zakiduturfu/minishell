@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/25 16:48:57 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/08/25 20:37:16 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*line_arg(char *line)
 			new[j++] = line[i++];
 	}
 	new[j] = '\0';
-	printf("nouvelle ligne: %s\n", new);
+//	printf("nouvelle ligne: %s\n", new);
 	return (new);
 }
 /*
