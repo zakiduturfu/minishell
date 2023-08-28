@@ -147,9 +147,9 @@ int	pars_line(char *line, char **env)
 	if (init_struct(shell, av) == -1)
 		return (-1);
 	if (shell->nb_cmd == 1 && find_built(shell, av) == 1)
-		printf("pas de  bin\n");
-//		exec_only_built(shell);
-	if (pipex(shell, av, env) == -1)
+		exec_only_built(shell);
+	//		printf("pas de bin\n");
+	else if (pipex(shell, av, env) == -1) // else car on ne vient que si plusieurs cmds ?
 	{
 		free_all(shell->token);
 		free(shell);

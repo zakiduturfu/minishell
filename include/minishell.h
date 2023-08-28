@@ -118,4 +118,9 @@ void	parent_process(t_shell *shell);
 /* /src/pipex/pipex.c */
 int		pipex(t_shell *shell, char *av, char **env);
 void	dup_and_close(int oldfd, int newfd);
+
+/* /src/builtins/exec.c */
+// static int	ft_echo(t_shell	*shell);
+int	exec_only_built(t_shell	*shell);
+
 #endif

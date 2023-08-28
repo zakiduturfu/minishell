@@ -16,7 +16,8 @@ SRCS = ./src/main.c \
 	./src/tools/parsing/pars_cmd_line_utils.c \
 	./src/tools/env/env_utils.c \
 	./src/tools/env/expansions_utils.c \
-	./src/tools/file/redirections_utils.c 
+	./src/tools/file/redirections_utils.c \
+	/src/builtins/exec.c
 
 HEADER = include
 
