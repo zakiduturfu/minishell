@@ -122,6 +122,7 @@ void	dup_and_close(int oldfd, int newfd);
 
 /* /src/builtins/exec.c */
 /*static char	**ft_split_cmd(char *token, char **tab)*/
+int		ft_pwd(void);
 int		exec_only_built(t_shell	*shell);
 
 /* /src/builtins/echo.c */

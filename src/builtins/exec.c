@@ -41,6 +41,17 @@ static char	**ft_split_cmd(char *token, char **tab)
 	return (tab);
 }
 
+int	ft_pwd(void)
+{
+	printf("%s\n", getenv("PWD"));
+	return (0);
+}
+
+// int	ft_export(char *str)
+// {
+
+// }
+
 int	exec_only_built(t_shell	*shell)
 {
 	char	**tab;
@@ -55,10 +66,10 @@ int	exec_only_built(t_shell	*shell)
 		return (ft_echo(tab));
 	// if (ft_strcmp("exit", tab[0]) == 0)
 	// 	return (ft_exit(shell));
-	// if (ft_strcmp("pwd", tab[0]) == 0)
-	// 	return (ft_pwd(shell));
+	if (ft_strcmp("pwd", tab[0]) == 0)
+		return (ft_pwd());
 	// if (ft_strcmp("export", tab[0]) == 0)
-	// 	return (ft_export(shell));
+	// 	return (ft_export(tab[1]));
 	// if (ft_strcmp("unset", tab[0]) == 0)
 	// 	return (ft_unset(shell));
 	// if (ft_strcmp("env", tab[0]) == 0)
