@@ -21,6 +21,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include "../libft/libft.h"
+#include <stdbool.h>
 
 typedef	struct s_shell
 {
@@ -120,7 +121,12 @@ int		pipex(t_shell *shell, char *av, char **env);
 void	dup_and_close(int oldfd, int newfd);
 
 /* /src/builtins/exec.c */
-// static int	ft_echo(t_shell	*shell);
-int	exec_only_built(t_shell	*shell);
+/*static char	**ft_split_cmd(char *token, char **tab)*/
+int		exec_only_built(t_shell	*shell);
+
+/* /src/builtins/echo.c */
+/*void		print(char *str, int newline)*/
+/*static int	n_param(char *str, int *i)*/
+int		ft_echo(char **tab);
 
 #endif

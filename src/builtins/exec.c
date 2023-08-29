@@ -12,40 +12,9 @@
 
 #include "../../include/minishell.h"
 
-static int	ft_echo(char **tab)
+static char	**ft_split_cmd(char *token, char **tab)
 {
-	int i;
-
-	i = 1;
-	if (tab[1])
-	{
-		if (tab[1][0] == '-' && tab[1][i] && tab[1][i] == 'n')
-		{
-			while (tab[1][i] == 'n')
-				i++;
-			if (tab[1][i] != ' ' && tab[1][i] != '\0')
-				printf("%s\n", tab[1]);
-			else
-			{
-				while (tab[1][i] == ' ')
-					i++;
-				if (tab[1][i] != '\0')
-					printf("%s", &(tab[1][i]));
-			}
-		}
-		else
-			if (tab[1][i] != ' ' && tab[1][i] != '\0')
-				printf("%s\n", tab[1]);
-	}
-	free(tab[0]);
-	free(tab);
-	return (0);
-}
-
-char **ft_split_cmd(char *token)
-{
-	int i;
-	char **tab;
+	int		i;
 
 	i = 0;
 	while (token[i] != ' ' && token[i] != '\0')
@@ -74,9 +43,10 @@ char **ft_split_cmd(char *token)
 
 int	exec_only_built(t_shell	*shell)
 {
-	char **tab;
+	char	**tab;
 
-	tab = ft_split_cmd(shell->token[0]);
+	tab = NULL;
+	tab = ft_split_cmd(shell->token[0], tab);
 	if (!tab)
 		return (-1);
 	// if (ft_strcmp("cd", shell->token[0]) == 0)
