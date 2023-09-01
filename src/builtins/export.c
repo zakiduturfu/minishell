@@ -12,6 +12,22 @@
 
 #include "../../include/minishell.h"
 
+static int	find_var(t_shell *shell, char *var)
+{
+	unsigned int	size;
+	unsigned int	i;
+
+	i = 0;
+	size = size_env(shell->env);
+	while (i < size)
+	{
+		if (ft_strncmp(shell->env[i], var, ft_strlen(var)) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
 static int	ft_parse(char *str, unsigned int *i)
 {
 	if (!str || str[0] == '\0')
@@ -43,35 +59,16 @@ static int	ft_parse(char *str, unsigned int *i)
 	return (0);
 }
 
-static int	ft_change_val(t_shell *shell, char *var, char *val)
+static int	ft_change_val(t_shell *shell, unsigned int posi, char *val, unsigned int i)
 {
-	unsigned int	size;
-	unsigned int	i;
-	unsigned int	j;
+	char			*new;
 	
-	i = 0;
-	j = 0;
 	if (!val || val[0] == '\0' || val[0] == ' ' || val[0] == '\t')
 		return (0);
-	size = size_env(shell->env);
-	while (i < size)
-	{
-		if (ft_strncmp(shell->env[i], var, ft_strlen(var) == 0))
-		{
-			printf("sur var existante\n");
-			// while (val[0] >= 33)
-			// {
-			// 	if (val[j] == '"')
-			// 	{
-			//  }
-			// 		else
-
-			// 
-			// }
-			// return (0);
-		}
-		i++;
-	}
+	new = ft_strndup(shell->env[posi], i);
+	if (!new)
+		return (-1);
+	
 	return (0);
 }
 
@@ -103,26 +100,24 @@ static int	ft_create_var(t_shell *shell, char *var)
 int	ft_export(t_shell *shell, char *str)
 {
 	unsigned int	i;
+	int				posi;
 	char			*var;
 
 	i = 0;
 	if (ft_parse(str, &i) == -1)
 		return (0);
-	var = malloc(sizeof(char) * i);
+	printf("i = %d et str[i] = %c \n", i, str[i]);
+	var = ft_strndup(str, i);
 	if (!var)
 		return (1);
-	i = 0;
-	while (str[i] != '\0' && str[i] != '=')
+	posi = find_var(shell, var);
+	if (posi == -1)
 	{
-		var[i] = str[i];
-		i++;
-	}
-	var[i] = '=';
-	var[++i] = '\0';
-	if (!getenv(var))
 		if (ft_create_var(shell, var) == -1)
 			return (1);
-	if (ft_change_val(shell, var, &(str[i])) == -1)
+		posi = size_env(shell->env) - 1;
+	}
+	if (ft_change_val(shell, posi, &(str[i]), i) == -1)
 		return (1);
 	i = 0;
 	while (shell->env[i])
