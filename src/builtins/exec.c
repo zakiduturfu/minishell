@@ -47,17 +47,27 @@ int	ft_pwd(void)
 	return (0);
 }
 
-// int	ft_export(char *str)
-// {
+int	ft_env(t_shell *shell)
+{
+	unsigned int	i;
 
-// }
+	i = 0;
+	while (shell->env[i])
+	{
+		printf("%s \n",shell->env[i]);
+		i++;
+	}
+	return (0);
+}
 
 int	exec_only_built(t_shell	*shell)
 {
 	char	**tab;
 
+	printf("au debut de exec only built, token[0] = %s\n", shell->token[0]);
 	tab = NULL;
 	tab = ft_split_cmd(shell->token[0], tab);
+	printf("apres split cmd, cmd = %s \n et suite = %s\n", tab[0], tab[1]);
 	if (!tab)
 		return (-1);
 	// if (ft_strcmp("cd", shell->token[0]) == 0)
@@ -68,8 +78,8 @@ int	exec_only_built(t_shell	*shell)
 	// 	return (ft_exit(shell));
 	if (ft_strcmp("pwd", tab[0]) == 0)
 		return (ft_pwd());
-	// if (ft_strcmp("export", tab[0]) == 0)
-	// 	return (ft_export(tab[1]));
+	if (ft_strcmp("export", tab[0]) == 0)
+		return (ft_export(shell, tab[1]));
 	// if (ft_strcmp("unset", tab[0]) == 0)
 	// 	return (ft_unset(shell));
 	// if (ft_strcmp("env", tab[0]) == 0)

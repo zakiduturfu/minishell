@@ -77,7 +77,7 @@ void	find_redir(t_shell *shell, char **cmd, int j);
 /* /src/parsing/pars_cmd_line.c */
 char	*space_sep(char *line);
 char	*line_arg(char *line);
-int		init_struct(t_shell *shell, char *av);
+int		init_struct(t_shell *shell, char *av, char **env);
 int		pars_line(char *line, char **env);
 
 /* /src/parsing/split_token.c */
@@ -128,6 +128,11 @@ int		exec_only_built(t_shell	*shell);
 /* /src/builtins/echo.c */
 /*void		print(char *str, int newline)*/
 /*static int	n_param(char *str, int *i)*/
+int		open_quote(char *str);
+int		dquote(void);
 int		ft_echo(char **tab);
+
+/* /src/builtins/export.c */
+int	ft_export(t_shell *shell, char *str);
 
 #endif

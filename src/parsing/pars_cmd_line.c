@@ -15,7 +15,7 @@
 #include <stdint.h>
 
 
-int	init_struct(t_shell *shell, char *av)
+int	init_struct(t_shell *shell, char *av, char **env)
 {
 	shell->index = 0;
 	shell->fdin = 0;
@@ -29,6 +29,7 @@ int	init_struct(t_shell *shell, char *av)
 		shell->pid = malloc(sizeof(int) * shell->nb_cmd);
 	if (!shell->pid)
 		return (-1);
+	shell->env = recup_env(env);
 	return (0);
 }
 
@@ -144,7 +145,7 @@ int	pars_line(char *line, char **env)
 		return (-1);
 	av = line_arg(line);
 	shell = malloc(sizeof(t_shell));
-	if (init_struct(shell, av) == -1)
+	if (init_struct(shell, av, env) == -1)
 		return (-1);
 	if (shell->nb_cmd == 1 && find_built(shell, av) == 1)
 		exec_only_built(shell);
@@ -165,5 +166,6 @@ int	pars_line(char *line, char **env)
 	free_all(shell->token);
 	free(av);
 	free(shell);
+
 	return (1);
 }

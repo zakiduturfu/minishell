@@ -60,7 +60,7 @@ static int	n_param(char *str, int *i)
 	return (0);
 }
 
-static int	open_quote(char *str)
+int	open_quote(char *str)
 {
 	int	i;
 	int	quotes;
@@ -82,7 +82,7 @@ static int	open_quote(char *str)
 	return (0);
 }
 
-static int	dquote(void)
+int	dquote(void)
 {
 	printf("debut de dquote\n");
 	char *line;
@@ -105,7 +105,7 @@ int	ft_echo(char **tab)
 	if (tab[1])
 	{
 		if (open_quote(tab[1]) == 1)
-			dquote();
+			return (dquote());
 		else
 		{
 			if (n_param(tab[1], &i) == 1)
