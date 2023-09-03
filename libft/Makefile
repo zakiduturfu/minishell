@@ -34,6 +34,7 @@ SRCS = ft_isalpha.c \
 	ft_putendl_fd.c \
 	ft_putnbr_fd.c\
 	ft_strndup.c \
+	ft_putnstr_fd.c
 
 OBJS = ${SRCS:.c=.o}
 

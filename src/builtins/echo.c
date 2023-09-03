@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-// #include <stdbool.h>
-// #include <stdio.h>
 
 void	print(char *str, int newline)
 {
@@ -67,7 +65,6 @@ int	open_quote(char *str)
 
 	i = 0;
 	quotes = 0;
-	printf("au debut de open_quotes, str = %s\n", str);
 	if (!str)
 		return (0);
 	while (str[i] != '\0')
@@ -76,7 +73,6 @@ int	open_quote(char *str)
 			quotes++;
 		i++;
 	}
-	printf("a la fin de open_quotes, quotes = %d\n", quotes);
 	if (quotes % 2 != 0)
 		return (1);
 	return (0);
@@ -84,7 +80,6 @@ int	open_quote(char *str)
 
 int	dquote(void)
 {
-	printf("debut de dquote\n");
 	char *line;
 	line = NULL;
 	line = readline("dquote>");
@@ -101,7 +96,6 @@ int	ft_echo(char **tab)
 	int	i;
 
 	i = 0;
-	// printf("au debut de echo notre str = %s\n", tab[1]);
 	if (tab[1])
 	{
 		if (open_quote(tab[1]) == 1)

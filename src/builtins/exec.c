@@ -64,10 +64,10 @@ int	exec_only_built(t_shell	*shell)
 {
 	char	**tab;
 
-	printf("au debut de exec only built, token[0] = %s\n", shell->token[0]);
+	// printf("au debut de exec only built, token[0] = %s\n", shell->token[0]);
 	tab = NULL;
 	tab = ft_split_cmd(shell->token[0], tab);
-	printf("apres split cmd, cmd = %s \n et suite = %s\n", tab[0], tab[1]);
+	// printf("apres split cmd, cmd = %s \n et suite = %s\n", tab[0], tab[1]);
 	if (!tab)
 		return (-1);
 	// if (ft_strcmp("cd", shell->token[0]) == 0)
