@@ -28,7 +28,7 @@ static int	find_var(t_shell *shell, char *var)
 	return (-1);
 }
 
-static int	ft_parse(char *str, unsigned int *i)
+static int	ft_parse_var(char *str, unsigned int *i)
 {
 	if (!str || str[0] == '\0')
 	{
@@ -37,13 +37,13 @@ static int	ft_parse(char *str, unsigned int *i)
 	}
 	if (open_quote(str) == 1)
 		return (dquote());
+	if (str[0] == '=')
+	{
+		printf("zsh: bad assignment\n");
+		return (-1);
+	}
 	while (str[*i] != '\0' && str[*i] != '=')
 	{
-		if (str[*i] == ' ' || str[*i] == '\t')
-		{
-			printf("zsh: bad assignment\n");
-			return (-1);
-		}
 		if (str[*i] == '-')
 		{
 			ft_putstr_fd("export: not valid in this context: ", 1);
@@ -106,7 +106,6 @@ static int	ft_create_var(t_shell *shell, char *var)
 		newenv[i] = shell->env[i];
 		i++;
 	}
-	newenv[size] = NULL;
 	newenv[size - 1] = shell->env[size - 2];
 	newenv[size - 2] = var;
 	free(shell->env);
@@ -114,14 +113,14 @@ static int	ft_create_var(t_shell *shell, char *var)
 	return (0);
 }
 
-int	ft_export(t_shell *shell, char *str)
+int	ft_export_one_by_one(t_shell *shell, char *str)
 {
 	unsigned int	i;
 	int				posi;
 	char			*var;
 
 	i = 0;
-	if (ft_parse(str, &i) == -1)
+	if (ft_parse_var(str, &i) == -1)
 		return (0);
 	var = ft_strndup(str, i);
 	if (!var)
@@ -135,11 +134,5 @@ int	ft_export(t_shell *shell, char *str)
 	}
 	if (ft_change_val(shell, posi, &(str[i]), i) == -1)
 		return (1);
-	i = 0;
-	while (shell->env[i])
-	{
-		printf("%s \n",shell->env[i]);
-		i++;
-	}
 	return (0);
 }

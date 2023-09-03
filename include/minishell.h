@@ -123,6 +123,7 @@ void	dup_and_close(int oldfd, int newfd);
 /* /src/builtins/exec.c */
 /*static char	**ft_split_cmd(char *token, char **tab)*/
 int		ft_pwd(void);
+int		ft_export(t_shell *shell, char *str);
 int		exec_only_built(t_shell	*shell);
 
 /* /src/builtins/echo.c */
@@ -133,6 +134,16 @@ int		dquote(void);
 int		ft_echo(char **tab);
 
 /* /src/builtins/export.c */
-int	ft_export(t_shell *shell, char *str);
+//static int	find_var(t_shell *shell, char *var);
+//static int	ft_parse_var(char *str, unsigned int *i);
+//static int	ft_change_val(t_shell *shell, unsigned int posi, char *val, unsigned int i);
+//static int	ft_create_var(t_shell *shell, char *var);
+int	ft_export_one_by_one(t_shell *shell, char *str);
+
+/* /src/builtins/unset.c */
+//static int	find_var(t_shell *shell, char *var);
+//static int	ft_parse_var(char *str, unsigned int *i);
+int	ft_unset_one_by_one(t_shell *shell, char *str);
+int	ft_unset(t_shell *shell, char *str);
 
 #endif

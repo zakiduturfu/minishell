@@ -60,6 +60,29 @@ int	ft_env(t_shell *shell)
 	return (0);
 }
 
+int	ft_export(t_shell *shell, char *str)
+{
+	char **tab;
+	unsigned int i;
+
+	i = 0;
+	tab = ft_nsplit(str, ' ', '\t');
+	if (!tab)
+		return (1);
+	while (tab[i])
+	{
+		ft_export_one_by_one(shell, tab[i]);
+		i++;
+	}
+	i = 0;
+	while (shell->env[i])
+	{
+		printf("%s \n",shell->env[i]);
+		i++;
+	}
+	return (0);
+}
+
 int	exec_only_built(t_shell	*shell)
 {
 	char	**tab;
@@ -80,9 +103,9 @@ int	exec_only_built(t_shell	*shell)
 		return (ft_pwd());
 	if (ft_strcmp("export", tab[0]) == 0)
 		return (ft_export(shell, tab[1]));
-	// if (ft_strcmp("unset", tab[0]) == 0)
-	// 	return (ft_unset(shell));
-	// if (ft_strcmp("env", tab[0]) == 0)
-	// 	return (ft_env(shell));
+	if (ft_strcmp("unset", tab[0]) == 0)
+		return (ft_unset(shell, tab[1]));
+	if (ft_strcmp("env", tab[0]) == 0)
+		return (ft_env(shell));
 	return (1);
 }
