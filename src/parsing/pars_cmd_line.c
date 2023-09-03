@@ -15,7 +15,7 @@
 #include <stdint.h>
 
 
-int	init_struct(t_shell *shell, char *av, char **env)
+int	init_struct(t_shell *shell, char *av)
 {
 	shell->index = 0;
 	shell->fdin = 0;
@@ -29,7 +29,7 @@ int	init_struct(t_shell *shell, char *av, char **env)
 		shell->pid = malloc(sizeof(int) * shell->nb_cmd);
 	if (!shell->pid)
 		return (-1);
-	shell->env = recup_env(env);
+	// shell->env = recup_env(env);
 	return (0);
 }
 
@@ -134,38 +134,39 @@ int is_empty_line(char *line)
 	return (0);
 }
 
-int	pars_line(char *line, char **env)
+int	pars_line(char *line, t_shell *shell)
 {
 	char	*av;
-	t_shell	*shell;
+	// t_shell	*shell;
 	int		i;
 
 	i = 0;
 	if (!is_empty_line(line))
 		return (-1);
 	av = line_arg(line);
-	shell = malloc(sizeof(t_shell));
-	if (init_struct(shell, av, env) == -1)
+	// shell = malloc(sizeof(t_shell));
+	if (init_struct(shell, av) == -1)
 		return (-1);
 	if (shell->nb_cmd == 1 && find_built(shell, av) == 1)
 		exec_only_built(shell);
 	//		printf("pas de bin\n");
-	else if (pipex(shell, av, env) == -1) // else car on ne vient que si plusieurs cmds ?
+	else
 	{
-		free_all(shell->token);
-		free(shell);
-		return (-1);
-	}
-	close(shell->pipefd[0]);
-	while (i < shell->nb_cmd)
-	{
-		waitpid(shell->pid[i], NULL, 0);
-		i++;
+		if (pipex(shell, av, shell->env) == -1) // else car on ne vient que si plusieurs cmds ?
+		{
+			free_all(shell->token);
+			free(shell);
+			return (-1);
+		}
+		close(shell->pipefd[0]);
+		while (i < shell->nb_cmd)
+		{
+			waitpid(shell->pid[i], NULL, 0);
+			i++;
+		}
 	}
 	free(shell->pid);
 	free_all(shell->token);
 	free(av);
-	free(shell);
-
 	return (1);
 }

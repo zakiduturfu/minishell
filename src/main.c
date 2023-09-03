@@ -16,40 +16,39 @@ int	main(int ac, char **av, char **env)
 {
 	char	*line;
 	int		i;
-	char	**new_env;
+	t_shell	*shell;
 
 	i = 0;
 	(void)av;
 	line = " ";
+	shell = malloc(sizeof(t_shell));
+	if (!shell)
+		return (1);
 	if (ac == 1)
 	{
-		new_env = recup_env(env);
-		if (!new_env)
+		shell->env = recup_env(env);
+		if (!shell->env)
 			exit(2);
-		increment_shlvl(new_env);
+		increment_shlvl(shell->env);
 		while (line)
 		{
 			line = readline("minishell>");
 			if (strcmp("exit", line) == 0)
 			{
 				free(line);
-				free_env_tab(new_env);
+				free_env_tab(shell->env);
 				exit(0);
-			}
-			else if (strcmp("env", line) == 0)
-			{
-				while (new_env[i])
-					printf("%s\n", new_env[i++]);
 			}
 			else
 			{
-				if (pars_line(line, new_env) == -1)
+				if (pars_line(line, shell) == -1)
 					free(line);
 				else
 					free(line);
 			}
 		}
 	}
+	free(shell);
 }
 
 /*	do {

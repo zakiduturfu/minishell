@@ -52,7 +52,7 @@ int	ft_env(t_shell *shell)
 	unsigned int	i;
 
 	i = 0;
-	while (shell->env[i])
+	while (shell->env[i] != NULL)
 	{
 		printf("%s \n",shell->env[i]);
 		i++;

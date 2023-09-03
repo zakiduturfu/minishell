@@ -77,8 +77,8 @@ void	find_redir(t_shell *shell, char **cmd, int j);
 /* /src/parsing/pars_cmd_line.c */
 char	*space_sep(char *line);
 char	*line_arg(char *line);
-int		init_struct(t_shell *shell, char *av, char **env);
-int		pars_line(char *line, char **env);
+int		init_struct(t_shell *shell, char *av);
+int		pars_line(char *line, t_shell *shell);
 
 /* /src/parsing/split_token.c */
 char	**split_token(char *line, char c, char *av);
@@ -141,8 +141,6 @@ int		ft_echo(char **tab);
 int	ft_export_one_by_one(t_shell *shell, char *str);
 
 /* /src/builtins/unset.c */
-//static int	find_var(t_shell *shell, char *var);
-//static int	ft_parse_var(char *str, unsigned int *i);
 int	ft_unset_one_by_one(t_shell *shell, char *str);
 int	ft_unset(t_shell *shell, char *str);
 

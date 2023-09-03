@@ -48,20 +48,19 @@ static int	ft_parse(char *str, unsigned int i)
 		}
 		i = i + 1;
 	}
-	if (str[i] == '\0')
-		return (-1);
-	i = i + 1;
 	return (0);
 }
 
 static int	ft_erase_var(t_shell *shell, int posi)
 {
-	int	size;
-	char			**newenv;
-	int	i;
+	int		size;
+	char	**newenv;
+	int		i;
 	
 	i = 0;
 	size = size_env(shell->env);
+	printf("size env avant = %d\n", size);
+	printf("posi a supp avant = %d\n", posi);
 	size--;
 	newenv = malloc(sizeof(char *) * (size + 1));
 	if (!newenv)
@@ -86,9 +85,11 @@ int	ft_unset_one_by_one(t_shell *shell, char *str)
 {
 	int				posi;
 
+	printf("on doit unset %s\n", str);
 	if (ft_parse(str, 0) == -1)
 		return (0);
 	posi = find_var(shell, str);
+	printf("posi = %d\n", posi);
 	if (posi == -1)
 		return (0);
 	if (ft_erase_var(shell, posi) == -1)
