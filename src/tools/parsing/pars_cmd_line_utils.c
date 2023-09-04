@@ -14,7 +14,7 @@
 
 int	ft_lines_history(t_shell *shell, char *av)
 {
-	t_lines *tmp;
+	t_lines	*tmp;
 	t_lines	*new;
 
 	tmp = shell->lines;

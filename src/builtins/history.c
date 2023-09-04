@@ -30,14 +30,13 @@ static int	find_cmd(t_lines *lines, char *cmd)
 	return (-1);
 }
 
-static int	ft_all_history(t_lines *lines)
+static void	ft_all_history(t_lines *lines, unsigned int i)
 {
 	t_lines			*tmp;
-	unsigned int	i;
 
 	tmp = lines;
 	if (!tmp)
-		return (0);
+		return ;
 	while (tmp->next != NULL)
 	{
 		i = tmp->index;
@@ -47,7 +46,7 @@ static int	ft_all_history(t_lines *lines)
 	{
 		printf("   %d  ", tmp->index);
 		printf("%s\n", tmp->line);
-		return (0);
+		return ;
 	}
 	tmp = tmp->prev;
 	while (tmp->index > 1 && (i <= 16 || i - tmp->index < 15))
@@ -58,10 +57,10 @@ static int	ft_all_history(t_lines *lines)
 		printf("%s\n", tmp->line);
 		tmp = tmp->next;
 	}
-	return (0);
 }
 
-static int	ft_print_history_part(t_lines *lines, unsigned int start, unsigned int end)
+static void	ft_print_history_part(t_lines *lines,
+	unsigned int start, unsigned int end)
 {
 	t_lines			*tmp;
 
@@ -79,17 +78,16 @@ static int	ft_print_history_part(t_lines *lines, unsigned int start, unsigned in
 	}
 	else
 	{
-		while (tmp->prev != NULL || (tmp->index >= end))
+		while (tmp && tmp->index >= end)
 		{
 			printf("   %d  ", tmp->index);
 			printf("%s\n", tmp->line);
 			tmp = tmp->prev;
 		}
 	}
-	return (0);
 }
 
-static int	ft_history_part(t_lines *lines, char **tab)
+static void	ft_history_part(t_lines *lines, char **tab)
 {
 	int				start;
 	int				end;
@@ -99,7 +97,7 @@ static int	ft_history_part(t_lines *lines, char **tab)
 	if (start == -1)
 	{
 		printf("fc: event not found: %s\n", tab[0]);
-		return (0);
+		return ;
 	}
 	if (tab[1] != NULL)
 	{
@@ -107,13 +105,15 @@ static int	ft_history_part(t_lines *lines, char **tab)
 		if (end == -1)
 		{
 			printf("fc: event not found: %s\n", tab[1]);
-			return (0);
+			return ;
 		}
 		if (tab[2] != NULL)
-			print_and_return("fc: too many arguments\n", 0);
+		{
+			printf("fc: too many arguments\n");
+			return (0);
+		}
 	}
 	ft_print_history_part(lines, start, end);
-	return (0);
 }
 
 int	ft_history(t_shell *shell, char *str)
@@ -126,7 +126,10 @@ int	ft_history(t_shell *shell, char *str)
 	if (!tmp)
 		return (0);
 	if (!str || str[0] == '\0')
-		return (ft_all_history(shell->lines));
+	{
+		ft_all_history(shell->lines, 0);
+		return (0);
+	}
 	tab = ft_nsplit(str, ' ', '\t');
 	if (!tab)
 		return (1);

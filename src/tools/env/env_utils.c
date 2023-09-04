@@ -14,8 +14,8 @@
 
 void	free_history(t_lines *lines)
 {
-	t_lines *tmp;
-	t_lines *tmpnext;
+	t_lines	*tmp;
+	t_lines	*tmpnext;
 
 	tmp = lines;
 	tmpnext = tmp->next;

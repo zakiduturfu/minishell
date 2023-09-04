@@ -167,7 +167,11 @@ char	**ft_split_cmd(char *token, char **tab, unsigned int i);
 int		is_builtin(char *cmd);
 
 /* /src/builtins/utils.c */
-/*static int	ft_all_history(t_shell *shell);*/
+/*static int	find_cmd(t_lines *lines, char *cmd)*/
+/*static void	ft_all_history(t_lines *lines, unsigned int i)*/
+/*static void	ft_print_history_part(t_lines *lines,
+	unsigned int start, unsigned int end)*/
+/*static void	ft_history_part(t_lines *lines, char **tab)*/
 int		ft_history(t_shell *shell, char *str);
 
 #endif
