@@ -28,6 +28,7 @@ static int	init_struct(t_shell *shell, char *av)
 		shell->pid = malloc(sizeof(int) * shell->nb_cmd);
 	if (!shell->pid)
 		return (-1);
+	ft_lines_history(shell, av);
 	return (0);
 }
 
@@ -158,6 +159,5 @@ int	pars_line(char *line, t_shell *shell, int i, char *av)
 	}
 	free(shell->pid);
 	free_all(shell->token);
-	free(av);
 	return (1);
 }

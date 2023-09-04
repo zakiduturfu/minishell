@@ -23,6 +23,14 @@
 #include "../libft/libft.h"
 #include <stdbool.h>
 
+typedef struct s_lines
+{
+	char			*line;
+	unsigned int	index;
+	struct s_lines	*prev;
+	struct s_lines	*next;
+} t_lines;
+
 typedef	struct s_shell
 {
 	char	**token;
@@ -37,6 +45,7 @@ typedef	struct s_shell
 	char	*type;
 	int		nb_cmd;
 	int		index;
+	t_lines	*lines;
 }	t_shell;
 
 /*src/main.c*/
@@ -61,6 +70,8 @@ char	*recup_val_shlvl(char **env);
 char	*modify_var_env(char *name, char **env, char *var);
 
 /* /src/tools/env/env_utils */
+void	free_history(t_lines *lines);
+void	ft_free_shell(t_shell *shell);
 int		size_env(char **env);
 void	free_env_tab(char **env);
 int		tab_value(char **tab, char *str, int i);
@@ -103,6 +114,7 @@ int		check_redir(char **cmd);
 int		count_cmd(char **tab);
 
 /* /src/tools/parsing/pars_cmd_line_utils.c */
+int		ft_lines_history(t_shell *shell, char *av);
 int		is_sep(char *line, int i);
 int		is_quote(char *line, int i);
 int		ignore_sep(char *line, int i);
@@ -153,5 +165,9 @@ int		print_and_return(char *str, int i);
 int		find_var(t_shell *shell, char *var);
 char	**ft_split_cmd(char *token, char **tab, unsigned int i);
 int		is_builtin(char *cmd);
+
+/* /src/builtins/utils.c */
+/*static int	ft_all_history(t_shell *shell);*/
+int		ft_history(t_shell *shell, char *str);
 
 #endif

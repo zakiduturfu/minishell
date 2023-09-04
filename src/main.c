@@ -22,6 +22,7 @@ int	main(int ac, char **av, char **env)
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
 		return (1);
+	shell->lines = NULL;
 	if (ac == 1)
 	{
 		shell->env = recup_env(env);
@@ -34,8 +35,7 @@ int	main(int ac, char **av, char **env)
 			if (strcmp("exit", line) == 0)
 			{
 				free(line);
-				free_env_tab(shell->env);
-				free(shell);
+				ft_free_shell(shell);
 				exit(0);
 			}
 			if (pars_line(line, shell, 0, NULL) == -1)
@@ -44,7 +44,7 @@ int	main(int ac, char **av, char **env)
 				free(line);
 		}
 	}
-	free(shell);
+	ft_free_shell(shell);
 	return (0);
 }
 

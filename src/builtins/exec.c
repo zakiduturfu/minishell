@@ -63,5 +63,7 @@ int	exec_only_built(t_shell	*shell)
 		return (ft_unset(shell, tab[1]));
 	if (ft_strcmp("env", tab[0]) == 0)
 		return (ft_env(shell));
+	if (ft_strcmp("history", tab[0]) == 0)
+		return (ft_history(shell, tab[1]));
 	return (1);
 }

@@ -12,6 +12,34 @@
 
 #include "../../../include/minishell.h"
 
+int	ft_lines_history(t_shell *shell, char *av)
+{
+	t_lines *tmp;
+	t_lines	*new;
+
+	tmp = shell->lines;
+	new = malloc(sizeof(t_lines));
+	if (!new)
+		return (-1);
+	new->line = av;
+	new->next = NULL;
+	new->prev = NULL;
+	if (!tmp)
+	{
+		shell->lines = new;
+		shell->lines->index = 1;
+	}
+	else
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+		new->prev = tmp;
+		new->index = tmp->index + 1;
+	}
+	return (0);
+}
+
 int	is_sep(char *line, int i)
 {
 	if (i > 0 && ft_strchr("<>|;", line[i]) && is_quote(line, i) == 0
