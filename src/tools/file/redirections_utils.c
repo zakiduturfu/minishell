@@ -32,7 +32,6 @@ int	count_redir(char **line)
 
 int	is_redir(char *redir)
 {
-	
 	if (!ft_strcmp(">", redir))
 		return (1);
 	else if (!ft_strcmp(">>", redir))

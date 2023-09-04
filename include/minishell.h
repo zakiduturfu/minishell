@@ -39,6 +39,9 @@ typedef	struct s_shell
 	int		index;
 }	t_shell;
 
+/*src/main.c*/
+/*int	main(int ac, char **av, char **env);*/
+
 /* /src/env/env.c */
 char	**recup_env(char **env);
 char	*recup_env_ligne(char *str);
@@ -75,10 +78,11 @@ void	open_redir(t_shell *shell, char **cmd, int i);
 void	find_redir(t_shell *shell, char **cmd, int j);
 
 /* /src/parsing/pars_cmd_line.c */
-char	*space_sep(char *line);
-char	*line_arg(char *line);
-int		init_struct(t_shell *shell, char *av);
-int		pars_line(char *line, t_shell *shell);
+/*static int	init_struct(t_shell *shell, char *av);*/
+/*static char	*space_sep(char *line);*/
+/*static char	*line_arg(char *line);*/
+/*static int	is_empty_line(char *line);*/
+int	pars_line(char *line, t_shell *shell, int i, char *av);
 
 /* /src/parsing/split_token.c */
 char	**split_token(char *line, char c, char *av);
@@ -96,7 +100,6 @@ int		is_in_quote(char *line, int i, char c);
 int		ft_strcmp(const char *str1, const char *str2);
 int		size_token(char *line, char c, char *av);
 int		check_redir(char **cmd);
-int		is_builtin(char *cmd);
 int		count_cmd(char **tab);
 
 /* /src/tools/parsing/pars_cmd_line_utils.c */
@@ -112,7 +115,7 @@ int		is_redir(char *redir);
 /* /src/pipex/process.c */
 void	child_err(t_shell *shell, char **cmd, char **env, char *av);
 char	**get_cmd_path(char **env);
-char	*recup_path(char *cmd, char **env);
+char	*recup_path(char *cmd, char **env, int i);
 void	child_process(t_shell *shell, int i, char *av, char **env);
 void	parent_process(t_shell *shell);
 
@@ -121,9 +124,8 @@ int		pipex(t_shell *shell, char *av, char **env);
 void	dup_and_close(int oldfd, int newfd);
 
 /* /src/builtins/exec.c */
-/*static char	**ft_split_cmd(char *token, char **tab)*/
-int		ft_pwd(void);
-int		ft_export(t_shell *shell, char *str);
+int		ft_pwd(t_shell *shell, char *str);
+int		ft_env(t_shell *shell);
 int		exec_only_built(t_shell	*shell);
 
 /* /src/builtins/echo.c */
@@ -134,14 +136,22 @@ int		dquote(void);
 int		ft_echo(char **tab);
 
 /* /src/builtins/export.c */
-//static int	find_var(t_shell *shell, char *var);
-//static int	ft_parse_var(char *str, unsigned int *i);
-//static int	ft_change_val(t_shell *shell, unsigned int posi, char *val, unsigned int i);
-//static int	ft_create_var(t_shell *shell, char *var);
-int	ft_export_one_by_one(t_shell *shell, char *str);
+/*static int	ft_parse_var(char *str, unsigned int *i);*/
+/*static int	ft_change_val(t_shell *shell, unsigned int posi, char *val, unsigned int i);*/
+/*static int	ft_create_var(t_shell *shell, char *var);*/
+/*staticint	ft_export_one_by_one(t_shell *shell, char *str);*/
+int		ft_export(t_shell *shell, char *str);
 
 /* /src/builtins/unset.c */
-int	ft_unset_one_by_one(t_shell *shell, char *str);
+/*static int	ft_parse(char *str, unsigned int i);*/
+/*static int	ft_erase_var(t_shell *shell, int posi);*/
+/*static int	ft_unset_one_by_one(t_shell *shell, char *str);*/
 int	ft_unset(t_shell *shell, char *str);
+
+/* /src/builtins/utils.c */
+int		print_and_return(char *str, int i);
+int		find_var(t_shell *shell, char *var);
+char	**ft_split_cmd(char *token, char **tab, unsigned int i);
+int		is_builtin(char *cmd);
 
 #endif

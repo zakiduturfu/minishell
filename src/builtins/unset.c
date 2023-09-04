@@ -12,22 +12,6 @@
 
 #include "../../include/minishell.h"
 
-static int	find_var(t_shell *shell, char *var)
-{
-	unsigned int	size;
-	unsigned int	i;
-
-	i = 0;
-	size = size_env(shell->env);
-	while (i < size)
-	{
-		if (ft_strncmp(shell->env[i], var, ft_strlen(var)) == 0)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
 static int	ft_parse(char *str, unsigned int i)
 {
 	if (!str || str[0] == '\0')
@@ -56,11 +40,9 @@ static int	ft_erase_var(t_shell *shell, int posi)
 	int		size;
 	char	**newenv;
 	int		i;
-	
+
 	i = 0;
 	size = size_env(shell->env);
-	printf("size env avant = %d\n", size);
-	printf("posi a supp avant = %d\n", posi);
 	size--;
 	newenv = malloc(sizeof(char *) * (size + 1));
 	if (!newenv)
@@ -81,15 +63,13 @@ static int	ft_erase_var(t_shell *shell, int posi)
 	return (0);
 }
 
-int	ft_unset_one_by_one(t_shell *shell, char *str)
+static int	ft_unset_one_by_one(t_shell *shell, char *str)
 {
-	int				posi;
+	int	posi;
 
-	printf("on doit unset %s\n", str);
 	if (ft_parse(str, 0) == -1)
 		return (0);
 	posi = find_var(shell, str);
-	printf("posi = %d\n", posi);
 	if (posi == -1)
 		return (0);
 	if (ft_erase_var(shell, posi) == -1)
@@ -99,8 +79,8 @@ int	ft_unset_one_by_one(t_shell *shell, char *str)
 
 int	ft_unset(t_shell *shell, char *str)
 {
-	char **tab;
-	unsigned int i;
+	char			**tab;
+	unsigned int	i;
 
 	i = 0;
 	tab = ft_nsplit(str, ' ', '\t');
@@ -109,11 +89,6 @@ int	ft_unset(t_shell *shell, char *str)
 	while (tab[i])
 	{
 		ft_unset_one_by_one(shell, tab[i]);
-		i++;
-	}
-	while (shell->env[i])
-	{
-		printf("%s \n",shell->env[i]);
 		i++;
 	}
 	return (0);

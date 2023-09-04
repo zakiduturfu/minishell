@@ -12,36 +12,14 @@
 
 #include "../../include/minishell.h"
 
-static int	find_var(t_shell *shell, char *var)
-{
-	unsigned int	size;
-	unsigned int	i;
-
-	i = 0;
-	size = size_env(shell->env);
-	while (i < size)
-	{
-		if (ft_strncmp(shell->env[i], var, ft_strlen(var)) == 0)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
 static int	ft_parse_var(char *str, unsigned int *i)
 {
 	if (!str || str[0] == '\0')
-	{
-		printf("pas de suite a cmd export, todo\n");
-		return (-1);
-	}
+		return (0);
 	if (open_quote(str) == 1)
 		return (dquote());
 	if (str[0] == '=')
-	{
-		printf("zsh: bad assignment\n");
-		return (-1);
-	}
+		print_and_return("zsh: bad assignment\n", -1);
 	while (str[*i] != '\0' && str[*i] != '=')
 	{
 		if (str[*i] == '-')
@@ -59,12 +37,13 @@ static int	ft_parse_var(char *str, unsigned int *i)
 	return (0);
 }
 
-static int	ft_change_val(t_shell *shell, unsigned int posi, char *val, unsigned int i)
+static int	ft_change_val(t_shell *shell,
+		unsigned int posi, char *val, unsigned int i)
 {
 	char	*newvar;
 	char	*newval;
 	char	*new;
-	
+
 	if (!val || val[0] == '\0' || val[0] == ' ' || val[0] == '\t')
 		return (0);
 	newvar = ft_strndup(shell->env[posi], i);
@@ -93,7 +72,7 @@ static int	ft_create_var(t_shell *shell, char *var)
 	unsigned int	size;
 	char			**newenv;
 	unsigned int	i;
-	
+
 	i = 0;
 	size = size_env(shell->env);
 	size++;
@@ -113,7 +92,7 @@ static int	ft_create_var(t_shell *shell, char *var)
 	return (0);
 }
 
-int	ft_export_one_by_one(t_shell *shell, char *str)
+static int	ft_export_one_by_one(t_shell *shell, char *str)
 {
 	unsigned int	i;
 	int				posi;
@@ -134,5 +113,24 @@ int	ft_export_one_by_one(t_shell *shell, char *str)
 	}
 	if (ft_change_val(shell, posi, &(str[i]), i) == -1)
 		return (1);
+	return (0);
+}
+
+int	ft_export(t_shell *shell, char *str)
+{
+	char			**tab;
+	unsigned int	i;
+
+	i = 0;
+	if (!str || str[0] == '\0')
+		print_and_return("pas de suite a cmd export, todo\n", -1);
+	tab = ft_nsplit(str, ' ', '\t');
+	if (!tab)
+		return (1);
+	while (tab[i])
+	{
+		ft_export_one_by_one(shell, tab[i]);
+		i++;
+	}
 	return (0);
 }

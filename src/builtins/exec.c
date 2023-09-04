@@ -12,38 +12,19 @@
 
 #include "../../include/minishell.h"
 
-static char	**ft_split_cmd(char *token, char **tab)
+int	ft_pwd(t_shell *shell, char *str)
 {
-	int		i;
+	unsigned int	posi;
 
-	i = 0;
-	while (token[i] != ' ' && token[i] != '\0')
-		i++;
-	tab = malloc (sizeof(char *) * 2);
-	if (!tab)
-		return (NULL);
-	tab[0] = malloc(sizeof(char) * (i + 1));
-	i = 0;
-	while (token[i] != ' ' && token[i] != '\0')
+	if (open_quote(str) == 1)
+		return (dquote());
+	if (!str || str[0] == '\0')
 	{
-		tab[0][i] = token[i];
-		i++;
+		posi = find_var(shell, "PWD");
+		printf("%s\n", shell->env[posi]);
+		return (0);
 	}
-	tab[0][i] = '\0';
-	if (!(tab[0]))
-	{
-		free(tab);
-		return (NULL);
-	}
-	while (token[i] == ' ')
-		i++;
-	tab[1] = &(token[i]);
-	return (tab);
-}
-
-int	ft_pwd(void)
-{
-	printf("%s\n", getenv("PWD"));
+	printf("pwd: too many arguments\n");
 	return (0);
 }
 
@@ -54,30 +35,7 @@ int	ft_env(t_shell *shell)
 	i = 0;
 	while (shell->env[i] != NULL)
 	{
-		printf("%s \n",shell->env[i]);
-		i++;
-	}
-	return (0);
-}
-
-int	ft_export(t_shell *shell, char *str)
-{
-	char **tab;
-	unsigned int i;
-
-	i = 0;
-	tab = ft_nsplit(str, ' ', '\t');
-	if (!tab)
-		return (1);
-	while (tab[i])
-	{
-		ft_export_one_by_one(shell, tab[i]);
-		i++;
-	}
-	i = 0;
-	while (shell->env[i])
-	{
-		printf("%s \n",shell->env[i]);
+		printf("%s \n", shell->env[i]);
 		i++;
 	}
 	return (0);
@@ -87,10 +45,8 @@ int	exec_only_built(t_shell	*shell)
 {
 	char	**tab;
 
-	// printf("au debut de exec only built, token[0] = %s\n", shell->token[0]);
 	tab = NULL;
-	tab = ft_split_cmd(shell->token[0], tab);
-	// printf("apres split cmd, cmd = %s \n et suite = %s\n", tab[0], tab[1]);
+	tab = ft_split_cmd(shell->token[0], tab, 0);
 	if (!tab)
 		return (-1);
 	// if (ft_strcmp("cd", shell->token[0]) == 0)
@@ -100,7 +56,7 @@ int	exec_only_built(t_shell	*shell)
 	// if (ft_strcmp("exit", tab[0]) == 0)
 	// 	return (ft_exit(shell));
 	if (ft_strcmp("pwd", tab[0]) == 0)
-		return (ft_pwd());
+		return (ft_pwd(shell, tab[1]));
 	if (ft_strcmp("export", tab[0]) == 0)
 		return (ft_export(shell, tab[1]));
 	if (ft_strcmp("unset", tab[0]) == 0)

@@ -80,7 +80,8 @@ int	open_quote(char *str)
 
 int	dquote(void)
 {
-	char *line;
+	char	*line;
+
 	line = NULL;
 	line = readline("dquote>");
 	while (line)

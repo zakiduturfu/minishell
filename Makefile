@@ -20,7 +20,8 @@ SRCS = ./src/main.c \
 	./src/builtins/exec.c \
 	./src/builtins/echo.c \
 	./src/builtins/export.c \
-	./src/builtins/unset.c
+	./src/builtins/unset.c \
+	./src/builtins/utils.c \
 
 HEADER = include
 

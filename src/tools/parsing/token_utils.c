@@ -22,26 +22,6 @@ int	count_cmd(char **tab)
 	return (i);
 }
 
-int	is_builtin(char *cmd)
-{
-	if (ft_strcmp("cd", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("echo", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("exit", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("pwd", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("export", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("unset", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("env", cmd) == 0)
-		return (1);
-	else
-		return (0);
-}
-
 int	check_redir(char **cmd)
 {
 	int	i;

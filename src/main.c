@@ -15,10 +15,8 @@
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
-	int		i;
 	t_shell	*shell;
 
-	i = 0;
 	(void)av;
 	line = " ";
 	shell = malloc(sizeof(t_shell));
@@ -37,18 +35,17 @@ int	main(int ac, char **av, char **env)
 			{
 				free(line);
 				free_env_tab(shell->env);
+				free(shell);
 				exit(0);
 			}
+			if (pars_line(line, shell, 0, NULL) == -1)
+				free(line);
 			else
-			{
-				if (pars_line(line, shell) == -1)
-					free(line);
-				else
-					free(line);
-			}
+				free(line);
 		}
 	}
 	free(shell);
+	return (0);
 }
 
 /*	do {

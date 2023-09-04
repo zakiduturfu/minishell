@@ -51,14 +51,12 @@ char	**get_cmd_path(char **env)
 	return (path);
 }
 
-char	*recup_path(char *cmd, char **env)
+char	*recup_path(char *cmd, char **env, int i)
 {
 	char	*tmp;
 	char	*tab;
 	char	**path;
-	int		i;
 
-	i = -1;
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, 0) == 0)
@@ -104,7 +102,7 @@ void	child_process(t_shell *shell, int i, char *av, char **env)
 		exit(0);
 	}
 	if (cmd[0])
-		shell->path = recup_path(cmd[0], env);
+		shell->path = recup_path(cmd[0], env, -1);
 	if (shell->path)
 	{
 		if (execve(shell->path, cmd, env) == -1)

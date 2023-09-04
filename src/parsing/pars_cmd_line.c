@@ -14,8 +14,7 @@
 #include <readline/readline.h>
 #include <stdint.h>
 
-
-int	init_struct(t_shell *shell, char *av)
+static int	init_struct(t_shell *shell, char *av)
 {
 	shell->index = 0;
 	shell->fdin = 0;
@@ -29,11 +28,10 @@ int	init_struct(t_shell *shell, char *av)
 		shell->pid = malloc(sizeof(int) * shell->nb_cmd);
 	if (!shell->pid)
 		return (-1);
-	// shell->env = recup_env(env);
 	return (0);
 }
 
-char	*space_sep(char *line)
+static char	*space_sep(char *line)
 {
 	int		i;
 	int		count;
@@ -53,7 +51,7 @@ char	*space_sep(char *line)
 	return (new);
 }
 
-char	*line_arg(char *line)
+static char	*line_arg(char *line)
 {
 	char	*new;
 	int		i;
@@ -92,35 +90,35 @@ void	affiche_test(char *cmd)
 	}
 }*/
 
-void	test_cmd(t_shell *shell, char *av)
-{
-	int		i;
-	int		j;
-	char	**cmd;
+// static void	test_cmd(t_shell *shell, char *av)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	**cmd;
 
-	i = 0;
-	while (i < shell->nb_cmd)
-	{
-		j = 0;
-		cmd = init_start_cmd(shell, shell->token[i], 2, av);
-		if (cmd)
-		{
-			while (cmd[j])
-			{
-				printf("cmd = %s\n", cmd[j]);
-				j++;
-			}
-		}
-		printf("fdin = %d\n", shell->fdin);
-		printf("fdout = %d\n", shell->fdout);
-		printf("--------------------------\n");
-		i++;
-		shell->index = i;
-		free_all(cmd);
-	}
-}
+// 	i = 0;
+// 	while (i < shell->nb_cmd)
+// 	{
+// 		j = 0;
+// 		cmd = init_start_cmd(shell, shell->token[i], 2, av);
+// 		if (cmd)
+// 		{
+// 			while (cmd[j])
+// 			{
+// 				printf("cmd = %s\n", cmd[j]);
+// 				j++;
+// 			}
+// 		}
+// 		printf("fdin = %d\n", shell->fdin);
+// 		printf("fdout = %d\n", shell->fdout);
+// 		printf("--------------------------\n");
+// 		i++;
+// 		shell->index = i;
+// 		free_all(cmd);
+// 	}
+// }
 
-int is_empty_line(char *line)
+static int	is_empty_line(char *line)
 {
 	int	i;
 
@@ -134,25 +132,18 @@ int is_empty_line(char *line)
 	return (0);
 }
 
-int	pars_line(char *line, t_shell *shell)
+int	pars_line(char *line, t_shell *shell, int i, char *av)
 {
-	char	*av;
-	// t_shell	*shell;
-	int		i;
-
-	i = 0;
 	if (!is_empty_line(line))
 		return (-1);
 	av = line_arg(line);
-	// shell = malloc(sizeof(t_shell));
 	if (init_struct(shell, av) == -1)
 		return (-1);
 	if (shell->nb_cmd == 1 && find_built(shell, av) == 1)
 		exec_only_built(shell);
-	//		printf("pas de bin\n");
 	else
 	{
-		if (pipex(shell, av, shell->env) == -1) // else car on ne vient que si plusieurs cmds ?
+		if (pipex(shell, av, shell->env) == -1)
 		{
 			free_all(shell->token);
 			free(shell);
