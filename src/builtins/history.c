@@ -15,17 +15,17 @@
 static int	find_cmd(t_lines *lines, char *cmd)
 {
 	t_lines	*tmp;
-	int		i;
-	
-	i = 0;
+
 	tmp = lines;
 	if (!tmp)
 		return (-1);
 	while (tmp->next != NULL)
+		tmp = tmp->next;
+	while (tmp != NULL)
 	{
 		if (ft_strcmp(tmp->line, cmd) == 0)
-			return (i);
-		i++;
+			return (tmp->index);
+		tmp = tmp->prev;
 	}
 	return (-1);
 }
@@ -68,9 +68,9 @@ static int	ft_print_history_part(t_lines *lines, unsigned int start, unsigned in
 	tmp = lines;
 	while (tmp != NULL && tmp->index != start)
 		tmp = tmp->next;
-	if (end > start || end == 0)
+	if (end >= start || end == 0)
 	{
-		while (tmp->next != NULL || (tmp->index <= end && end != 0))
+		while (tmp->next != NULL && (tmp->index <= end || end == 0))
 		{
 			printf("   %d  ", tmp->index);
 			printf("%s\n", tmp->line);
@@ -106,7 +106,7 @@ static int	ft_history_part(t_lines *lines, char **tab)
 		end = find_cmd(lines, tab[1]);
 		if (end == -1)
 		{
-			printf("fc: event not found: %s\n", tab[0]);
+			printf("fc: event not found: %s\n", tab[1]);
 			return (0);
 		}
 		if (tab[2] != NULL)
