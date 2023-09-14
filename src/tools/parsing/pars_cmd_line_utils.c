@@ -6,39 +6,11 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:40:51 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/24 11:20:50 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/09/08 08:47:26 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
-
-int	ft_lines_history(t_shell *shell, char *av)
-{
-	t_lines	*tmp;
-	t_lines	*new;
-
-	tmp = shell->lines;
-	new = malloc(sizeof(t_lines));
-	if (!new)
-		return (-1);
-	new->line = av;
-	new->next = NULL;
-	new->prev = NULL;
-	if (!tmp)
-	{
-		shell->lines = new;
-		shell->lines->index = 1;
-	}
-	else
-	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-		new->prev = tmp;
-		new->index = tmp->index + 1;
-	}
-	return (0);
-}
 
 int	is_sep(char *line, int i)
 {
@@ -66,7 +38,7 @@ int	is_quote(char *line, int i)
 			count = 1;
 		else if (count == 0 && line[j] == '\'')
 			count = 2;
-		else if (count == 1 && count == '\"')
+		else if (count == 1 && line[j] == '\"')
 			count = 0;
 		else if (count == 2 && line[j] == '\'')
 			count = 0;
@@ -87,4 +59,82 @@ int	ignore_sep(char *line, int i)
 	else if (line[i] == '\\' && line[i + 1] && line[i + 1] == '>')
 		return (1);
 	return (0);
+}
+/*
+int	count_quote(char *s)
+{
+	int		count;
+	char	c;
+	int		i;
+
+	i = -1;
+	c = ' ';
+	count = 0;
+	if (!s)
+		return (0);
+	while (s[++i])
+	{
+		if ((s[i] == '\'' || s[i] == '\"') && c == ' ')
+		{
+			printf("ougabouga %c, int %d\n", s[i], i);
+			c = s[i];
+			count++;
+		}
+		else if (s[i] == c && c != ' ')
+		{
+			printf("ahahaha %c int %d\n", s[i], i);
+			c = ' ';
+			count++;
+		}
+	}
+	return (count);
+}*/
+
+int	count_quote(char *s)
+{
+	int	cmp;
+	int	cmp2;
+	int	i;
+
+	i = 0;
+	cmp = 0;
+	cmp2 = 0;
+	while (s[i])
+	{
+		if (s[i] == '\"' && cmp2 % 2 == 0)
+			cmp++;
+		if (s[i] == '\'' && cmp % 2 == 0)
+			cmp2++;
+		i++;
+	}
+	return (cmp + cmp2);
+}
+
+char	*delete_quote(char *s)
+{
+	int		i;
+	int		j;
+	char	*tab;
+
+	i = 0;
+	j = 0;
+	tab = malloc(sizeof(char) * ((ft_strlen(s) - count_quote(s)) + 1));
+	if (!tab)
+		return (NULL);
+	while (s[i])
+	{
+		if ((is_quote(s, i) == 1 || !is_quote(s, i))
+			&& s[i] == '\"')
+			i++;
+		else if ((is_quote(s, i) == 2 || !is_quote(s, i))
+			&& s[i] == '\'')
+				i++;
+		if (!s[i])
+			break ;
+		else
+			tab[j++] = s[i++];
+	}
+	tab[j] = '\0';
+	free(s);
+	return (tab);
 }

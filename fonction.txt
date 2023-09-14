@@ -1,0 +1,144 @@
+A completer:
+			-reecrire la ligne donner par readline avec les bonne separation
+			-on split aux pipes
+			-on initialise le nombre de pipes dont on aura besoin
+			-on regarde si il y'a la commande here doc et combien il y'en a
+			-on on execute les commandes comme avec pipex
+
+
+
+readline: 
+		char *readline(const char *prompt)
+	fonction qui lit une ligne depuis le terminal et le retourne. il utilise un prompt.
+	si rien n'est renvoyer il renvoie un prompt vide. il retourne un char alloue avec malloc.
+
+
+rl_clear_history: clear l'historique en delete toute les entrees et "frees private data 
+	Readline saves in the history list" ??
+
+rl_on_new_line:	indique a la fonction mise a jour que nous sommes passe a un nouveau prompt vide.
+				generalement a la sortie d'une nouvelle line
+
+rl_replace_line: remplace le rl_line_buffer avec text, (pas compris)
+
+rl_redisplay: change ce qui est afficher a l'ecran et retransmettre le contenu de rl_line_buffer
+
+add_history: place une string a la fin de l'historique. le champs associe est set a NULL
+
+printf: ba printf
+
+malloc:bah malloc
+
+free: ba free 
+
+write: ba write
+
+acces: verifie l'acces
+
+open: deja connue
+
+read: deja connue
+
+close:deja connue
+
+fork: fait une copie du process
+
+wait: deja connue 
+
+waitpid: deja connue
+
+wait3: pareil que waitpid mais retourne
+
+wait4:
+
+signal:
+
+sigaction:
+
+sigemptyset:
+
+sigaddset:
+
+kill:
+
+exit:
+
+getcwd:
+
+chdir:
+
+stat:
+
+lstat:
+
+fstat:
+
+unlink:
+
+execve:
+
+dup:
+
+dup2:
+
+pipe:
+
+opendir:
+
+readdir:
+
+closedir:
+
+strerror:
+
+perror:
+
+isatty:
+
+ttyname:
+
+ttyslot:
+
+ioctl:
+
+getenv:
+
+tcsetattr:
+
+tcgetattr:
+
+tgetent:
+
+tgetflag:
+
+tgetnum:
+
+tgetstr:
+
+tgoto:
+
+tputs:
+
+
+dans cat | ls close la pipe pour faire crash le cat.
+
+citations de la doc du bash:
+
+The shell then parses these tokens into commands and other constructs, removes the special meaning of certain words or characters, expands others, redirects input and output as needed, executes the specified command, waits for the command’s exit status, and makes that exit status available for further inspection or processing.
+
+
+objectif de la soiree faire les expansions et recup la variable d'environnement (qui est une variable globale) et gerer les quotes, essayer de run le code si possible (temps disponible 4h, 1h pour les expensions, 30 min pour les quotes, 30 min a run le code si possible)
+
+il restera les signaux, le here doc, essayer de exec les commande correctement avec les fork et les redirections,
+trouver si c'est un builtin, verifier tout les mallocs,gerer les cas speciaux comme ";", trouver un mate pour les buitlins.
+
+comment changer ma variable par la variable d'env ?: on prend un index et on l'incremente jusqu'a ce qu'on tombe sur '$'.
+On va recuperer le nom de la variable d'environnement, le = 17 - 17 + 1 = 1
+
+
+<fonction.txt ls|wc -c >out
+
+echo "<infile cat | ls > out" | echo "coucou" > outfile
+
+<infile ls | cat > out
+

@@ -6,7 +6,7 @@
 /*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:56:46 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/25 20:36:46 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/14 13:46:09 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,42 @@
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
-	t_shell	*shell;
+	int		i;
+	char	**new_env;
 
+	i = 0;
 	(void)av;
 	line = " ";
-	shell = malloc(sizeof(t_shell));
-	if (!shell)
-		return (1);
-	shell->lines = NULL;
 	if (ac == 1)
 	{
-		shell->env = recup_env(env);
-		if (!shell->env)
+		new_env = recup_env(env);
+		if (!new_env)
 			exit(2);
-		increment_shlvl(shell->env);
-		while (line)
+		increment_shlvl(new_env);
+		while (1)
 		{
 			line = readline("minishell>");
-			if (strcmp("exit", line) == 0)
+			if (!line)
+				exit(2);
+			if (ft_strcmp("exit", line) == 0)
 			{
 				free(line);
-				ft_free_shell(shell);
+				free_env_tab(new_env);
 				exit(0);
 			}
-			if (pars_line(line, shell, 0, NULL) == -1)
-				free(line);
+			else if (strcmp("env", line) == 0)
+			{
+				while (new_env[i])
+					printf("%s\n", new_env[i++]);
+			}
 			else
+			{
+				if (pars_line(line, new_env) == -1)
+					printf("error\n");
 				free(line);
+			}
 		}
 	}
-	ft_free_shell(shell);
-	return (0);
 }
 
 /*	do {

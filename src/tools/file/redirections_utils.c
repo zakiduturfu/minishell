@@ -6,7 +6,7 @@
 /*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:22:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/25 20:38:58 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/14 14:55:50 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	is_redir(char *redir)
 	else if (!ft_strcmp("<", redir))
 		return (2);
 	else if (!ft_strcmp("<<", redir))
-		return (2);
+		return (4);
 	return (0);
 }
 

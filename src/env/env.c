@@ -82,6 +82,6 @@ char	**recup_env(char **env)
 		}
 		i++;
 	}
-	ret[size] = NULL;
+	ret[i] = 0;
 	return (ret);
 }

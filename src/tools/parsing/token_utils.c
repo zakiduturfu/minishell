@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 23:06:12 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/24 16:40:19 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/09/05 04:39:03 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,26 @@ int	count_cmd(char **tab)
 	while (tab[i])
 		i++;
 	return (i);
+}
+
+int	is_builtin(char *cmd)
+{
+	if (ft_strcmp("cd", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("echo", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("exit", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("pwd", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("export", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("unset", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("env", cmd) == 0)
+		return (1);
+	else
+		return (0);
 }
 
 int	check_redir(char **cmd)

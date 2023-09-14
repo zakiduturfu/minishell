@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/25 15:54:56 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/09/14 14:46:12 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,18 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include "../libft/libft.h"
-#include <stdbool.h>
 
-typedef struct s_lines
+typedef struct s_here
 {
-	char			*line;
-	unsigned int	index;
-	struct s_lines	*prev;
-	struct s_lines	*next;
-} t_lines;
+	char	*lim;
+	int		here_pipe[2];
+}	t_here;
 
 typedef	struct s_shell
 {
 	char	**token;
 	char	**env;
+	char	*av;
 	int		pipefd[2];
 	int		prev_pipe;
 	int		nb_here;
@@ -45,11 +43,9 @@ typedef	struct s_shell
 	char	*type;
 	int		nb_cmd;
 	int		index;
-	t_lines	*lines;
+	int		c_here;
+	t_here	*here;
 }	t_shell;
-
-/*src/main.c*/
-/*int	main(int ac, char **av, char **env);*/
 
 /* /src/env/env.c */
 char	**recup_env(char **env);
@@ -70,8 +66,6 @@ char	*recup_val_shlvl(char **env);
 char	*modify_var_env(char *name, char **env, char *var);
 
 /* /src/tools/env/env_utils */
-void	free_history(t_lines *lines);
-void	ft_free_shell(t_shell *shell);
 int		size_env(char **env);
 void	free_env_tab(char **env);
 int		tab_value(char **tab, char *str, int i);
@@ -89,11 +83,10 @@ void	open_redir(t_shell *shell, char **cmd, int i);
 void	find_redir(t_shell *shell, char **cmd, int j);
 
 /* /src/parsing/pars_cmd_line.c */
-/*static int	init_struct(t_shell *shell, char *av);*/
-/*static char	*space_sep(char *line);*/
-/*static char	*line_arg(char *line);*/
-/*static int	is_empty_line(char *line);*/
-int	pars_line(char *line, t_shell *shell, int i, char *av);
+char	*space_sep(char *line);
+char	*line_arg(char *line);
+int		init_struct(t_shell *shell, char *av);
+int		pars_line(char *line, char **env);
 
 /* /src/parsing/split_token.c */
 char	**split_token(char *line, char c, char *av);
@@ -103,21 +96,25 @@ int		t_ignore_sep(char *line, int i, char c, char *av);
 
 /* /src/parsing/token.c */
 int		is_token(char *line, int *i, char c, char *av);
-int		find_built(t_shell *shell, char *av);
-char	**init_start_cmd(t_shell *shell, char *cmd_line, int index, char *av);
+int		find_built(t_shell *shell);
+int		check_redirections(char **tab);
+void	fix_quote(signed char **line);
+char	**init_start_cmd(t_shell *shell, char *cmd_line, int index);
 
 /* /src/tools/parsing/token_utils.c*/
 int		is_in_quote(char *line, int i, char c);
 int		ft_strcmp(const char *str1, const char *str2);
 int		size_token(char *line, char c, char *av);
 int		check_redir(char **cmd);
+int		is_builtin(char *cmd);
 int		count_cmd(char **tab);
 
 /* /src/tools/parsing/pars_cmd_line_utils.c */
-int		ft_lines_history(t_shell *shell, char *av);
 int		is_sep(char *line, int i);
 int		is_quote(char *line, int i);
 int		ignore_sep(char *line, int i);
+char	*quote_line(char c, char *s, int count);
+char	*delete_quote(char *s);
 
 /* /src/tools/file/redirections_utiles.c*/
 char	**delete_redir(char **line);
@@ -125,53 +122,23 @@ int		count_redir(char **line);
 int		is_redir(char *redir);
 
 /* /src/pipex/process.c */
-void	child_err(t_shell *shell, char **cmd, char **env, char *av);
+void	child_err(t_shell *shell, char **cmd, char **env);
 char	**get_cmd_path(char **env);
-char	*recup_path(char *cmd, char **env, int i);
-void	child_process(t_shell *shell, int i, char *av, char **env);
+char	*recup_path(char *cmd, char **env);
+void	child_process(t_shell *shell, int i, char **env);
 void	parent_process(t_shell *shell);
 
+/* /src/pipex/here_doc.c */
+int		nb_heredoc(char *line);
+int		create_here(t_shell *shell);
+int		recup_delim1(t_shell *shell);
+int		recup_delim2(t_shell *shell, char **tmp, int j);
+void	file_here(int i, t_here *here);
+void	child_here(t_shell *shell);
+int		exec_here(t_shell *shell);
+int		init_here(t_shell *shell);
+
 /* /src/pipex/pipex.c */
-int		pipex(t_shell *shell, char *av, char **env);
+int		pipex(t_shell *shell, char **env);
 void	dup_and_close(int oldfd, int newfd);
-
-/* /src/builtins/exec.c */
-int		ft_pwd(t_shell *shell, char *str);
-int		ft_env(t_shell *shell);
-int		exec_only_built(t_shell	*shell);
-
-/* /src/builtins/echo.c */
-/*void		print(char *str, int newline)*/
-/*static int	n_param(char *str, int *i)*/
-int		open_quote(char *str);
-int		dquote(void);
-int		ft_echo(char **tab);
-
-/* /src/builtins/export.c */
-/*static int	ft_parse_var(char *str, unsigned int *i);*/
-/*static int	ft_change_val(t_shell *shell, unsigned int posi, char *val, unsigned int i);*/
-/*static int	ft_create_var(t_shell *shell, char *var);*/
-/*staticint	ft_export_one_by_one(t_shell *shell, char *str);*/
-int		ft_export(t_shell *shell, char *str);
-
-/* /src/builtins/unset.c */
-/*static int	ft_parse(char *str, unsigned int i);*/
-/*static int	ft_erase_var(t_shell *shell, int posi);*/
-/*static int	ft_unset_one_by_one(t_shell *shell, char *str);*/
-int	ft_unset(t_shell *shell, char *str);
-
-/* /src/builtins/utils.c */
-int		print_and_return(char *str, int i);
-int		find_var(t_shell *shell, char *var);
-char	**ft_split_cmd(char *token, char **tab, unsigned int i);
-int		is_builtin(char *cmd);
-
-/* /src/builtins/utils.c */
-/*static int	find_cmd(t_lines *lines, char *cmd)*/
-/*static void	ft_all_history(t_lines *lines, unsigned int i)*/
-/*static void	ft_print_history_part(t_lines *lines,
-	unsigned int start, unsigned int end)*/
-/*static void	ft_history_part(t_lines *lines, char **tab)*/
-int		ft_history(t_shell *shell, char *str);
-
 #endif
