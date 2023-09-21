@@ -6,7 +6,7 @@
 /*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:22:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/14 14:55:50 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/15 17:50:50 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,28 @@ char	**delete_redir(char **line)
 	ret[j] = 0;
 	free_all(line);
 	return (ret);
+}
+
+void	wait_bin(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (i < shell->nb_cmd)
+	{
+		waitpid(shell->pid[i], NULL, 0);
+		i++;
+	}
+}
+
+void	close_in_here(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (i < shell->nb_here)
+	{
+		close(shell->here[i].here_pipe[0]);
+		i++;
+	}
 }

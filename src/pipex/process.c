@@ -6,7 +6,7 @@
 /*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 11:45:37 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/14 13:58:42 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/18 11:25:45 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	child_err(t_shell *shell, char **cmd, char **env)
 	if (shell->pipefd[1])
 		close(shell->pipefd[1]);
 	free(shell->path);
+	free(shell->av);
 	free_all(shell->token);
 	free_env_tab(env);
 	free(shell);

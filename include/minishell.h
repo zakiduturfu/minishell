@@ -6,7 +6,7 @@
 /*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/14 14:46:12 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/15 18:16:36 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ char	*delete_quote(char *s);
 char	**delete_redir(char **line);
 int		count_redir(char **line);
 int		is_redir(char *redir);
+void	close_in_here(t_shell *shell);
+void	wait_bin(t_shell *shell);
 
 /* /src/pipex/process.c */
 void	child_err(t_shell *shell, char **cmd, char **env);
@@ -130,15 +132,20 @@ void	parent_process(t_shell *shell);
 
 /* /src/pipex/here_doc.c */
 int		nb_heredoc(char *line);
-int		create_here(t_shell *shell);
+int		create_here(t_shell *shell, char *av);
 int		recup_delim1(t_shell *shell);
 int		recup_delim2(t_shell *shell, char **tmp, int j);
 void	file_here(int i, t_here *here);
 void	child_here(t_shell *shell);
 int		exec_here(t_shell *shell);
-int		init_here(t_shell *shell);
+int		init_here(t_shell *shell, char *av);
 
 /* /src/pipex/pipex.c */
-int		pipex(t_shell *shell, char **env);
+int		pipex(t_shell *shell, char *av, char **env);
 void	dup_and_close(int oldfd, int newfd);
+
+t_shell	*create_data(void);
+void	loop_shell(char **env);
+void	free_shell(t_shell *shell, char *av);
+void	close_all_pipe(t_shell *shell);
 #endif

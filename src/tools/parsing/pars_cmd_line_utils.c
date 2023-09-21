@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:40:51 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/08 08:47:26 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/09/15 14:11:26 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,35 +60,6 @@ int	ignore_sep(char *line, int i)
 		return (1);
 	return (0);
 }
-/*
-int	count_quote(char *s)
-{
-	int		count;
-	char	c;
-	int		i;
-
-	i = -1;
-	c = ' ';
-	count = 0;
-	if (!s)
-		return (0);
-	while (s[++i])
-	{
-		if ((s[i] == '\'' || s[i] == '\"') && c == ' ')
-		{
-			printf("ougabouga %c, int %d\n", s[i], i);
-			c = s[i];
-			count++;
-		}
-		else if (s[i] == c && c != ' ')
-		{
-			printf("ahahaha %c int %d\n", s[i], i);
-			c = ' ';
-			count++;
-		}
-	}
-	return (count);
-}*/
 
 int	count_quote(char *s)
 {

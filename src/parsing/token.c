@@ -6,7 +6,7 @@
 /*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/14 13:25:21 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/18 12:29:38 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,10 @@ char	**init_start_cmd(t_shell *shell, char *cmd_line, int index)
 	{
 		if (check_redirections(tab) == -1)
 		{
-			if (shell->index != 0)
+			if (shell->index != -1)
 				close(shell->prev_pipe);
-			close(shell->pipefd[0]);
-			close(shell->pipefd[1]);
+			close_all_pipe(shell);
+			free_all(tab);
 			return (NULL);
 		}
 		find_redir(shell, tab, index);

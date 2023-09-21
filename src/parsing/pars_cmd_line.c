@@ -6,33 +6,45 @@
 /*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/14 14:33:37 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/18 15:44:56 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <readline/readline.h>
-#include <stdint.h>
 #include <sys/wait.h>
 
+t_shell	**create_data(void)
+{
+	static t_shell *shell;
+	
+	return (&shell);
+}
 
 int	init_struct(t_shell *shell, char *av)
 {
-	shell->index = 0;
-	shell->fdin = 0;
 	shell->fdout = 0;
 	shell->c_here = 0;
-	shell->nb_here = 0;
+	shell->fdin = 0;
 	shell->prev_pipe = -1;
 	shell->token = ft_split(av, '|');
 	if (!shell->token)
 		return (-1);
 	shell->av = ft_strdup(av);
+	if (!shell->av)
+	{
+		free_all(shell->token);
+		return (-1);
+	}
 	shell->nb_cmd = count_cmd(shell->token);
 	if (shell->nb_cmd)
 		shell->pid = malloc(sizeof(int) * shell->nb_cmd);
 	if (!shell->pid)
+	{
+		free(shell->av);
+		free_all(shell->token);
 		return (-1);
+	}
 	shell->nb_here = nb_heredoc(av);
 	return (0);
 }
@@ -66,6 +78,8 @@ char	*line_arg(char *line)
 	i = 0;
 	j = 0;
 	new = space_sep(line);
+	if (!new)
+		return (NULL);
 	while (line[i])
 	{
 		if ((is_sep(line, i) == 1) && is_quote(line, i) == 0)
@@ -142,40 +156,72 @@ int is_empty_line(char *line)
 	return (0);
 }
 
-int	pars_line(char *line, char **env)
+void	loop_shell(char **env)
 {
-	char	*av;
-	t_shell	*shell;
+	char 	*line;
 	int		i;
 
 	i = 0;
+	while (1)
+	{
+		line = readline("minishell>");
+		if(line == NULL)
+		{
+			printf("EOF\n");
+		}
+		else if (ft_strcmp("exit", line) == 0)
+		{
+			free(line);
+			free_env_tab(env);
+			exit(0);
+		}
+		else if (strcmp("env", line) == 0)
+		{
+			while (env[i])
+				printf("%s\n", env[i++]);
+		}
+		else if (line[0] != '\0')
+		{
+			if (pars_line(line, env) == -1)
+				free(line);
+			else
+				free(line);
+		}
+		else
+			free(line);
+	}
+}
+
+
+int	pars_line(char *line, char **env)
+{
+	char	*av;
+	t_shell	**shell;
+
 	if (!is_empty_line(line))
 		return (-1);
+	shell = create_data();
+	*shell = malloc(sizeof(t_shell));
 	av = line_arg(line);
-	shell = malloc(sizeof(t_shell));
-	if (init_struct(shell, av) == -1)
-		return (-1);
-	if (shell->nb_cmd == 1 && find_built(shell) == 1)
-		printf("pas de  bin\n");
-//		exec_only_built(shell);
-	else if (pipex(shell, env) == -1)
+	if (!av)
 	{
-		free_all(shell->token);
 		free(shell);
 		return (-1);
 	}
-	close(shell->pipefd[0]);
-	while (i < shell->nb_cmd)
+	if (init_struct(shell, av) == -1)
 	{
-		waitpid(shell->pid[i], NULL, 0);
-		i++;
+		free(av);
+		free(shell);
+		return (-1);
 	}
-	i = -1;
-	while (++i < shell->nb_here)
-		close(shell->here[i].here_pipe[0]);
-	free(shell->pid);
-	free_all(shell->token);
-	free(av);
-	free(shell);
+	if (shell->nb_cmd == 1 && find_built(shell) == 1)
+		printf("pas de  bin\n");
+//		exec_only_built(shell);
+	else if (pipex(shell, av, env) == -1)
+		return (-1);
+	close(shell->pipefd[0]);
+	wait_bin(shell);
+	close_in_here(shell);
+	free_shell(shell, av);
 	return (1);
 }

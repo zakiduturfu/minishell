@@ -1,1 +1,19 @@
-cmd[0] = cat
+ou et quoi free:
+
+
+toujours free(av);
+
+apres init_struct 
+free (pid)
+free(shell->env);
+free(token)
+
+si je suis dans init start cmd
+free(cmd)
+
+si j'ai des malloc de here
+free here et free delim
+
+
+
+faire un fonctions pour l'init pour gerer les malloc de line arg

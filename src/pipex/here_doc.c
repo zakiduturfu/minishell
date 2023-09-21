@@ -31,13 +31,16 @@ int	nb_heredoc(char *line)
 	return (count);
 }
 
-int	create_here(t_shell *shell)
+int	create_here(t_shell *shell, char *av)
 {
 	if (shell->nb_here == 0)
 		return (0);
 	shell->here = malloc(sizeof(t_here) * shell->nb_here);
 	if(!shell->here)
+	{
+		free_shell(shell, av);
 		return (-1);
+	}
 	return (0);
 }
 
@@ -61,6 +64,7 @@ int	recup_delim2(t_shell *shell, char **tmp, int j)
 			free(tmp[i]);
 		i++;
 	}
+	free(tmp);
 	return (j);
 }
 
@@ -111,7 +115,9 @@ void	file_here(int i, t_here *here)
 			ft_putendl_fd(s, here[i].here_pipe[1]);
 			free(s);
 		}
-	}	close(here[i].here_pipe[0]);
+	}	
+	close(here[i].here_pipe[0]);
+	close(here[i].here_pipe[1]);
 }
 
 void	child_here(t_shell *shell)
@@ -128,7 +134,9 @@ void	child_here(t_shell *shell)
 	while (++i < shell->nb_here)
 		free(shell->here[i].lim);
 	free(shell->pid);
+	free(shell->av);
 	free_all(shell->token);
+	free(shell->here);
 	free(shell);
 	exit(0);
 }
@@ -158,13 +166,14 @@ int	exec_here(t_shell *shell)
 	return (1);
 }
 
-int	init_here(t_shell *shell)
+int	init_here(t_shell *shell, char *av)
 {
-	printf("shell->nb %d\n", shell->nb_here);
 	if (shell->nb_here)
 	{
 		if (exec_here(shell) == -1)
 		{
+			free(shell->here);
+			free_shell(shell, av);
 			return (-1);
 		}
 	}
