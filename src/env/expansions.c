@@ -109,9 +109,9 @@ char	*ft_expansions(char *str)
 	char	*tab[4];
 
 	i = 0;
+	i = search_expand(str);
 	if (!str)
 		return (NULL);
-	i = search_expand(str);
 	if (str[i])
 	{
 		if (str[i] == '$')

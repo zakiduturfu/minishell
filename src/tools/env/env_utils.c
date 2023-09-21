@@ -12,33 +12,6 @@
 
 #include "../../../include/minishell.h"
 
-void	free_history(t_lines *lines)
-{
-	t_lines	*tmp;
-	t_lines	*tmpnext;
-
-	tmp = lines;
-	tmpnext = tmp->next;
-	while (tmp)
-	{
-		free(tmp);
-		tmp = tmpnext;
-		tmpnext = tmp->next;
-	}
-	free(lines);
-}
-
-void	ft_free_shell(t_shell *shell)
-{
-	if (!shell)
-		return ;
-	if (shell->lines)
-		free_history(shell->lines);
-	if (shell->env)
-		free_env_tab(shell->env);
-	free(shell);
-}
-
 int	size_env(char **env)
 {
 	int	count;

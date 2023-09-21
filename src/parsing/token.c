@@ -6,7 +6,7 @@
 /*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/08/25 20:38:00 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/18 12:29:38 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int	is_token(char *line, int *i, char c, char *av)
 	return (1);
 }
 
-int	find_built(t_shell *shell, char *av)
+int	find_built(t_shell *shell)
 {
 	int		ret;
 	char	**tab;
 
 	ret = 0;
-	tab = init_start_cmd(shell, shell->token[0], 0, av);
+	tab = init_start_cmd(shell, shell->token[0], 0);
 	if (tab)
 	{
 		ret = is_builtin(tab[0]);
@@ -54,23 +54,70 @@ int	find_built(t_shell *shell, char *av)
 	return (ret);
 }
 
-char	**init_start_cmd(t_shell *shell, char *cmd_line, int index, char *av)
+void	fix_quote(signed char **line)
 {
+	int	i;
+	int	j;
+
+	i = 0;
+	while (line[i])
+	{
+		j = 0;
+		while (line[i][j])
+		{
+			if (line[i][j] < 0)
+				line[i][j] = -line[i][j];
+			j++;
+		}
+		i++;
+	}
+}
+
+int	check_redirections(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		if ((tab[i][0] == '<' || tab [i][0] == '>')
+			&& (tab[i + 1][0] == '<' || tab[i + 1][0] == '>'))
+		{
+			ft_putstr_fd("shell: pars error near `", 2);
+			ft_putstr_fd(tab[i + 1], 2);
+			ft_putstr_fd("'", 2);
+			return (-1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+char	**init_start_cmd(t_shell *shell, char *cmd_line, int index)
+{
+	int			i;
 	char	**tab;
 
-	tab = split_token(cmd_line, ' ', av);
+	i = -1;
+	tab = ft_split(cmd_line, ' ');
+	fix_quote((signed char **)tab);
 	tab = find_expansion(tab);
 	if (!tab)
 		return (NULL);
 	if (index)
 	{
-		/*if (check_redir(tab) == -1)
+		if (check_redirections(tab) == -1)
 		{
-			// close les pipes pour cause d'erreur
+			if (shell->index != -1)
+				close(shell->prev_pipe);
+			close_all_pipe(shell);
+			free_all(tab);
 			return (NULL);
-		}*/
+		}
 		find_redir(shell, tab, index);
 	}
 	tab = delete_redir(tab);
+	while (tab[++i])
+		tab[i] = delete_quote(tab[i]);
 	return (tab);
 }

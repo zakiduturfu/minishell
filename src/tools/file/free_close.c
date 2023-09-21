@@ -1,37 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free_close.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/17 14:56:46 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/15 18:12:14 by zaki             ###   ########.fr       */
+/*   Created: 2023/09/15 14:09:02 by zaki              #+#    #+#             */
+/*   Updated: 2023/09/15 18:41:22 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../include/minishell.h"
 
-
-int	main(int ac, char **av, char **env)
+void	free_shell(t_shell *shell, char *av)
 {
-	char	**new_env;
-
-	(void)av;
-	if (ac == 1)
-	{
-		new_env = recup_env(env);
-		if (!new_env)
-			exit(2);
-		increment_shlvl(new_env);
-		loop_shell(new_env);
-	}
+	free(av);
+	free(shell->pid);
+	free_all(shell->token);
+	free(shell->av);
+	if (shell->nb_here && shell->here)
+		free(shell->here);
+	free(shell);
 }
 
-/*	do {
-		bjr = readline("> ");
-		printf("SALUT %s", bjr);
-		if (strcmp("exit", bjr) == 0)
-			break;
-		free(bjr);
-	} while (bjr);*/
+void	close_all_pipe(t_shell *shell)
+{
+	close(shell->pipefd[0]);
+	close(shell->pipefd[1]);
+}
