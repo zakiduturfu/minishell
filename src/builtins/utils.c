@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/08/28 17:36:00 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/21 17:57:30 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,4 @@ char	**ft_split_cmd(char *token, char **tab, unsigned int i)
 		i++;
 	tab[1] = &(token[i]);
 	return (tab);
-}
-
-int	is_builtin(char *cmd)
-{
-	if (ft_strcmp("cd", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("echo", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("exit", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("pwd", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("export", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("unset", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("env", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("history", cmd) == 0)
-		return (1);
-	else
-		return (0);
 }

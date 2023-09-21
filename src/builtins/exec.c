@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/08/28 17:36:00 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:25:45 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,5 @@ int	exec_only_built(t_shell	*shell)
 		return (ft_unset(shell, tab[1]));
 	if (ft_strcmp("env", tab[0]) == 0)
 		return (ft_env(shell));
-	if (ft_strcmp("history", tab[0]) == 0)
-		return (ft_history(shell, tab[1]));
 	return (1);
 }
