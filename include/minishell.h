@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/15 18:16:36 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/21 15:04:14 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include "../libft/libft.h"
+#include <stdbool.h>
 
 typedef struct s_here
 {
@@ -148,4 +149,36 @@ t_shell	*create_data(void);
 void	loop_shell(char **env);
 void	free_shell(t_shell *shell, char *av);
 void	close_all_pipe(t_shell *shell);
+
+/* /src/builtins/exec.c */
+int		ft_pwd(t_shell *shell, char *str);
+int		ft_env(t_shell *shell);
+int		exec_only_built(t_shell	*shell);
+
+/* /src/builtins/echo.c */
+/*void		print(char *str, int newline)*/
+/*static int	n_param(char *str, int *i)*/
+int		open_quote(char *str);
+int		dquote(void);
+int		ft_echo(char **tab);
+
+/* /src/builtins/export.c */
+/*static int	ft_parse_var(char *str, unsigned int *i);*/
+/*static int	ft_change_val(t_shell *shell, unsigned int posi, char *val, unsigned int i);*/
+/*static int	ft_create_var(t_shell *shell, char *var);*/
+/*staticint	ft_export_one_by_one(t_shell *shell, char *str);*/
+int		ft_export(t_shell *shell, char *str);
+
+/* /src/builtins/unset.c */
+/*static int	ft_parse(char *str, unsigned int i);*/
+/*static int	ft_erase_var(t_shell *shell, int posi);*/
+/*static int	ft_unset_one_by_one(t_shell *shell, char *str);*/
+int	ft_unset(t_shell *shell, char *str);
+
+/* /src/builtins/utils.c */
+int		print_and_return(char *str, int i);
+int		find_var(t_shell *shell, char *var);
+char	**ft_split_cmd(char *token, char **tab, unsigned int i);
+int		is_builtin(char *cmd);
+
 #endif
