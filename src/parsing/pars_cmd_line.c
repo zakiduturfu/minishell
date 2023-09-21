@@ -6,7 +6,7 @@
 /*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/18 15:44:56 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/21 15:09:54 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include <readline/readline.h>
 #include <sys/wait.h>
 
-t_shell	**create_data(void)
+t_shell	*create_data(void)
 {
 	static t_shell *shell;
 	
-	return (&shell);
+	return (shell);
 }
 
 int	init_struct(t_shell *shell, char *av)
@@ -196,12 +196,12 @@ void	loop_shell(char **env)
 int	pars_line(char *line, char **env)
 {
 	char	*av;
-	t_shell	**shell;
+	t_shell	*shell;
 
 	if (!is_empty_line(line))
 		return (-1);
 	shell = create_data();
-	*shell = malloc(sizeof(t_shell));
+	shell = malloc(sizeof(t_shell));
 	av = line_arg(line);
 	if (!av)
 	{
