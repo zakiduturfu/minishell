@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/22 16:09:26 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:28:28 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void	loop_shell(char **env)
 		{
 			printf("EOF\n");
 		}
-		else 
+		if (line != NULL)
 		{
 			if (ft_strcmp("exit", line) == 0)
 				ft_exit(env);
@@ -205,8 +205,7 @@ int	pars_line(char *line, char **env)
 		return (-1);
 	}
 	if (shell->nb_cmd == 1 && find_built(shell) == 1)
-		printf("pas de  bin\n");
-//		exec_only_built(shell);
+		exec_only_built(shell);
 	else if (pipex(shell, av, env) == -1)
 		return (-1);
 	close(shell->pipefd[0]);

@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/22 16:08:56 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:30:29 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	exec_only_built(t_shell	*shell)
 
 	tab = NULL;
 	tab = ft_split_cmd(shell->token[0], tab, 0);
+	fix_quote((signed char **)tab);
 	if (!tab)
 		return (-1);
 	// if (ft_strcmp("cd", shell->token[0]) == 0)
