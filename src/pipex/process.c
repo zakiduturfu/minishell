@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 11:45:37 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/18 11:25:45 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/21 18:04:21 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	child_process(t_shell *shell, int i, char **env)
 	}
 	if (is_builtin(cmd[0]))
 	{
-		printf("exec built\n");
+		exec_only_built(shell);
 		exit(0);
 	}
 	if (cmd[0])

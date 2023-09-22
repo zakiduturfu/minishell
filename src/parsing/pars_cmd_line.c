@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/21 15:09:54 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/22 16:09:26 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*line_arg(char *line)
 			new[j++] = line[i++];
 	}
 	new[j] = '\0';
-	printf("nouvelle ligne: %s\n", new);
+	// printf("nouvelle ligne: %s\n", new);
 	return (new);
 }
 
@@ -169,26 +169,16 @@ void	loop_shell(char **env)
 		{
 			printf("EOF\n");
 		}
-		else if (ft_strcmp("exit", line) == 0)
+		else 
 		{
+			if (ft_strcmp("exit", line) == 0)
+				ft_exit(env);
+			else if (strcmp("env", line) == 0)
+				ft_env(env);
+			else if (line[0] != '\0')
+				pars_line(line, env);
 			free(line);
-			free_env_tab(env);
-			exit(0);
 		}
-		else if (strcmp("env", line) == 0)
-		{
-			while (env[i])
-				printf("%s\n", env[i++]);
-		}
-		else if (line[0] != '\0')
-		{
-			if (pars_line(line, env) == -1)
-				free(line);
-			else
-				free(line);
-		}
-		else
-			free(line);
 	}
 }
 
