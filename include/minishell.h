@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/22 16:08:33 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:04:13 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void	free_shell(t_shell *shell, char *av);
 void	close_all_pipe(t_shell *shell);
 
 /* /src/builtins/exec.c */
-int		ft_pwd(t_shell *shell, char *str);
+int		ft_pwd(char **env, char *str);
 int		ft_env(char **env);
 int		ft_exit(char **env);
 int		exec_only_built(t_shell	*shell);
@@ -167,19 +167,22 @@ int		ft_echo(char **tab);
 /*static int	ft_parse_var(char *str, unsigned int *i);*/
 /*static int	ft_change_val(t_shell *shell, unsigned int posi, char *val, unsigned int i);*/
 /*static int	ft_create_var(t_shell *shell, char *var);*/
-/*staticint	ft_export_one_by_one(t_shell *shell, char *str);*/
-int		ft_export(t_shell *shell, char *str);
+int		ft_export_one_by_one(char **env, char *str);
+int		ft_export(char **env, char *str);
 
 /* /src/builtins/unset.c */
 /*static int	ft_parse(char *str, unsigned int i);*/
 /*static int	ft_erase_var(t_shell *shell, int posi);*/
 /*static int	ft_unset_one_by_one(t_shell *shell, char *str);*/
-int	ft_unset(t_shell *shell, char *str);
+int		ft_unset(char **env, char *str);
 
 /* /src/builtins/utils.c */
 int		print_and_return(char *str, int i);
-int		find_var(t_shell *shell, char *var);
+int		find_var(char **env, char *var);
 char	**ft_split_cmd(char *token, char **tab, unsigned int i);
 int		is_builtin(char *cmd);
+
+/* /src/builtins/cd.c */
+int		ft_cd(char **env, char *str);
 
 #endif

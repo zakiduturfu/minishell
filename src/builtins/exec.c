@@ -6,22 +6,25 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/22 18:30:29 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:07:56 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_pwd(t_shell *shell, char *str)
+int	ft_pwd(char **env, char *str)
 {
-	unsigned int	posi;
+	int	posi;
 
-	if (open_quote(str) == 1)
+	posi = -1;
+	if (str && open_quote(str) == 1)
 		return (dquote());
 	if (!str || str[0] == '\0')
 	{
-		posi = find_var(shell, "PWD");
-		printf("%s\n", shell->env[posi]);
+		posi = find_var(env, "PWD");
+		if (posi == -1)
+			return (-1);
+		printf("%s\n", env[posi]);
 		return (0);
 	}
 	printf("pwd: too many arguments\n");
@@ -56,18 +59,18 @@ int	exec_only_built(t_shell	*shell)
 	fix_quote((signed char **)tab);
 	if (!tab)
 		return (-1);
-	// if (ft_strcmp("cd", shell->token[0]) == 0)
-	// 	return (ft_cd(shell));
+	if (ft_strcmp("cd", shell->token[0]) == 0)
+		return (ft_cd(shell->env, tab[1]));
 	if (ft_strcmp("echo", tab[0]) == 0)
 		return (ft_echo(tab));
 	if (ft_strcmp("exit", tab[0]) == 0)
 		return (ft_exit(shell->env));
 	if (ft_strcmp("pwd", tab[0]) == 0)
-		return (ft_pwd(shell, tab[1]));
+		return (ft_pwd(shell->env, tab[1]));
 	if (ft_strcmp("export", tab[0]) == 0)
-		return (ft_export(shell, tab[1]));
+		return (ft_export(shell->env, tab[1]));
 	if (ft_strcmp("unset", tab[0]) == 0)
-		return (ft_unset(shell, tab[1]));
+		return (ft_unset(shell->env, tab[1]));
 	if (ft_strcmp("env", tab[0]) == 0)
 		return (ft_env(shell->env));
 	return (1);

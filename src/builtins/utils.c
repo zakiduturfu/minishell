@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/21 17:57:30 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:10:50 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,20 @@ int	print_and_return(char *str, int i)
 	return (i);
 }
 
-int	find_var(t_shell *shell, char *var)
+int	find_var(char **env, char *var)
 {
 	unsigned int	size;
 	unsigned int	i;
 
 	i = 0;
-	size = size_env(shell->env);
+	size = size_env(env);
 	while (i < size)
 	{
-		if (ft_strncmp(shell->env[i], var, ft_strlen(var)) == 0)
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0)
 			return (i);
 		i++;
 	}
+	printf("i = %i\n", i);
 	return (-1);
 }
 

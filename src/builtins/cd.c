@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/11 17:30:46 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/25 18:04:56 by hstephan         ###   ########.fr       */
+/*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
+/*   Updated: 2023/09/25 18:12:12 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stddef.h>
+#include "../../include/minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_cd(char **env, char *str)
 {
-	size_t	i;
+	int		posi;
+	char	*new;
 
-	i = 0;
-	while ((s1[i] != '\0' || s2[i] != '\0') && i < n)
+	posi = -1;
+	if (str && open_quote(str) == 1)
+		return (dquote());
+	if (!str || str[0] == '\0')
 	{
-		if (s1[i] != s2[i])
-			return (s1[i] - s2[i]);
-		i++;
+		posi = find_var(env, "HOME");
+		if (posi == -1)
+			return (-1);
+		new = ft_strjoin("PWD", &(env[posi][4]));
+		if (!new)
+			return (-1);
+		ft_export_one_by_one(env, new);
+		free(new);
+		return (0);
 	}
+	printf("pwd: too many arguments\n");
 	return (0);
 }
