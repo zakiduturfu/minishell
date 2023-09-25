@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/18 12:29:38 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/22 18:30:21 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	fix_quote(signed char **line)
 		j = 0;
 		while (line[i][j])
 		{
-			if (line[i][j] < 0)
+			if (line[i][j] == -32)
 				line[i][j] = -line[i][j];
 			j++;
 		}
