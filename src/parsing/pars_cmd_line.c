@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/25 15:23:32 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/25 18:16:00 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,8 +169,18 @@ void	loop_shell(char **env)
 		{
 			if (ft_strcmp("exit", line) == 0)
 				ft_exit(env);
+			else if (ft_strcmp("cd", line) == 0)
+				ft_cd(env, NULL);
 			else if (strcmp("env", line) == 0)
 				ft_env(env);
+			else if (strcmp("pwd", line) == 0)
+				ft_pwd(env, NULL);
+			else if (strcmp("echo", line) == 0)
+				ft_echo(NULL);
+			else if (strcmp("export", line) == 0)
+				ft_export(env, NULL);
+			else if (strcmp("unset", line) == 0)
+				ft_unset(env, NULL);
 			else if (line[0] != '\0')
 				pars_line(line, env);
 			free(line);

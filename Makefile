@@ -24,6 +24,7 @@ SRCS = ./src/main.c \
 	./src/builtins/export.c \
 	./src/builtins/unset.c \
 	./src/builtins/utils.c \
+	./src/builtins/cd.c \
 
 HEADER = include
 
