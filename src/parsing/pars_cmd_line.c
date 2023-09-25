@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/22 18:28:28 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/25 15:23:32 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,10 +165,6 @@ void	loop_shell(char **env)
 	while (1)
 	{
 		line = readline("minishell>");
-		if(line == NULL)
-		{
-			printf("EOF\n");
-		}
 		if (line != NULL)
 		{
 			if (ft_strcmp("exit", line) == 0)
