@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/25 18:04:13 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:50:16 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void	close_all_pipe(t_shell *shell);
 int		ft_pwd(char **env, char *str);
 int		ft_env(char **env);
 int		ft_exit(char **env);
-int		exec_only_built(t_shell	*shell);
+int		exec_only_built(t_shell	*shell, char **env);
 
 /* /src/builtins/echo.c */
 /*void		print(char *str, int newline)*/

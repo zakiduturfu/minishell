@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/25 18:10:50 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:42:08 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	find_var(char **env, char *var)
 	unsigned int	i;
 
 	i = 0;
+	if (!env)
+		return (-1);
 	size = size_env(env);
 	while (i < size)
 	{

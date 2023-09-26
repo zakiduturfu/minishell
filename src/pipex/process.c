@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 11:45:37 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/22 18:26:55 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:51:39 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	child_process(t_shell *shell, int i, char **env)
 	}
 	if (is_builtin(cmd[0]))
 	{
-		exec_only_built(shell);
+		exec_only_built(shell, env);
 		exit(0);
 	}
 	if (cmd[0])

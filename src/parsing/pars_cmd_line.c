@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/25 18:16:00 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/26 17:08:26 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ int	pars_line(char *line, char **env)
 		return (-1);
 	}
 	if (shell->nb_cmd == 1 && find_built(shell) == 1)
-		exec_only_built(shell);
+		exec_only_built(shell, env);
 	else if (pipex(shell, av, env) == -1)
 		return (-1);
 	close(shell->pipefd[0]);
