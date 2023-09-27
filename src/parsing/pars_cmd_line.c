@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/26 17:08:26 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:44:18 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,8 @@ void	loop_shell(char **env)
 				ft_unset(env, NULL);
 			else if (line[0] != '\0')
 				pars_line(line, env);
+			printf("dans loop shell, env = \n");
+			ft_env(env);
 			free(line);
 		}
 	}
@@ -211,7 +213,11 @@ int	pars_line(char *line, char **env)
 		return (-1);
 	}
 	if (shell->nb_cmd == 1 && find_built(shell) == 1)
+	{
 		exec_only_built(shell, env);
+		printf("apres exec only built dans pars line, env = \n");
+		ft_env(env);
+	}
 	else if (pipex(shell, av, env) == -1)
 		return (-1);
 	close(shell->pipefd[0]);
