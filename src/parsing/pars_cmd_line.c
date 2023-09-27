@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/25 18:16:00 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:08:03 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,18 +178,18 @@ void	loop_shell(char **env)
 			else if (strcmp("echo", line) == 0)
 				ft_echo(NULL);
 			else if (strcmp("export", line) == 0)
-				ft_export(env, NULL);
+				ft_export(&env, NULL);
 			else if (strcmp("unset", line) == 0)
-				ft_unset(env, NULL);
+				ft_unset(&env, NULL);
 			else if (line[0] != '\0')
-				pars_line(line, env);
+				pars_line(line, &env);
 			free(line);
 		}
 	}
 }
 
 
-int	pars_line(char *line, char **env)
+int	pars_line(char *line, char ***env)
 {
 	char	*av;
 	t_shell	*shell;
@@ -211,10 +211,10 @@ int	pars_line(char *line, char **env)
 		return (-1);
 	}
 	if (shell->nb_cmd == 1 && find_built(shell) == 1)
-		exec_only_built(shell);
+		exec_only_built(shell, env);
 	else if (pipex(shell, av, env) == -1)
 		return (-1);
-	close(shell->pipefd[0]);
+	// close(shell->pipefd[0]);
 	wait_bin(shell);
 	close_in_here(shell);
 	free_shell(shell, av);

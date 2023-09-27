@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 11:45:37 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/22 18:26:55 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:07:05 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	parent_process(t_shell *shell)
 	shell->prev_pipe = shell->pipefd[0];
 }
 
-void	child_process(t_shell *shell, int i, char **env)
+void	child_process(t_shell *shell, int i, char ***env)
 {
 	char	**cmd;
 
@@ -102,19 +102,19 @@ void	child_process(t_shell *shell, int i, char **env)
 	}
 	if (is_builtin(cmd[0]))
 	{
-		exec_only_built(shell);
+		exec_only_built(shell, env);
 		exit(0);
 	}
 	if (cmd[0])
-		shell->path = recup_path(cmd[0], env);
+		shell->path = recup_path(cmd[0], *env);
 	if (shell->path)
 	{
-		if (execve(shell->path, cmd, env) == -1)
+		if (execve(shell->path, cmd, *env) == -1)
 		{
 			perror("execve");
 			exit(2);
 		}
 	}
-	child_err(shell, cmd, env);
+	child_err(shell, cmd, *env);
 	exit(127);
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 03:13:43 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/15 18:42:16 by zaki             ###   ########.fr       */
+/*   Updated: 2023/09/27 15:08:35 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	exec_process(t_shell *shell, int i, char **env)
+int	exec_process(t_shell *shell, int i, char ***env)
 {
 	if (pipe(shell->pipefd) == -1)
 		return (-1);
@@ -29,7 +29,7 @@ int	exec_process(t_shell *shell, int i, char **env)
 	return (0);
 }
 
-int	exec_pipex(t_shell *shell, char **env)
+int	exec_pipex(t_shell *shell, char ***env)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ int	exec_pipex(t_shell *shell, char **env)
 	return (0);
 }
 
-int	pipex(t_shell *shell, char *av, char **env)
+int	pipex(t_shell *shell, char *av, char ***env)
 {
 	if (create_here(shell, av) == -1)
 		return (-1);

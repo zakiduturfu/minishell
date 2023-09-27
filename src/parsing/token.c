@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/22 18:30:21 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 11:28:16 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	fix_quote(signed char **line)
 	int	j;
 
 	i = 0;
+	if (!line)
+		return ;
 	while (line[i])
 	{
 		j = 0;

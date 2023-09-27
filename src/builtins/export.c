@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/25 18:16:23 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:15:49 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int	ft_change_val(char **env,
 	newvar = ft_strndup(env[posi], i);
 	if (!newvar)
 		return (-1);
+	i = 0;
 	while (val[i] >= 33 && val[i] <= 126)
 		i++;
 	newval = ft_strndup(val, i);
@@ -58,6 +59,7 @@ static int	ft_change_val(char **env,
 		return (-1);
 	}
 	new = ft_strjoin(newvar, newval);
+	// printf("apres join new = %s\n", new);
 	free(newvar);
 	free(newval);
 	if (!new)
@@ -67,32 +69,39 @@ static int	ft_change_val(char **env,
 	return (0);
 }
 
-static int	ft_create_var(char **env, char *var)
+static int	ft_create_var(char ***env, char *var)
 {
 	unsigned int	size;
 	char			**newenv;
 	unsigned int	i;
 
 	i = 0;
-	size = size_env(env);
+	size = size_env(*env);
 	size++;
 	newenv = malloc(sizeof(char *) * (size + 1));
 	if (!newenv)
 		return (-1);
-	newenv[size] = NULL;
 	while (i < size - 2)
 	{
-		newenv[i] = env[i];
+		newenv[i] = (*env)[i];
 		i++;
 	}
-	newenv[size - 1] = env[size - 2];
-	newenv[size - 2] = var;
-	free(env);
-	env = newenv;
+	// printf("avant de changer (*env)[size - 2] = %s\n)", (*env)[size - 2]);
+	// printf("avant de changer (*env)[size - 1] = %s\n)", (*env)[size - 1]);
+	newenv[size - 2] = ft_strdup(var);
+	if (!(newenv[size - 2]))
+	{
+		free(newenv);
+		return (1);
+	}
+	newenv[size - 1] = (*env)[size - 2];
+	newenv[size] = NULL;
+	free(*env);
+	*env = newenv;
 	return (0);
 }
 
-int	ft_export_one_by_one(char **env, char *str)
+int	ft_export_one_by_one(char ***env, char *str)
 {
 	unsigned int	i;
 	int				posi;
@@ -104,19 +113,25 @@ int	ft_export_one_by_one(char **env, char *str)
 	var = ft_strndup(str, i);
 	if (!var)
 		return (1);
-	posi = find_var(env, var);
+	posi = find_var(*env, var);
 	if (posi == -1)
 	{
+		// printf("avant create var, env = \n");
+		// ft_env(env);
 		if (ft_create_var(env, var) == -1)
 			return (1);
-		posi = find_var(env, var);
+		// printf("apres create var, env = \n");
+		// ft_env(*env);
+		posi = find_var(*env, var);
 	}
-	if (ft_change_val(env, posi, &(str[i]), i) == -1)
+	if (ft_change_val(*env, posi, &(str[i]), i) == -1)
 		return (1);
+	// printf("apres change val, env = \n");
+	// ft_env(*env);
 	return (0);
 }
 
-int		ft_export(char **env, char *str)
+int		ft_export(char ***env, char *str)
 {
 	char			**tab;
 	unsigned int	i;
@@ -132,5 +147,6 @@ int		ft_export(char **env, char *str)
 		ft_export_one_by_one(env, tab[i]);
 		i++;
 	}
+	ft_free_tab(tab);
 	return (0);
 }
