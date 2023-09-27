@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/27 14:56:15 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:15:49 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ static int	ft_create_var(char ***env, char *var)
 		newenv[i] = (*env)[i];
 		i++;
 	}
-	printf("avant de changer (*env)[size - 2] = %s\n)", (*env)[size - 2]);
-	printf("avant de changer (*env)[size - 1] = %s\n)", (*env)[size - 1]);
+	// printf("avant de changer (*env)[size - 2] = %s\n)", (*env)[size - 2]);
+	// printf("avant de changer (*env)[size - 1] = %s\n)", (*env)[size - 1]);
 	newenv[size - 2] = ft_strdup(var);
 	if (!(newenv[size - 2]))
 	{
@@ -120,14 +120,14 @@ int	ft_export_one_by_one(char ***env, char *str)
 		// ft_env(env);
 		if (ft_create_var(env, var) == -1)
 			return (1);
-		printf("apres create var, env = \n");
-		ft_env(*env);
+		// printf("apres create var, env = \n");
+		// ft_env(*env);
 		posi = find_var(*env, var);
 	}
 	if (ft_change_val(*env, posi, &(str[i]), i) == -1)
 		return (1);
-	printf("apres change val, env = \n");
-	ft_env(*env);
+	// printf("apres change val, env = \n");
+	// ft_env(*env);
 	return (0);
 }
 
