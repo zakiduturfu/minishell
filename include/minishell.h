@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/27 11:33:40 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:38:24 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,8 +167,8 @@ int		ft_echo(char **tab);
 /*static int	ft_parse_var(char *str, unsigned int *i);*/
 /*static int	ft_change_val(t_shell *shell, unsigned int posi, char *val, unsigned int i);*/
 /*static int	ft_create_var(t_shell *shell, char *var);*/
-int		ft_export_one_by_one(char **env, char *str);
-int		ft_export(char **env, char *str);
+int		ft_export_one_by_one(char ***env, char *str);
+int		ft_export(char ***env, char *str);
 
 /* /src/builtins/unset.c */
 /*static int	ft_parse(char *str, unsigned int i);*/

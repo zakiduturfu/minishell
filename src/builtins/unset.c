@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/27 12:05:16 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:20:41 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,21 @@ static int	ft_erase_var(char ***env, int posi)
 	return (0);
 }
 
-static int	ft_unset_one_by_one(char **env, char *str)
+static int	ft_unset_one_by_one(char ***env, char *str)
 {
 	int	posi;
 
 	if (ft_parse(str, 0) == -1)
 		return (0);
-	posi = find_var(env, str);
+	posi = find_var(*env, str);
 	if (posi == -1)
 		return (0);
-	if (ft_erase_var(&env, posi) == -1)
+	if (ft_erase_var(env, posi) == -1)
 		return (1);
 	return (0);
 }
 
-int	ft_unset(char **env, char *str)
+int	ft_unset(char ***env, char *str)
 {
 	char			**tab;
 	unsigned int	i;

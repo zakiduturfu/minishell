@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/27 12:04:34 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:34:36 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	ft_change_val(char **env,
 	newvar = ft_strndup(env[posi], i);
 	if (!newvar)
 		return (-1);
-	while (val[i] && val[i] >= 33 && val[i] <= 126)
+	while (val[i] >= 33 && val[i] <= 126)
 		i++;
 	newval = ft_strndup(val, i);
 	if (!newval)
@@ -85,14 +85,14 @@ static int	ft_create_var(char ***env, char *var)
 		newenv[i] = (*env)[i];
 		i++;
 	}
-	newenv[size - 1] = *env[size - 2];
+	newenv[size - 1] = (*env)[size - 2];
 	newenv[size - 2] = var;
 	free(*env);
 	*env = newenv;
 	return (0);
 }
 
-int	ft_export_one_by_one(char **env, char *str)
+int	ft_export_one_by_one(char ***env, char *str)
 {
 	unsigned int	i;
 	int				posi;
@@ -104,19 +104,19 @@ int	ft_export_one_by_one(char **env, char *str)
 	var = ft_strndup(str, i);
 	if (!var)
 		return (1);
-	posi = find_var(env, var);
+	posi = find_var(*env, var);
 	if (posi == -1)
 	{
-		if (ft_create_var(&env, var) == -1)
+		if (ft_create_var(env, var) == -1)
 			return (1);
-		posi = find_var(env, var);
+		posi = find_var(*env, var);
 	}
-	if (ft_change_val(env, posi, &(str[i]), i) == -1)
+	if (ft_change_val(*env, posi, &(str[i]), i) == -1)
 		return (1);
 	return (0);
 }
 
-int		ft_export(char **env, char *str)
+int		ft_export(char ***env, char *str)
 {
 	char			**tab;
 	unsigned int	i;
@@ -132,6 +132,8 @@ int		ft_export(char **env, char *str)
 		ft_export_one_by_one(env, tab[i]);
 		i++;
 	}
+	printf("a la fin de export, env :");
+	ft_env(*env);
 	ft_free_tab(tab);
 	return (0);
 }

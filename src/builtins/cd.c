@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/27 11:50:31 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:21:01 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	old_pwd(char **env, int pwdposi)
 	new = ft_strjoin("OLDPWD", &(env[pwdposi][3]));
 	if (!new)
 		return (1);
-	ft_export_one_by_one(env, new);
+	ft_export_one_by_one(&env, new);
 	free(new);
 	return (0);
 }
@@ -43,7 +43,7 @@ static int	cd_home(char **env)
 	new = ft_strjoin("PWD", &(env[homeposi][4]));
 	if (!new)
 		return (1);
-	ft_export_one_by_one(env, new);
+	ft_export_one_by_one(&env, new);
 	free(new);
 	return (0);
 }
