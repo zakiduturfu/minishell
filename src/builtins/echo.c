@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:15:54 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/25 18:13:55 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 11:49:53 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,5 @@ int	ft_echo(char **tab)
 	}
 	else
 		printf("\n");
-	if (tab)
-	{
-		free(tab[0]);
-		free(tab);
-	}
 	return (0);
 }

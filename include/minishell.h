@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/26 16:50:16 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 11:33:40 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ int		print_and_return(char *str, int i);
 int		find_var(char **env, char *var);
 char	**ft_split_cmd(char *token, char **tab, unsigned int i);
 int		is_builtin(char *cmd);
+void	ft_free_tab(char **tab);
 
 /* /src/builtins/cd.c */
 int		ft_cd(char **env, char *str);

@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/27 11:02:03 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 11:50:31 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,7 @@ static int	try_exec_cd(char **env, char *directory)
 	// 	i++;
 	// }
 	exec_cd(env, tab, posi);
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
+	ft_free_tab(tab);
 	return (0);
 }
 
@@ -134,9 +132,7 @@ static int 	too_many_args(char **tab)
 
 	i = 0;
 	printf("cd: string not in pwd: %s\n", tab[0]);
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
+	ft_free_tab(tab);
 	return (0);
 }
 
@@ -155,7 +151,5 @@ int	ft_cd(char **env, char *str)
 		return (too_many_args(tab));
 	// faire le cas / pwihfp 
 	try_exec_cd(env, tab[0]);
-	free(tab[0]);
-	free(tab);
 	return (0);
 }

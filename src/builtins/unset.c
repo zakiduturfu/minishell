@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/25 18:17:34 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 12:05:16 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ static int	ft_parse(char *str, unsigned int i)
 	return (0);
 }
 
-static int	ft_erase_var(char **env, int posi)
+static int	ft_erase_var(char ***env, int posi)
 {
 	int		size;
 	char	**newenv;
 	int		i;
 
 	i = 0;
-	size = size_env(env);
+	size = size_env(*env);
 	size--;
 	newenv = malloc(sizeof(char *) * (size + 1));
 	if (!newenv)
@@ -50,16 +50,16 @@ static int	ft_erase_var(char **env, int posi)
 	newenv[size] = NULL;
 	while (i < posi)
 	{
-		newenv[i] = env[i];
+		newenv[i] = (*env)[i];
 		i++;
 	}
 	while (i < size)
 	{
-		newenv[i] = env[i + 1];
+		newenv[i] = (*env)[i + 1];
 		i++;
 	}
-	free(env);
-	env = newenv;
+	free(*env);
+	*env = newenv;
 	return (0);
 }
 
@@ -72,7 +72,7 @@ static int	ft_unset_one_by_one(char **env, char *str)
 	posi = find_var(env, str);
 	if (posi == -1)
 		return (0);
-	if (ft_erase_var(env, posi) == -1)
+	if (ft_erase_var(&env, posi) == -1)
 		return (1);
 	return (0);
 }
@@ -93,5 +93,6 @@ int	ft_unset(char **env, char *str)
 		ft_unset_one_by_one(env, tab[i]);
 		i++;
 	}
+	ft_free_tab(tab);
 	return (0);
 }
