@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/27 13:39:32 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:09:44 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	find_redir(t_shell *shell, char **cmd, int j);
 char	*space_sep(char *line);
 char	*line_arg(char *line);
 int		init_struct(t_shell *shell, char *av);
-int		pars_line(char *line, char **env);
+int		pars_line(char *line, char ***env);
 
 /* /src/parsing/split_token.c */
 char	**split_token(char *line, char c, char *av);
@@ -128,7 +128,7 @@ void	wait_bin(t_shell *shell);
 void	child_err(t_shell *shell, char **cmd, char **env);
 char	**get_cmd_path(char **env);
 char	*recup_path(char *cmd, char **env);
-void	child_process(t_shell *shell, int i, char **env);
+void	child_process(t_shell *shell, int i, char ***env);
 void	parent_process(t_shell *shell);
 
 /* /src/pipex/here_doc.c */
@@ -142,7 +142,7 @@ int		exec_here(t_shell *shell);
 int		init_here(t_shell *shell, char *av);
 
 /* /src/pipex/pipex.c */
-int		pipex(t_shell *shell, char *av, char **env);
+int		pipex(t_shell *shell, char *av, char ***env);
 void	dup_and_close(int oldfd, int newfd);
 
 t_shell	*create_data(void);
@@ -154,7 +154,7 @@ void	close_all_pipe(t_shell *shell);
 int		ft_pwd(char **env, char *str);
 int		ft_env(char **env);
 int		ft_exit(char **env);
-int		exec_only_built(t_shell	*shell, char **env);
+int		exec_only_built(t_shell	*shell, char ***env);
 
 /* /src/builtins/echo.c */
 /*void		print(char *str, int newline)*/
@@ -164,17 +164,15 @@ int		dquote(void);
 int		ft_echo(char **tab);
 
 /* /src/builtins/export.c */
-/*static int	ft_parse_var(char *str, unsigned int *i);*/
-/*static int	ft_change_val(t_shell *shell, unsigned int posi, char *val, unsigned int i);*/
-/*static int	ft_create_var(t_shell *shell, char *var);*/
-int		ft_export_one_by_one(char **env, char *str);
-int		ft_export(char **env, char *str);
+
+int		ft_export_one_by_one(char ***env, char *str);
+int		ft_export(char ***env, char *str);
 
 /* /src/builtins/unset.c */
 /*static int	ft_parse(char *str, unsigned int i);*/
 /*static int	ft_erase_var(t_shell *shell, int posi);*/
 /*static int	ft_unset_one_by_one(t_shell *shell, char *str);*/
-int		ft_unset(char **env, char *str);
+int		ft_unset(char ***env, char *str);
 
 /* /src/builtins/utils.c */
 int		print_and_return(char *str, int i);

@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/27 13:44:01 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 14:44:30 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	ft_env(char **env)
 	unsigned int	i;
 
 	i = 0;
+	printf("debut de env\n");
 	if (!env)
 		return (1);
 	while (env[i] != NULL)
@@ -52,7 +53,7 @@ int	ft_exit(char **env)
 	exit(0);
 }
 
-int	exec_only_built(t_shell	*shell, char **env)
+int	exec_only_built(t_shell	*shell, char ***env)
 {
 	char	**tab;
 
@@ -63,21 +64,21 @@ int	exec_only_built(t_shell	*shell, char **env)
 	if (!tab)
 		return (-1);
 	else if (ft_strcmp("cd", tab[0]) == 0)
-		ft_cd(env, tab[1]);
+		ft_cd(*env, tab[1]);
 	else if (ft_strcmp("echo", tab[0]) == 0)
 		ft_echo(tab);
 	else if (ft_strcmp("exit", tab[0]) == 0)
-		ft_exit(env);
+		ft_exit(*env);
 	else if (ft_strcmp("pwd", tab[0]) == 0)
-		ft_pwd(env, tab[1]);
+		ft_pwd(*env, tab[1]);
 	else if (ft_strcmp("export", tab[0]) == 0)
 		ft_export(env, tab[1]);
 	else if (ft_strcmp("unset", tab[0]) == 0)
 		ft_unset(env, tab[1]);
 	else if (ft_strcmp("env", tab[0]) == 0)
-		ft_env(env);
+		ft_env(*env);
 	ft_free_tab(tab);
-	printf("a la fin de exec builtins, env = \n");
-	ft_env(env);
+	// printf("a la fin de exec only built\n");
+	// ft_env(*env);
 	return (1);
 }
