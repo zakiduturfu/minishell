@@ -6,29 +6,47 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/26 18:03:45 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 11:02:03 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	cd_home(char **env)
+static int	old_pwd(char **env, int pwdposi)
 {
-	int		posi;
 	char	*new;
 
-	posi = -1;
-	posi = find_var(env, "HOME");
-	if (posi == -1)
-		return (1);
-	new = ft_strjoin("PWD", &(env[posi][4]));
+	new = ft_strjoin("OLDPWD", &(env[pwdposi][3]));
 	if (!new)
 		return (1);
 	ft_export_one_by_one(env, new);
 	free(new);
 	return (0);
-	}
+}
 
+static int	cd_home(char **env)
+{
+	int		homeposi;
+	int		pwdposi;
+	char	*new;
+
+	homeposi = -1;
+	pwdposi = -1;
+	homeposi = find_var(env, "HOME");
+	if (homeposi == -1)
+		return (1);
+	pwdposi = find_var(env, "PWD");
+	if (pwdposi == -1)
+		return (1);
+	// chdir("~/");
+	old_pwd(env, pwdposi);
+	new = ft_strjoin("PWD", &(env[homeposi][4]));
+	if (!new)
+		return (1);
+	ft_export_one_by_one(env, new);
+	free(new);
+	return (0);
+}
 
 static int	starting_directory(char **env, int posi)
 {
@@ -71,7 +89,7 @@ static int	exec_cd(char **env, char **tab, int posi)
 	unsigned int	i;
 
 	i = 0;
-	printf("au debut de exec cd\n");
+	old_pwd(env, posi);
 	while (tab && tab[i])
 	{
 		if (ft_strcmp("..", tab[i]) == 0)
@@ -136,7 +154,6 @@ int	ft_cd(char **env, char *str)
 	if (tab && ft_strcmp(tab[0], "/") != 0 && tab[1])
 		return (too_many_args(tab));
 	// faire le cas / pwihfp 
-	printf("avant try exec on a tab[0] = %s\n", tab[0]);
 	try_exec_cd(env, tab[0]);
 	free(tab[0]);
 	free(tab);

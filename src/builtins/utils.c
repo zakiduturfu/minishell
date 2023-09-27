@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/26 16:42:08 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 11:01:56 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	find_var(char **env, char *var)
 			return (i);
 		i++;
 	}
-	printf("i = %i\n", i);
 	return (-1);
 }
 

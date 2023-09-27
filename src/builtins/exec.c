@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/26 18:02:08 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/09/27 10:33:54 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	exec_only_built(t_shell	*shell, char **env)
 	char	**tab;
 
 	tab = NULL;
-	// printf("dans exec only built, token 0 = %s\n", shell->token[0]);
+	printf("dans exec only built, token 0 = %s\n", shell->token[0]);
 	tab = ft_split_cmd(shell->token[0], tab, 0);
 	fix_quote((signed char **)tab);
 	if (!tab)
