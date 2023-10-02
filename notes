@@ -2,6 +2,7 @@ ECHO :
 
 Verif si decision de traiter les " ouverts comme des caracteres normaux (les afficher) OK 
 	/ faut-il sinon les ignorer totalement ?
+-> pour l'instant si quote solitaire on ignore, mais chgt facile si besoin de l'afficher
 
 EXPORT :
 

@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/02 15:50:44 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:23:35 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,13 @@ int	exec_only_built(t_shell	*shell, char ***env)
 	tab = NULL;
 	tab = ft_split_cmd(shell->token[0], tab, 0);
 	fix_quote((signed char **)tab);
+	// printf("tab[1] = %s\n", tab[1]);
 	if (!tab)
 		return (-1);
 	else if (ft_strcmp("cd", tab[0]) == 0)
 		ft_cd(*env, tab[1]);
 	else if (ft_strcmp("echo", tab[0]) == 0)
-		ft_echo(tab);
+		ft_echo(tab[1]);
 	else if (ft_strcmp("exit", tab[0]) == 0)
 		ft_exit(*env);
 	else if (ft_strcmp("pwd", tab[0]) == 0)

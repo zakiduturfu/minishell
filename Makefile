@@ -29,6 +29,7 @@ SRCS = ./src/main.c \
 	./src/builtins/env.c \
 	./src/builtins/cd.c \
 	./src/builtins/cd_utils.c \
+	./src/builtins/str_utils.c \
 
 HEADER = include
 

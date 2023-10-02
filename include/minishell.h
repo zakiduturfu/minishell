@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/02 15:44:46 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:21:28 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@ typedef struct s_shell
 	int		c_here;
 	t_here	*here;
 }	t_shell;
+
+typedef struct s_quotes
+{
+	int		singles;
+	int		doubles;
+	bool	single_open;
+	bool	double_open;
+	int		this_s;
+	int		this_d;
+}	t_quotes;
 
 /* /src/env/env.c */
 char	**recup_env(char **env);
@@ -162,7 +172,7 @@ int		exec_only_built(t_shell	*shell, char ***env);
 /*static int	n_param(char *str, int *i)*/
 // int		open_quote(char *str); / not in the mandatory new subjet
 // int		dquote(void); / not in the mandatory new subjet
-int		ft_echo(char **tab);
+int		ft_echo(char *str);
 
 /* /src/builtins/export.c */
 int		ft_export_one_by_one(char ***env, char *str);
@@ -193,5 +203,10 @@ int		too_many_args(char **tab);
 /* /src/builtins/envs.c */
 int		ft_ordonned_env(char **env);
 int		ft_env(char **env);
+
+int		is_space(char c);
+int		is_end(char c);
+int		is_single_quote(char c);
+int		is_double_quote(char c);
 
 #endif
