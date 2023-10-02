@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/02 10:59:09 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 11:37:27 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,6 @@ int		dquote(void);
 int		ft_echo(char **tab);
 
 /* /src/builtins/export.c */
-
 int		ft_export_one_by_one(char ***env, char *str);
 int		ft_export(char ***env, char *str);
 
@@ -177,8 +176,8 @@ int		ft_unset(char ***env, char *str);
 int		print_and_return(char *str, int i);
 int		find_var(char **env, char *var);
 char	**ft_split_cmd(char *token, char **tab, unsigned int i);
-int		is_builtin(char *cmd);
 void	ft_free_tab(char **tab);
+int		ft_ordonned_env(char **env);
 
 /* /src/builtins/cd.c */
 int		ft_cd(char **env, char *str);
