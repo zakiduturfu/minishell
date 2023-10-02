@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 11:45:37 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/27 15:07:05 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:50:20 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,8 @@ char	*recup_path(char *cmd, char **env)
 	int		i;
 
 	i = -1;
-	if (ft_strchr(cmd, '/'))
-	{
-		if (access(cmd, 0) == 0)
-			return (cmd);
-	}
+	if (ft_strchr(cmd, '/') && access(cmd, 0) == 0)
+		return (cmd);
 	else
 	{
 		path = get_cmd_path(env);
@@ -83,7 +80,7 @@ char	*recup_path(char *cmd, char **env)
 
 void	parent_process(t_shell *shell)
 {
-		close(shell->pipefd[1]);
+	close(shell->pipefd[1]);
 	if (shell->prev_pipe != -1)
 		close(shell->prev_pipe);
 	shell->prev_pipe = shell->pipefd[0];
@@ -96,15 +93,13 @@ void	child_process(t_shell *shell, int i, char ***env)
 	shell->index = i;
 	free(shell->pid);
 	cmd = init_start_cmd(shell, shell->token[i], 2);
-	if (!cmd){
+	if (!cmd)
+	{
 		printf("ganged cmd\n");
 		return ;
 	}
 	if (is_builtin(cmd[0]))
-	{
-		exec_only_built(shell, env);
-		exit(0);
-	}
+		exit (exec_only_built(shell, env));
 	if (cmd[0])
 		shell->path = recup_path(cmd[0], *env);
 	if (shell->path)

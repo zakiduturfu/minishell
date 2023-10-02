@@ -1,11 +1,13 @@
-PARSING GLOBAL :
+GENERAL :
 
-Attention en cas de double ;; 
--> 
-		syntax error near unexpected token `;;'
+PB quand $, par exemple 
+minishell>echo " owgpu $"
+ganged cmd
+free(): double free detected in tcache 2
+(avant d'arriver dans builtins donc a priori dans parsing)
 
-Les "" / dquote ne sont pas a faire, est-ce penalisant de les faire ?
+ECHO :
 
-EXPORT :
-
-Verif fonctionnement avec ; une fois les ;; geres en global
+Verif si decision de traiter les " ouverts comme des caracteres normaux (les afficher) OK 
+	/ faut-il sinon les ignorer totalement ?
+-> pour l'instant si quote solitaire on ignore, mais chgt facile si besoin de l'afficher

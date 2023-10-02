@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/27 15:10:13 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:15:17 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static int	ft_parse(char *str, unsigned int i)
 		printf("unset: not enough arguments\n");
 		return (-1);
 	}
-	if (open_quote(str) == 1)
-		return (dquote());
 	while (str[i] != '\0')
 	{
 		if (str[i] == '=' || str[i] == '-')
@@ -84,7 +82,7 @@ int	ft_unset(char ***env, char *str)
 
 	i = 0;
 	if (!str)
-		return(print_and_return("unset: not enough arguments\n", -1));
+		return (print_and_return("unset: not enough arguments\n", -1));
 	tab = ft_nsplit(str, ' ', '\t');
 	if (!tab)
 		return (1);

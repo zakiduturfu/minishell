@@ -6,31 +6,54 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:15:54 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/02 11:07:53 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:27:14 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	print(char *str, int newline)
+static void	dollar_gestion(char *str, int *i, char **env)
 {
-	int		i;
-	bool	open_quote;
+	int	posi;
+	unsigned int j;
 
-	i = 0;
-	open_quote = 0;
-	while (str && (str[i] == 32 || str[i] == '\t'))
-		i++;
-	while (str && str[i] != '\0')
+	j = 0;
+	posi = -1;
+	*i = *i + 1;
+	if (is_dollar(str[*i]))
+		printf("4202"); // verif pourquoi c'est ca qui se printe et si ca peut varier du coup...
+	else if (is_end(str[*i]) || is_space(str[*i]))
+		printf("$");
+	else 
 	{
-		if (str[i] == '"' && open_quote == 0)
-			open_quote = 1;
-		else if (str[i] == '"' && open_quote == 1)
-			open_quote = 0;
-		else if (open_quote == 1 || (str[i] != 32 && str[i] != '\t'))
+		posi = find_var(env, &(str[*i]));
+		if (posi != -1)
+		{
+			while (!(is_end(str[*i + j]) && !(is_space(str[*i + j]))))
+				j++;
+			printf("%s", &(env[posi][j]));
+		}
+	}	
+}
+
+static void	print(char *str, int newline, int i, char **env)
+{
+	t_quotes	quotes;
+
+	quotes = quotes_count(str);
+	while (is_space(str[i]))
+		i++;
+	while (str && !(is_end(str[i])))
+	{
+		if (is_single_quote(str[i]) && quotes.double_open == 0)
+			quotes_gestion(quotes.this_s++, quotes.singles, &quotes.single_open);
+		else if (is_double_quote(str[i]) && quotes.single_open == 0)
+			quotes_gestion(quotes.this_d++, quotes.doubles, &quotes.double_open);
+		else if (is_dollar(str[i] == 1))
+			dollar_gestion(str, &i, env);
+		else if (open_quotes(quotes) == 1 || is_space(str[i]) == 0)
 			printf("%c", str[i]);
-		else if ((str[i] == 32 || str[i] == '\t')
-			&& str[i + 1] != 32 && str[i + 1] != '\t' && str[i + 1] != '\0')
+		else if (is_space(str[i]) && !(is_space(str[i + 1])) && !(is_end(str[i + 1])))
 			printf(" ");
 		i++;
 	}
@@ -38,23 +61,21 @@ void	print(char *str, int newline)
 		printf("\n");
 }
 
-static int	n_param(char *str, int *i)
+static int	n_param(char *str, int *i, bool n, int last)
 {
-	bool	n;
-	int		last;
-
-	n = 0;
-	last = 0;
+	last = *i;
 	if (!str)
-		return (0);
-	while (str[*i] != '\0')
+		return (n);
+	while (!(is_end(str[*i])))
 	{
-		if (str[0] == '-')
+		if (str[*i] != '-')
+			return (n);
+		else
 		{
 			*i = *i + 1;
 			while (str[*i] == 'n')
 				*i = *i + 1;
-			if (str[*i] != 32 && str[*i] != '\t' && str[*i] != '\0')
+			if (!(is_space(str[*i]) && !(is_end(str[*i]))))
 			{
 				*i = last;
 				return (n);
@@ -62,63 +83,24 @@ static int	n_param(char *str, int *i)
 			else
 				n = 1;
 		}
-		while (str[*i] == 32 || str[*i] == '\t')
+		while (is_space(str[*i]))
 			*i = *i + 1;
 		last = *i;
 	}
 	return (n);
 }
 
-int	open_quote(char *str)
-{
-	int	i;
-	int	quotes;
-
-	i = 0;
-	quotes = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0')
-	{
-		if (str[i] == '"')
-			quotes++;
-		i++;
-	}
-	if (quotes % 2 != 0)
-		return (1);
-	return (0);
-}
-
-int	dquote(void)
-{
-	char	*line;
-
-	line = NULL;
-	line = readline("dquote>");
-	while (line)
-	{
-		free(line);
-		line = readline("dquote>");
-	}		
-	return (0);
-}
-
-int	ft_echo(char **tab)
+int	ft_echo(char *str, char **env)
 {
 	int	i;
 
 	i = 0;
-	if (tab && tab[1])
+	if (str)
 	{
-		if (open_quote(tab[1]) == 1)
-			return (dquote());
+		if (n_param(str, &i, 0, 0) == 1)
+			print(&(str[i]), 0, 0, env);
 		else
-		{
-			if (n_param(tab[1], &i) == 1)
-				print(&(tab[1][i]), 0);
-			else
-				print(&(tab[1][i]), 1);
-		}
+			print(&(str[i]), 1, 0, env);
 	}
 	else
 		printf("\n");
