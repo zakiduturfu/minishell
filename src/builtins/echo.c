@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:15:54 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/27 11:49:53 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 11:07:53 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,33 @@ void	print(char *str, int newline)
 
 static int	n_param(char *str, int *i)
 {
+	bool	n;
+	int		last;
+
+	n = 0;
+	last = 0;
 	if (!str)
 		return (0);
-	if (str[0] == '-')
+	while (str[*i] != '\0')
 	{
-		*i = *i + 1;
-		while (str[*i] == 'n')
-			*i = *i + 1;
-		if (str[*i] != 32 && str[*i] != '\0')
+		if (str[0] == '-')
 		{
-			*i = 0;
-			return (0);
+			*i = *i + 1;
+			while (str[*i] == 'n')
+				*i = *i + 1;
+			if (str[*i] != 32 && str[*i] != '\t' && str[*i] != '\0')
+			{
+				*i = last;
+				return (n);
+			}
+			else
+				n = 1;
 		}
-		else
-			return (1);
+		while (str[*i] == 32 || str[*i] == '\t')
+			*i = *i + 1;
+		last = *i;
 	}
-	return (0);
+	return (n);
 }
 
 int	open_quote(char *str)

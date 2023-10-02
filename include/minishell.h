@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/27 15:09:44 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 10:59:09 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ int		init_here(t_shell *shell, char *av);
 /* /src/pipex/pipex.c */
 int		pipex(t_shell *shell, char *av, char ***env);
 void	dup_and_close(int oldfd, int newfd);
-
 t_shell	*create_data(void);
 void	loop_shell(char **env);
 void	free_shell(t_shell *shell, char *av);
