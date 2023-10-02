@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/02 17:21:28 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:26:54 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,11 +168,11 @@ int		ft_exit(char **env);
 int		exec_only_built(t_shell	*shell, char ***env);
 
 /* /src/builtins/echo.c */
-/*void		print(char *str, int newline)*/
+/*static void		print(char *str, int newline)*/
 /*static int	n_param(char *str, int *i)*/
 // int		open_quote(char *str); / not in the mandatory new subjet
 // int		dquote(void); / not in the mandatory new subjet
-int		ft_echo(char *str);
+int		ft_echo(char *str, char **env);
 
 /* /src/builtins/export.c */
 int		ft_export_one_by_one(char ***env, char *str);
@@ -200,13 +200,20 @@ int		starting_directory(char **env, int posi);
 int		previous_directory(char **env, int posi);
 int		too_many_args(char **tab);
 
-/* /src/builtins/envs.c */
+/* /src/builtins/env.c */
 int		ft_ordonned_env(char **env);
 int		ft_env(char **env);
 
+/* /src/builtins/str_utils.c */
 int		is_space(char c);
 int		is_end(char c);
-int		is_single_quote(char c);
-int		is_double_quote(char c);
+int		is_dollar(char c);
+
+/* /src/builtins/quotes_utils.c */
+int			is_single_quote(char c);
+int			is_double_quote(char c);
+int			open_quotes(t_quotes quotes);
+void		quotes_gestion(int n, int max, bool *boolopen);
+t_quotes	quotes_count(char *str);
 
 #endif

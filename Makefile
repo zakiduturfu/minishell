@@ -30,6 +30,7 @@ SRCS = ./src/main.c \
 	./src/builtins/cd.c \
 	./src/builtins/cd_utils.c \
 	./src/builtins/str_utils.c \
+	./src/builtins/quotes_utils.c \
 
 HEADER = include
 

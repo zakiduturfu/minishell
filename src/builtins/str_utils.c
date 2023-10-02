@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:39:30 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/02 16:47:46 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:27:33 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,9 @@ int	is_end(char c)
 	return (0);
 }
 
-int	is_single_quote(char c)
+int	is_dollar(char c)
 {
-	if (c == 39)
-		return (1);
-	return (0);
-}
-
-int	is_double_quote(char c)
-{
-	if (c == 34)
+	if (c == 36)
 		return (1);
 	return (0);
 }
