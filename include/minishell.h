@@ -6,22 +6,22 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/02 11:37:27 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:44:46 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include "../libft/libft.h"
-#include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <readline/readline.h>
+# include <sys/wait.h>
+# include <sys/types.h>
+# include <fcntl.h>
+# include "../libft/libft.h"
+# include <stdbool.h>
 
 typedef struct s_here
 {
@@ -29,7 +29,7 @@ typedef struct s_here
 	int		here_pipe[2];
 }	t_here;
 
-typedef	struct s_shell
+typedef struct s_shell
 {
 	char	**token;
 	char	**env;
@@ -85,9 +85,13 @@ void	find_redir(t_shell *shell, char **cmd, int j);
 
 /* /src/parsing/pars_cmd_line.c */
 char	*space_sep(char *line);
-char	*line_arg(char *line);
-int		init_struct(t_shell *shell, char *av);
+char	*line_arg(char *line, int i, int j);
 int		pars_line(char *line, char ***env);
+void	loop_shell(char **env, char *line);
+
+/* /src/parsing/init.c */
+t_shell	*create_data(void);
+int		init_struct(t_shell *shell, char *av);
 
 /* /src/parsing/split_token.c */
 char	**split_token(char *line, char c, char *av);
@@ -107,7 +111,6 @@ int		is_in_quote(char *line, int i, char c);
 int		ft_strcmp(const char *str1, const char *str2);
 int		size_token(char *line, char c, char *av);
 int		check_redir(char **cmd);
-int		is_builtin(char *cmd);
 int		count_cmd(char **tab);
 
 /* /src/tools/parsing/pars_cmd_line_utils.c */
@@ -145,21 +148,20 @@ int		init_here(t_shell *shell, char *av);
 int		pipex(t_shell *shell, char *av, char ***env);
 void	dup_and_close(int oldfd, int newfd);
 t_shell	*create_data(void);
-void	loop_shell(char **env);
 void	free_shell(t_shell *shell, char *av);
 void	close_all_pipe(t_shell *shell);
 
-/* /src/builtins/exec.c */
+/* /src/builtins/builtins.c */
+int		is_builtin(char *cmd);
 int		ft_pwd(char **env, char *str);
-int		ft_env(char **env);
 int		ft_exit(char **env);
 int		exec_only_built(t_shell	*shell, char ***env);
 
 /* /src/builtins/echo.c */
 /*void		print(char *str, int newline)*/
 /*static int	n_param(char *str, int *i)*/
-int		open_quote(char *str);
-int		dquote(void);
+// int		open_quote(char *str); / not in the mandatory new subjet
+// int		dquote(void); / not in the mandatory new subjet
 int		ft_echo(char **tab);
 
 /* /src/builtins/export.c */
@@ -177,9 +179,19 @@ int		print_and_return(char *str, int i);
 int		find_var(char **env, char *var);
 char	**ft_split_cmd(char *token, char **tab, unsigned int i);
 void	ft_free_tab(char **tab);
-int		ft_ordonned_env(char **env);
 
 /* /src/builtins/cd.c */
 int		ft_cd(char **env, char *str);
+
+/* /src/builtins/cd_utils.c */
+int		old_pwd(char **env, int pwdposi);
+int		cd_home(char **env);
+int		starting_directory(char **env, int posi);
+int		previous_directory(char **env, int posi);
+int		too_many_args(char **tab);
+
+/* /src/builtins/envs.c */
+int		ft_ordonned_env(char **env);
+int		ft_env(char **env);
 
 #endif

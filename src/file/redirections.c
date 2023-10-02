@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:17:32 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/15 13:57:16 by zaki             ###   ########.fr       */
+/*   Updated: 2023/10/02 15:47:35 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	find_redir(t_shell *shell, char **cmd, int j)
 	{
 		open_redir(shell, cmd, i);
 		i++;
-	}	i = -1;
+	}
+	i = -1;
 	while (++i < shell->nb_here)
 		close(shell->here[i].here_pipe[0]);
 }

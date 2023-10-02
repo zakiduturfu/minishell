@@ -6,48 +6,11 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/27 15:08:03 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:38:40 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <readline/readline.h>
-#include <sys/wait.h>
-
-t_shell	*create_data(void)
-{
-	static t_shell *shell;
-	
-	return (shell);
-}
-
-int	init_struct(t_shell *shell, char *av)
-{
-	shell->fdout = 0;
-	shell->c_here = 0;
-	shell->fdin = 0;
-	shell->prev_pipe = -1;
-	shell->token = ft_split(av, '|');
-	if (!shell->token)
-		return (-1);
-	shell->av = ft_strdup(av);
-	if (!shell->av)
-	{
-		free_all(shell->token);
-		return (-1);
-	}
-	shell->nb_cmd = count_cmd(shell->token);
-	if (shell->nb_cmd)
-		shell->pid = malloc(sizeof(int) * shell->nb_cmd);
-	if (!shell->pid)
-	{
-		free(shell->av);
-		free_all(shell->token);
-		return (-1);
-	}
-	shell->nb_here = nb_heredoc(av);
-	return (0);
-}
 
 char	*space_sep(char *line)
 {
@@ -69,14 +32,10 @@ char	*space_sep(char *line)
 	return (new);
 }
 
-char	*line_arg(char *line)
+char	*line_arg(char *line, int i, int j)
 {
 	char	*new;
-	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
 	new = space_sep(line);
 	if (!new)
 		return (NULL);
@@ -97,7 +56,6 @@ char	*line_arg(char *line)
 			new[j++] = line[i++];
 	}
 	new[j] = '\0';
-	// printf("nouvelle ligne: %s\n", new);
 	return (new);
 }
 
@@ -114,35 +72,35 @@ void	affiche_test(char *cmd)
 	}
 }*/
 
-void	test_cmd(t_shell *shell)
-{
-	int		i;
-	int		j;
-	char	**cmd;
+// void	test_cmd(t_shell *shell)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	**cmd;
 
-	i = 0;
-	while (i < shell->nb_cmd)
-	{
-		j = 0;
-		cmd = init_start_cmd(shell, shell->token[i], 2);
-		if (cmd)
-		{
-			while (cmd[j])
-			{
-				printf("cmd = %s\n", cmd[j]);
-				j++;
-			}
-		}
-		printf("fdin = %d\n", shell->fdin);
-		printf("fdout = %d\n", shell->fdout);
-		printf("--------------------------\n");
-		i++;
-		shell->index = i;
-		free_all(cmd);
-	}
-}
+// 	i = 0;
+// 	while (i < shell->nb_cmd)
+// 	{
+// 		j = 0;
+// 		cmd = init_start_cmd(shell, shell->token[i], 2);
+// 		if (cmd)
+// 		{
+// 			while (cmd[j])
+// 			{
+// 				printf("cmd = %s\n", cmd[j]);
+// 				j++;
+// 			}
+// 		}
+// 		printf("fdin = %d\n", shell->fdin);
+// 		printf("fdout = %d\n", shell->fdout);
+// 		printf("--------------------------\n");
+// 		i++;
+// 		shell->index = i;
+// 		free_all(cmd);
+// 	}
+// }
 
-int is_empty_line(char *line)
+int	is_empty_line(char *line)
 {
 	int	i;
 
@@ -156,12 +114,8 @@ int is_empty_line(char *line)
 	return (0);
 }
 
-void	loop_shell(char **env)
+void	loop_shell(char **env, char *line)
 {
-	char 	*line;
-	int		i;
-
-	i = 0;
 	while (1)
 	{
 		line = readline("minishell>");
@@ -188,7 +142,6 @@ void	loop_shell(char **env)
 	}
 }
 
-
 int	pars_line(char *line, char ***env)
 {
 	char	*av;
@@ -198,23 +151,15 @@ int	pars_line(char *line, char ***env)
 		return (-1);
 	shell = create_data();
 	shell = malloc(sizeof(t_shell));
-	av = line_arg(line);
+	av = line_arg(line, 0, 0);
 	if (!av)
-	{
-		free(shell);
-		return (-1);
-	}
+		return (free(shell), -1);
 	if (init_struct(shell, av) == -1)
-	{
-		free(av);
-		free(shell);
-		return (-1);
-	}
+		return (free(av), free(shell), -1);
 	if (shell->nb_cmd == 1 && find_built(shell) == 1)
 		exec_only_built(shell, env);
 	else if (pipex(shell, av, env) == -1)
 		return (-1);
-	// close(shell->pipefd[0]);
 	wait_bin(shell);
 	close_in_here(shell);
 	free_shell(shell, av);

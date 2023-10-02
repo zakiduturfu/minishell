@@ -4,11 +4,13 @@ FOLDER = ./
 
 SRCS = ./src/main.c \
 	./src/parsing/pars_cmd_line.c \
+	./src/parsing/init.c \
 	./src/parsing/token.c \
 	./src/parsing/split_token.c \
 	./src/file/redirections.c \
 	./src/pipex/pipex.c \
 	./src/pipex/here_doc.c \
+	./src/pipex/here_doc_utils.c \
 	./src/pipex/process.c \
 	./src/env/env.c \
 	./src/env/shlvl.c \
@@ -19,12 +21,14 @@ SRCS = ./src/main.c \
 	./src/tools/env/expansions_utils.c \
 	./src/tools/file/redirections_utils.c \
 	./src/tools/file/free_close.c \
-	./src/builtins/exec.c \
+	./src/builtins/builtins.c \
 	./src/builtins/echo.c \
 	./src/builtins/export.c \
 	./src/builtins/unset.c \
 	./src/builtins/utils.c \
+	./src/builtins/env.c \
 	./src/builtins/cd.c \
+	./src/builtins/cd_utils.c \
 
 HEADER = include
 

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:56:46 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/15 18:12:14 by zaki             ###   ########.fr       */
+/*   Updated: 2023/10/02 15:37:18 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 int	main(int ac, char **av, char **env)
 {
@@ -24,7 +23,7 @@ int	main(int ac, char **av, char **env)
 		if (!new_env)
 			exit(2);
 		increment_shlvl(new_env);
-		loop_shell(new_env);
+		loop_shell(new_env, NULL);
 	}
 }
 

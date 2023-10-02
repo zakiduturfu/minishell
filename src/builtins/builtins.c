@@ -1,24 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/27 15:16:04 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:50:44 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	is_builtin(char *cmd)
+{
+	if (ft_strcmp("cd", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("echo", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("exit", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("pwd", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("export", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("unset", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("env", cmd) == 0)
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_exit(char **env)
+{
+	free_env_tab(env);
+	exit(0);
+}
 
 int	ft_pwd(char **env, char *str)
 {
 	int	posi;
 
 	posi = -1;
-	if (str && open_quote(str) == 1)
-		return (dquote());
 	if (!str || str[0] == '\0')
 	{
 		posi = find_var(env, "PWD");
@@ -31,34 +55,11 @@ int	ft_pwd(char **env, char *str)
 	return (0);
 }
 
-int	ft_env(char **env)
-{
-	unsigned int	i;
-
-	i = 0;
-	printf("debut de env\n");
-	if (!env)
-		return (1);
-	while (env[i] != NULL)
-	{
-		printf("%s \n", env[i]);
-		i++;
-	}
-	return (0);
-}
-
-int	ft_exit(char **env)
-{
-	free_env_tab(env);
-	exit(0);
-}
-
 int	exec_only_built(t_shell	*shell, char ***env)
 {
 	char	**tab;
 
 	tab = NULL;
-	// printf("dans exec only built, token 0 = %s\n", shell->token[0]);
 	tab = ft_split_cmd(shell->token[0], tab, 0);
 	fix_quote((signed char **)tab);
 	if (!tab)
@@ -78,7 +79,5 @@ int	exec_only_built(t_shell	*shell, char ***env)
 	else if (ft_strcmp("env", tab[0]) == 0)
 		ft_env(*env);
 	ft_free_tab(tab);
-	// printf("a la fin de exec only built\n");
-	// ft_env(*env);
 	return (1);
 }

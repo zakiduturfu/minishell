@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/02 11:38:05 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:45:03 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ char	**ft_split_cmd(char *token, char **tab, unsigned int i)
 	tab[2] = NULL;
 	tab[0] = malloc(sizeof(char) * (i + 1));
 	if (!(tab[0]))
-	{
-		free(tab);
-		return (NULL);
-	}
+		return (free(tab), NULL);
 	i = 0;
 	while ((token[i] != ' ' || token[i] == '\t') && token[i] != '\0')
 	{
@@ -61,16 +58,13 @@ char	**ft_split_cmd(char *token, char **tab, unsigned int i)
 		i++;
 	tab[1] = ft_strdup(&(token[i]));
 	if (!tab[1])
-	{
-		ft_free_tab(tab);
-		return (NULL);
-	}
+		return (ft_free_tab(tab), NULL);
 	return (tab);
 }
 
 void	ft_free_tab(char **tab)
 {
-	unsigned int i;
+	unsigned int	i;
 
 	i = 0;
 	if (tab == NULL)
@@ -82,27 +76,4 @@ void	ft_free_tab(char **tab)
 	}
 	free(tab);
 	tab = NULL;
-}
-
-int		ft_ordonned_env(char **env)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	if (!env)
-		return (-1);
-	while (env[i + 1] != NULL)
-	{
-		if (ft_strcmp(env[i], env[i + 1]) > 0)
-		{
-			tmp = env[i];
-			env[i] = env[i + 1];
-			env[i + 1] = tmp;	
-			i = -1;
-		}
-		i++;
-	}
-	ft_env(env);
-	return (0);
 }

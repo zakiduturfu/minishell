@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:15:54 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/02 11:07:53 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:22:45 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,15 @@ void	print(char *str, int newline)
 		printf("\n");
 }
 
-static int	n_param(char *str, int *i)
+static int	n_param(char *str, int *i, bool n, int last)
 {
-	bool	n;
-	int		last;
-
-	n = 0;
-	last = 0;
 	if (!str)
 		return (0);
 	while (str[*i] != '\0')
 	{
-		if (str[0] == '-')
+		if (str[*i] != '-')
+			return (n);
+		else
 		{
 			*i = *i + 1;
 			while (str[*i] == 'n')
@@ -69,39 +66,39 @@ static int	n_param(char *str, int *i)
 	return (n);
 }
 
-int	open_quote(char *str)
-{
-	int	i;
-	int	quotes;
+// int	open_quote(char *str) / not in the mandatory new subjet
+// {
+// 	int	i;
+// 	int	quotes;
 
-	i = 0;
-	quotes = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0')
-	{
-		if (str[i] == '"')
-			quotes++;
-		i++;
-	}
-	if (quotes % 2 != 0)
-		return (1);
-	return (0);
-}
+// 	i = 0;
+// 	quotes = 0;
+// 	if (!str)
+// 		return (0);
+// 	while (str[i] != '\0')
+// 	{
+// 		if (str[i] == '"')
+// 			quotes++;
+// 		i++;
+// 	}
+// 	if (quotes % 2 != 0)
+// 		return (1);
+// 	return (0);
+// }
 
-int	dquote(void)
-{
-	char	*line;
+// int	dquote(void) / not in the mandatory new subjet
+// {
+// 	char	*line;
 
-	line = NULL;
-	line = readline("dquote>");
-	while (line)
-	{
-		free(line);
-		line = readline("dquote>");
-	}		
-	return (0);
-}
+// 	line = NULL;
+// 	line = readline("dquote>");
+// 	while (line)
+// 	{
+// 		free(line);
+// 		line = readline("dquote>");
+// 	}		
+// 	return (0);
+// }
 
 int	ft_echo(char **tab)
 {
@@ -110,15 +107,10 @@ int	ft_echo(char **tab)
 	i = 0;
 	if (tab && tab[1])
 	{
-		if (open_quote(tab[1]) == 1)
-			return (dquote());
+		if (n_param(tab[1], &i, 0, 0) == 1)
+			print(&(tab[1][i]), 0);
 		else
-		{
-			if (n_param(tab[1], &i) == 1)
-				print(&(tab[1][i]), 0);
-			else
-				print(&(tab[1][i]), 1);
-		}
+			print(&(tab[1][i]), 1);
 	}
 	else
 		printf("\n");
