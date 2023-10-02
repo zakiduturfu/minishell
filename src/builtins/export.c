@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/27 15:15:49 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 11:28:48 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int		ft_export(char ***env, char *str)
 
 	i = 0;
 	if (!str || str[0] == '\0')
-		return(print_and_return("pas de suite a cmd export, todo\n", -1));
+		return(ft_ordonned_env(*env));
 	tab = ft_nsplit(str, ' ', '\t');
 	if (!tab)
 		return (1);

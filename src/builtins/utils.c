@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/09/27 12:06:49 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/02 11:38:05 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,27 @@ void	ft_free_tab(char **tab)
 	}
 	free(tab);
 	tab = NULL;
+}
+
+int		ft_ordonned_env(char **env)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	if (!env)
+		return (-1);
+	while (env[i + 1] != NULL)
+	{
+		if (ft_strcmp(env[i], env[i + 1]) > 0)
+		{
+			tmp = env[i];
+			env[i] = env[i + 1];
+			env[i + 1] = tmp;	
+			i = -1;
+		}
+		i++;
+	}
+	ft_env(env);
+	return (0);
 }

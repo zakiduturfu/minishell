@@ -1,0 +1,11 @@
+PARSING GLOBAL :
+
+Attention en cas de double ;; 
+-> 
+		syntax error near unexpected token `;;'
+
+Les "" / dquote ne sont pas a faire, est-ce penalisant de les faire ?
+
+EXPORT :
+
+Verif fonctionnement avec ; une fois les ;; geres en global
