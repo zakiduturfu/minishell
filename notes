@@ -1,10 +1,7 @@
-PARSING GLOBAL :
+ECHO :
 
-Attention en cas de double ;; 
--> 
-		syntax error near unexpected token `;;'
-
-Les "" / dquote ne sont pas a faire, est-ce penalisant de les faire ?
+Verif si decision de traiter les " ouverts comme des caracteres normaux (les afficher) OK 
+	/ faut-il sinon les ignorer totalement ?
 
 EXPORT :
 
