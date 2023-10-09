@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:56:18 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 15:34:48 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/09 17:24:24 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,21 +149,18 @@ char	*ret_status(char *before, char *after, char *status)
 	return (new_line);
 }
 
-int	stat_expand(char **tab, char *str, int i, t_shell *shell)
+void	stat_expand(char **tab, char *str, int i, t_shell *shell)
 {
 	tab[0] = get_before_expand(str, i);
 	if (!tab[0])
-		return (-1);
+		return ;
 	tab[1] = get_after_expand(str + i + 2);
 	if (!tab[1])
-		return (free_expand(tab, 1));
+		free_expand(tab, 1);
 	tab[2] = ft_itoa(shell->status);
 	if (!tab[2])
-		return (free_expand(tab, 2));
+		free_expand(tab, 2);
 	tab[3] = ret_status(tab[0], tab[1], tab[2]);
-	if (!tab[3])
-		return (-1);
-	return (1);
 }
 
 char	*ft_expansions(t_shell *shell, char *str)
@@ -174,22 +171,19 @@ char	*ft_expansions(t_shell *shell, char *str)
 	i = 0;
 	if (!str)
 		return (NULL);
-	i = search_expand(str);
-	if (str[i])
+	while (str[i])
 	{
+		i = search_expand(str);
 		if (str[i] == '$')
 		{
 			if (str[i + 1] == '?')
-			{
-				if (stat_expand(tab, str, i, shell) == -1)
-					free(str);
-			}
-			else if (tab_value(tab, str, i) == -1)
-				free(str);
+				stat_expand(tab, str, i, shell);
+			else
+				tab_value(tab, str, i);
+			free(str);
 			if (!tab[3])
 				return (NULL);
-			free(str);
-			return (tab[3]);
+			str = tab[3];
 		}
 	}
 	return (str);
