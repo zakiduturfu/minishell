@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_close.c                                       :+:      :+:    :+:   */
+/*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/15 14:09:02 by zaki              #+#    #+#             */
-/*   Updated: 2023/10/02 15:46:28 by hstephan         ###   ########.fr       */
+/*   Created: 2023/10/02 16:39:30 by hstephan          #+#    #+#             */
+/*   Updated: 2023/10/02 18:27:33 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../include/minishell.h"
 
-void	free_shell(t_shell *shell, char *av)
+int	is_space(char c)
 {
-	free(av);
-	free(shell->pid);
-	free_all(shell->token);
-	free(shell->av);
-	if (shell->nb_here && shell->here)
-		free(shell->here);
-	free(shell);
+	if (c == 32 || c == '\t')
+		return (1);
+	return (0);
 }
 
-void	close_all_pipe(t_shell *shell)
+int	is_end(char c)
 {
-	close(shell->pipefd[0]);
-	close(shell->pipefd[1]);
+	if (c == '\0')
+		return (1);
+	return (0);
+}
+
+int	is_dollar(char c)
+{
+	if (c == 36)
+		return (1);
+	return (0);
 }

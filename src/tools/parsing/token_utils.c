@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 23:06:12 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/15 14:11:50 by zaki             ###   ########.fr       */
+/*   Updated: 2023/10/02 15:46:16 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,6 @@ int	count_cmd(char **tab)
 	while (tab[i])
 		i++;
 	return (i);
-}
-
-int	is_builtin(char *cmd)
-{
-	if (ft_strcmp("cd", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("echo", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("exit", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("pwd", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("export", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("unset", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("env", cmd) == 0)
-		return (1);
-	else
-		return (0);
 }
 
 int	check_redir(char **cmd)

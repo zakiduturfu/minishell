@@ -1,40 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/21 15:04:02 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/27 14:08:08 by hstephan         ###   ########.fr       */
+/*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
+/*   Updated: 2023/10/02 15:42:38 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../include/minishell.h"
 
-int	size_env(char **env)
+int	ft_env(char **env)
 {
-	int	count;
+	unsigned int	i;
 
-	count = 0;
+	i = 0;
+	printf("debut de env\n");
 	if (!env)
-		return (0);
-	while (env[count])
-		count++;
-	return (count);
+		return (1);
+	while (env[i] != NULL)
+	{
+		printf("%s \n", env[i]);
+		i++;
+	}
+	return (0);
 }
 
-void	free_env_tab(char **env)
+int	ft_ordonned_env(char **env)
 {
-	int	i;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	if (!env)
-		return ;
-	while (env[i])
+		return (-1);
+	while (env[i + 1] != NULL)
 	{
-		free(env[i]);
+		if (ft_strcmp(env[i], env[i + 1]) > 0)
+		{
+			tmp = env[i];
+			env[i] = env[i + 1];
+			env[i + 1] = tmp;
+			i = -1;
+		}
 		i++;
 	}
-	free(env);
+	ft_env(env);
+	return (0);
 }

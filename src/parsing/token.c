@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/18 12:29:38 by zaki             ###   ########.fr       */
+/*   Updated: 2023/10/02 15:38:59 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ void	fix_quote(signed char **line)
 	int	j;
 
 	i = 0;
+	if (!line)
+		return ;
 	while (line[i])
 	{
 		j = 0;
 		while (line[i][j])
 		{
-			if (line[i][j] < 0)
+			if (line[i][j] == -32)
 				line[i][j] = -line[i][j];
 			j++;
 		}
@@ -95,7 +97,7 @@ int	check_redirections(char **tab)
 
 char	**init_start_cmd(t_shell *shell, char *cmd_line, int index)
 {
-	int			i;
+	int		i;
 	char	**tab;
 
 	i = -1;

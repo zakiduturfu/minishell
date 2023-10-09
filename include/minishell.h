@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/15 18:16:36 by zaki             ###   ########.fr       */
+/*   Updated: 2023/10/02 18:26:54 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include "../libft/libft.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <readline/readline.h>
+# include <sys/wait.h>
+# include <sys/types.h>
+# include <fcntl.h>
+# include "../libft/libft.h"
+# include <stdbool.h>
 
 typedef struct s_here
 {
@@ -28,7 +29,7 @@ typedef struct s_here
 	int		here_pipe[2];
 }	t_here;
 
-typedef	struct s_shell
+typedef struct s_shell
 {
 	char	**token;
 	char	**env;
@@ -46,6 +47,16 @@ typedef	struct s_shell
 	int		c_here;
 	t_here	*here;
 }	t_shell;
+
+typedef struct s_quotes
+{
+	int		singles;
+	int		doubles;
+	bool	single_open;
+	bool	double_open;
+	int		this_s;
+	int		this_d;
+}	t_quotes;
 
 /* /src/env/env.c */
 char	**recup_env(char **env);
@@ -84,9 +95,13 @@ void	find_redir(t_shell *shell, char **cmd, int j);
 
 /* /src/parsing/pars_cmd_line.c */
 char	*space_sep(char *line);
-char	*line_arg(char *line);
+char	*line_arg(char *line, int i, int j);
+int		pars_line(char *line, char ***env);
+void	loop_shell(char **env, char *line);
+
+/* /src/parsing/init.c */
+t_shell	*create_data(void);
 int		init_struct(t_shell *shell, char *av);
-int		pars_line(char *line, char **env);
 
 /* /src/parsing/split_token.c */
 char	**split_token(char *line, char c, char *av);
@@ -106,7 +121,6 @@ int		is_in_quote(char *line, int i, char c);
 int		ft_strcmp(const char *str1, const char *str2);
 int		size_token(char *line, char c, char *av);
 int		check_redir(char **cmd);
-int		is_builtin(char *cmd);
 int		count_cmd(char **tab);
 
 /* /src/tools/parsing/pars_cmd_line_utils.c */
@@ -127,7 +141,7 @@ void	wait_bin(t_shell *shell);
 void	child_err(t_shell *shell, char **cmd, char **env);
 char	**get_cmd_path(char **env);
 char	*recup_path(char *cmd, char **env);
-void	child_process(t_shell *shell, int i, char **env);
+void	child_process(t_shell *shell, int i, char ***env);
 void	parent_process(t_shell *shell);
 
 /* /src/pipex/here_doc.c */
@@ -141,11 +155,65 @@ int		exec_here(t_shell *shell);
 int		init_here(t_shell *shell, char *av);
 
 /* /src/pipex/pipex.c */
-int		pipex(t_shell *shell, char *av, char **env);
+int		pipex(t_shell *shell, char *av, char ***env);
 void	dup_and_close(int oldfd, int newfd);
-
 t_shell	*create_data(void);
-void	loop_shell(char **env);
 void	free_shell(t_shell *shell, char *av);
 void	close_all_pipe(t_shell *shell);
+
+/* /src/builtins/builtins.c */
+int		is_builtin(char *cmd);
+int		ft_pwd(char **env, char *str);
+int		ft_exit(char **env);
+int		exec_only_built(t_shell	*shell, char ***env);
+
+/* /src/builtins/echo.c */
+/*static void		print(char *str, int newline)*/
+/*static int	n_param(char *str, int *i)*/
+// int		open_quote(char *str); / not in the mandatory new subjet
+// int		dquote(void); / not in the mandatory new subjet
+int		ft_echo(char *str, char **env);
+
+/* /src/builtins/export.c */
+int		ft_export_one_by_one(char ***env, char *str);
+int		ft_export(char ***env, char *str);
+
+/* /src/builtins/unset.c */
+/*static int	ft_parse(char *str, unsigned int i);*/
+/*static int	ft_erase_var(t_shell *shell, int posi);*/
+/*static int	ft_unset_one_by_one(t_shell *shell, char *str);*/
+int		ft_unset(char ***env, char *str);
+
+/* /src/builtins/utils.c */
+int		print_and_return(char *str, int i);
+int		find_var(char **env, char *var);
+char	**ft_split_cmd(char *token, char **tab, unsigned int i);
+void	ft_free_tab(char **tab);
+
+/* /src/builtins/cd.c */
+int		ft_cd(char **env, char *str);
+
+/* /src/builtins/cd_utils.c */
+int		old_pwd(char **env, int pwdposi);
+int		cd_home(char **env);
+int		starting_directory(char **env, int posi);
+int		previous_directory(char **env, int posi);
+int		too_many_args(char **tab);
+
+/* /src/builtins/env.c */
+int		ft_ordonned_env(char **env);
+int		ft_env(char **env);
+
+/* /src/builtins/str_utils.c */
+int		is_space(char c);
+int		is_end(char c);
+int		is_dollar(char c);
+
+/* /src/builtins/quotes_utils.c */
+int			is_single_quote(char c);
+int			is_double_quote(char c);
+int			open_quotes(t_quotes quotes);
+void		quotes_gestion(int n, int max, bool *boolopen);
+t_quotes	quotes_count(char *str);
+
 #endif
