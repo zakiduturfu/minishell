@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 16:38:37 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/09 21:38:08 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,16 @@ void	loop_shell(char **env, char *line)
 	}
 }
 
+int	process_one_built(t_shell *shell, char *line, char ***env)
+{
+	free(line);
+	exec_only_built(shell, env);
+	free_all(shell->token);
+	free(shell->av);
+	free(shell->pid);
+	return (shell->status);
+}
+
 int	pars_line(char *line, char ***env)
 {
 	char	*av;
@@ -167,7 +177,7 @@ int	pars_line(char *line, char ***env)
 	if (check_line(shell, line))
 		return (free(av), -1);
 	if (shell->nb_cmd == 1 && find_built(shell) == 1)
-		exec_only_built(shell, env);
+		return (process_one_built(shell, av, env));
 	else if (pipex(shell, av, env) == -1)
 		return (-1);
 	close(shell->pipefd[0]);
