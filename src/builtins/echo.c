@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:15:54 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/02 18:27:14 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:16:32 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,23 +68,20 @@ static int	n_param(char *str, int *i, bool n, int last)
 		return (n);
 	while (!(is_end(str[*i])))
 	{
+		while (is_space(str[*i]))
+			*i =  *i + 1;
 		if (str[*i] != '-')
 			return (n);
-		else
+		*i = *i + 1;
+		while (str[*i] == 'n')
+			*i = *i + 1;
+		if (str[*i - 1] != 'n' || (is_space(str[*i]) == 0 && is_end(str[*i] == 0)))
 		{
-			*i = *i + 1;
-			while (str[*i] == 'n')
-				*i = *i + 1;
-			if (!(is_space(str[*i]) && !(is_end(str[*i]))))
-			{
-				*i = last;
-				return (n);
-			}
-			else
-				n = 1;
+			*i = last;
+			return (n);
 		}
-		while (is_space(str[*i]))
-			*i = *i + 1;
+		else
+			n = 1;
 		last = *i;
 	}
 	return (n);
