@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:39:30 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/02 18:14:40 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:27:07 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	open_quotes(t_quotes quotes)
 	return (0);
 }
 
-void quotes_gestion(int n, int max, bool *boolopen)
+void	quotes_gestion(int n, int max, bool *boolopen)
 {
 	if (*boolopen == 0 && n != max)
 		*boolopen = 1;
