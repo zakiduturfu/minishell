@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:51:50 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/02 15:53:54 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:37:02 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	recup_delim1(t_shell *shell)
 		if (!tmp)
 			return (-1);
 		fix_quote((signed char **)tmp);
-		tmp = find_expansion(tmp);
+		tmp = find_expansion(shell, tmp);
 		if (check_redirections(tmp) == -1)
 		{
 			printf("ganged here");

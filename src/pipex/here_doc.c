@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:51:50 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/02 15:54:05 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:17:33 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	create_here(t_shell *shell, char *av)
+int	create_here(t_shell *shell)
 {
 	if (shell->nb_here == 0)
 		return (0);
 	shell->here = malloc(sizeof(t_here) * shell->nb_here);
 	if (!shell->here)
 	{
-		free_shell(shell, av);
+		free_shell(shell, NULL, 1);
 		return (-1);
 	}
 	return (0);
@@ -52,28 +52,7 @@ void	file_here(int i, t_here *here)
 	close(here[i].here_pipe[1]);
 }
 
-void	child_here(t_shell *shell)
-{
-	int	i;
-
-	i = 0;
-	while (i < shell->nb_here)
-	{
-		file_here(i, shell->here);
-		i++;
-	}
-	i = -1;
-	while (++i < shell->nb_here)
-		free(shell->here[i].lim);
-	free(shell->pid);
-	free(shell->av);
-	free_all(shell->token);
-	free(shell->here);
-	free(shell);
-	exit(0);
-}
-
-int	exec_here(t_shell *shell)
+int	exec_here(t_shell *shell, char **env)
 {
 	int		i;
 	pid_t	pid;
@@ -85,7 +64,7 @@ int	exec_here(t_shell *shell)
 	if (pid < 0)
 		return (-1);
 	if (pid == 0)
-		child_here(shell);
+		child_here(shell, env);
 	else if (pid > 0)
 	{
 		while (++i < shell->nb_here)
@@ -98,14 +77,14 @@ int	exec_here(t_shell *shell)
 	return (1);
 }
 
-int	init_here(t_shell *shell, char *av)
+int	init_here(t_shell *shell, char **env)
 {
 	if (shell->nb_here)
 	{
-		if (exec_here(shell) == -1)
+		if (exec_here(shell, env) == -1)
 		{
 			free(shell->here);
-			free_shell(shell, av);
+			free_shell(shell, NULL, 1);
 			return (-1);
 		}
 	}
