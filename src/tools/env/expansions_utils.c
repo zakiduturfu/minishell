@@ -56,19 +56,16 @@ int	free_expand(char **tab, int index)
 	return (-1);
 }
 
-int	tab_value(char **tab, char *str, int i)
+void	tab_value(char **tab, char *str, int i)
 {
 	tab[0] = get_before_expand(str, i);
 	if (!tab[0])
-		return (-1);
+		return ;
 	tab[1] = get_after_expand(str + i + 1);
 	if (!tab[1])
-		return (free_expand(tab, 1));
+		free_expand(tab, 1);
 	tab[2] = get_expand_val(str, i);
 	if (!tab[2])
-		return (free_expand(tab, 2));
+		free_expand(tab, 2);
 	tab[3] = ft_avengers(tab[0], tab[1], tab[2]);
-	if (!tab[3])
-		return (-1);
-	return (1);
 }

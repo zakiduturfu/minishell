@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 16:37:06 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/09 17:26:18 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*modify_var_env(char *name, char **env, char *var);
 /* /src/tools/env/env_utils */
 int		size_env(char **env);
 void	free_env_tab(char **env);
-int		tab_value(char **tab, char *str, int i);
+void	tab_value(char **tab, char *str, int i);
 
 /* /src/tools/env/expansions_utils.c */
 int		free_expand(char **tab, int index);
