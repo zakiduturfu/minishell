@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 03:13:43 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/27 15:08:35 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:37:07 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	exec_process(t_shell *shell, int i, char ***env)
 {
 	if (pipe(shell->pipefd) == -1)
 		return (-1);
+	signal(SIGINT, &handler_cmd);
 	shell->pid[i] = fork();
 	if (shell->pid[i] == -1)
 	{
@@ -47,13 +48,14 @@ int	exec_pipex(t_shell *shell, char ***env)
 
 int	pipex(t_shell *shell, char *av, char ***env)
 {
-	if (create_here(shell, av) == -1)
+	free(av);
+	if (create_here(shell) == -1)
 		return (-1);
-	if (init_here(shell, av) == -1)
+	if (init_here(shell, *env) == -1)
 		return (-1);
 	if (exec_pipex(shell, env) == -1)
 	{
-		free_shell(shell, av);
+		free_shell(shell, NULL, 1);
 		return (-1);
 	}
 	return (0);

@@ -11,3 +11,129 @@ ECHO :
 Verif si decision de traiter les " ouverts comme des caracteres normaux (les afficher) OK 
 	/ faut-il sinon les ignorer totalement ?
 -> pour l'instant si quote solitaire on ignore, mais chgt facile si besoin de l'afficher
+
+
+zaki:
+-------------------------------------------------------------
+init.c: 
+valeur de retour change, adresse retourner et pointeur retirer sur shell
+
+17: static t_shell	shell = {0}; 
+19: return (&shell);
+
+minishell.h:
+
+ajout de la variable status pour les signaux ligne 48
+--------------------------------------------------------------
+pars_cmd_line.c:
+
+loop_shell:
+
+ajout des signaux:
+ligne 120 et ligne 123
+
+ajout l.125 if (line == NULL)
+		{
+			printf("exit\n");
+			free_env_tab(env);
+			exit(2);
+		}
+
+pars_line:
+l'adresse de la static etant retourner et la structure etant initialiser par defaut plus besoin du malloc donc suppression de la ligne 153: shell = malloc(sizeof(t_shell));
+
+suppression donc de tout les free(shell);
+
+pars_line(l.155): return (free(shell), -1); -> return (-1);
+
+pars_line(l.157):return (free(av),free(shell), -1); -> return (free(av), -1);
+
+pars_line(l.167): ajout d'une fonction check_line qui verifie que tout qu'il n'y a pas de guillemets ouverte.
+
+pars_line(l.173): ajout d'un close je ne sais plus pourquoi
+close(shell->pipefd[0]);
+
+pars_line(l.176): ajout d'un paramettre dans free_shell et modification des parametre
+free_shell(shell, av); -> free_shell(shell, NULL, 1);
+midfication apporter a la structure renseigne plus bas (l.51)
+
+pars_line(l.177): valeur de retour changer
+return (1); -> return (shell->status);
+
+
+--------------------------------------------------------------
+free_close.c:
+
+changement de parametre sur la fonction
+void	free_shell(t_shell *shell, char *av) -> void	free_shell(t_shell *shell, char *av, int index)
+
+free_shell(l.17): ajout if (!index)
+								free(av);
+
+free_shell(l.24): free enlever car plus besoin free(shell);
+
+--------------------------------------------------------------
+
+pipex.c:
+
+pipex(l.19): ajout de signal(SIGINT, &handler_cmd);
+
+pipex(l.50): ajout du free(av); car av ne nous sert plus a rien;
+
+pipex(l.51): parametre av supprimer de create_here
+
+pipex(l.53): idem et ajout de env en paramettre
+-------------------------------------------------------------
+
+here_doc.c:
+
+child_here deplace dans le fichier signaux.c
+ajout du parametre env dans exec_here, init_here, child_here
+
+-------------------------------------------------------------
+
+process.c (rien n'est encore aux normes)
+
+ajout de deux fonctions:
+
+(ligne 15): empty_cmd(char **cmd);
+(ligne 22): cmd_exist(char **cmd);
+
+
+child_err(l.43): ajout de free_all(cmd);
+
+child_err(l.44): while (cmd[++i]) retirer et ajoute de:
+if (shell->nb_here)
+		free(shell->here);
+et donc suppression de la variable i;
+
+child_err(l.49): suppression de free(shell);
+
+child_process(l.113): changement dans if (!cmd) -> if (!cmd || (cmd_exist(cmd) == -1 && empty_cmd(cmd)))
+chagement a l'interieur du if par tout un tas de de free qui sera modifier plus tard pour etre a la norme.
+
+child_process(l.124): ajout de i = cmd_exist(cmd);
+
+child_process(l.128): modification mineur dans recup_path, cmd[0] devient cmd[i];
+shell->path = recup_path(cmd[0], *env); ->		shell->path = recup_path(cmd[i], *env);
+
+child_proces(l.131): cmd dans exceve devient cmd + i
+if (execve(shell->path, cmd , *env) == -1) -> if (execve(shell->path, cmd + i, *env) == -1)
+
+-------------------------------------------------------------
+
+ajout de fichier dans file des signaux et fonction child_here deplacer dans signaux.c
+
+-------------------------------------------------------------
+
+expansions.c et expansion_utils.c
+le cas $? gerer et tout probleme d'expansion n'existant pas gerer seul probleme gerer ce soint les expansions present dans la meme chaine de charactere seul le premier dollars est changer et pas les autres donc a gerer.
+
+les fichier ne sont pas encore aux normes
+
+-------------------------------------------------------------
+
+choses restantes a modifier:
+-le cas des $ dans une seule ligne
+- \$ retirer le '\'
+je sais pas surement des leks et la norme sur les expansions, child_process autre.
