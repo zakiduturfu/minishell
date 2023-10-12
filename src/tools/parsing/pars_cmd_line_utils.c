@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:40:51 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 16:39:06 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/12 18:50:42 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,6 @@ int	is_quote(char *line, int i)
 	return (count);
 }
 
-int	ignore_sep(char *line, int i)
-{
-	if (line[i] == '\\' && line[i + 1] && line[i + 1] == '|')
-		return (1);
-	else if (line[i] == '\\' && line[i + 1] && line[i + 1] == ';')
-		return (1);
-	else if (line[i] == '\\' && line[i + 1] && line[i + 1] == '>'
-		&& line[i + 2] && line[i + 2] == '>')
-		return (1);
-	else if (line[i] == '\\' && line[i + 1] && line[i + 1] == '>')
-		return (1);
-	return (0);
-}
-
 int	count_quote(char *s)
 {
 	int	cmp;
@@ -86,27 +72,26 @@ int	count_quote(char *s)
 	return (cmp + cmp2);
 }
 
-char	*delete_quote(char *s)
+char	*delete_quote(char *s, int i, int j)
 {
-	int		i;
-	int		j;
 	char	*tab;
 
-	i = 0;
-	j = 0;
-	tab = malloc(sizeof(char) * ((ft_strlen(s) - count_quote(s)) + 1));
+	tab = malloc(sizeof(char) * ((del_slash(s) - del_quote(s)) + 1));
 	if (!tab)
 		return (NULL);
 	while (s[i])
 	{
-		if ((is_quote(s, i) == 1 || !is_quote(s, i))
-			&& s[i] == '\"')
+		if (is_quote(s, i) != 2 && s[i] == '\"' && is_slash(s, i))
 			i++;
-		else if ((is_quote(s, i) == 2 || !is_quote(s, i))
-			&& s[i] == '\'')
-				i++;
-		if (!s[i])
+		else if (is_quote(s, i) != 1 && s[i] == '\'' && is_slash(s, i))
+			i++;
+		else if (!s[i])
 			break ;
+		else if (s[i] == '\\' && (is_quote(s, i) == 1 || is_quote(s, i) == 0)
+			&& s[i + 1] && s[i + 1] == '$')
+			i++;
+		else if (s[i] == '\\' && !is_quote(s, i))
+			i++;
 		else
 			tab[j++] = s[i++];
 	}

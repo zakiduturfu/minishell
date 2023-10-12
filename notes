@@ -133,7 +133,11 @@ les fichier ne sont pas encore aux normes
 
 -------------------------------------------------------------
 
+Je ne sais plus quel fichier pour echo rajout de la fonction find_expansions
+
+-------------------------------------------------------------
 choses restantes a modifier:
--le cas des $ dans une seule ligne
+'$?' = $? mais "$?" = status
 - \$ retirer le '\'
+ajouter dans la version final de exit shell->status lors de l'exit
 je sais pas surement des leks et la norme sur les expansions, child_process autre.

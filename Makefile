@@ -6,6 +6,7 @@ SRCS = ./src/main.c \
 	./src/parsing/pars_cmd_line.c \
 	./src/parsing/init.c \
 	./src/parsing/token.c \
+	./src/parsing/syntax.c \
 	./src/parsing/split_token.c \
 	./src/file/redirections.c \
 	./src/file/signaux.c \
@@ -13,11 +14,13 @@ SRCS = ./src/main.c \
 	./src/pipex/here_doc.c \
 	./src/pipex/here_doc_utils.c \
 	./src/pipex/process.c \
+	./src/pipex/process_utils.c\
 	./src/env/env.c \
 	./src/env/shlvl.c \
 	./src/env/expansions.c \
 	./src/tools/parsing/token_utils.c \
 	./src/tools/parsing/pars_cmd_line_utils.c \
+	./src/tools/parsing/pars_cmd_line_utils2.c \
 	./src/tools/env/env_utils.c \
 	./src/tools/env/expansions_utils.c \
 	./src/tools/file/redirections_utils.c \
