@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/02 18:26:35 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/09 21:38:08 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <signal.h>
 
 char	*space_sep(char *line)
 {
@@ -116,9 +117,17 @@ int	is_empty_line(char *line)
 
 void	loop_shell(char **env, char *line)
 {
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
+		signal(SIGINT, &handler_sig);
 		line = readline("minishell>");
+		if (line == NULL)
+		{
+			printf("exit\n");
+			free_env_tab(env);
+			exit(2);
+		}
 		if (line != NULL)
 		{
 			if (ft_strcmp("exit", line) == 0)
@@ -142,6 +151,16 @@ void	loop_shell(char **env, char *line)
 	}
 }
 
+int	process_one_built(t_shell *shell, char *line, char ***env)
+{
+	free(line);
+	exec_only_built(shell, env);
+	free_all(shell->token);
+	free(shell->av);
+	free(shell->pid);
+	return (shell->status);
+}
+
 int	pars_line(char *line, char ***env)
 {
 	char	*av;
@@ -150,18 +169,20 @@ int	pars_line(char *line, char ***env)
 	if (!is_empty_line(line))
 		return (-1);
 	shell = create_data();
-	shell = malloc(sizeof(t_shell));
 	av = line_arg(line, 0, 0);
 	if (!av)
-		return (free(shell), -1);
+		return (-1);
 	if (init_struct(shell, av) == -1)
-		return (free(av), free(shell), -1);
+		return (free(av), -1);
+	if (check_line(shell, line))
+		return (free(av), -1);
 	if (shell->nb_cmd == 1 && find_built(shell) == 1)
-		exec_only_built(shell, env);
+		return (process_one_built(shell, av, env));
 	else if (pipex(shell, av, env) == -1)
 		return (-1);
+	close(shell->pipefd[0]);
 	wait_bin(shell);
 	close_in_here(shell);
-	free_shell(shell, av);
-	return (1);
+	free_shell(shell, NULL, 1);
+	return (shell->status);
 }

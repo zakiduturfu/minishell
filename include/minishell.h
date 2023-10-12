@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
 /*   Updated: 2023/10/09 11:58:54 by hstephan         ###   ########.fr       */
@@ -46,6 +46,7 @@ typedef struct s_shell
 	int		nb_cmd;
 	int		index;
 	int		c_here;
+	int		status;
 	t_here	*here;
 }	t_shell;
 
@@ -66,7 +67,7 @@ char	*find_var_name(char *env);
 char	*dup_var_name(char *str, int index);
 
 /* /src/env/expansions.c */
-char	*ft_expansions(char *str);
+char	*ft_expansions(t_shell *shell, char *str);
 char	*get_before_expand(char *str, int i);
 char	*get_after_expand(char *str);
 char	*get_expand_val(char *str, int i);
@@ -80,11 +81,11 @@ char	*modify_var_env(char *name, char **env, char *var);
 /* /src/tools/env/env_utils */
 int		size_env(char **env);
 void	free_env_tab(char **env);
-int		tab_value(char **tab, char *str, int i);
+void	tab_value(char **tab, char *str, int i);
 
 /* /src/tools/env/expansions_utils.c */
 int		free_expand(char **tab, int index);
-char	**find_expansion(char **tab);
+char	**find_expansion(t_shell *shell, char **tab);
 int		search_expand(char *str);
 
 /* /src/file/redirections.c */
@@ -93,6 +94,12 @@ void	open_fdin(t_shell *shell, char **cmd, int i);
 void	open_fdout(t_shell *shell, char **cmd, int i);
 void	open_redir(t_shell *shell, char **cmd, int i);
 void	find_redir(t_shell *shell, char **cmd, int j);
+
+/* src/file/signaux.c*/
+void	handler_sig(int sig);
+void	handler_cmd(int sig);
+void	handler_here(int sig);
+void	child_here(t_shell *shell, char **env);
 
 /* /src/parsing/pars_cmd_line.c */
 char	*space_sep(char *line);
@@ -130,6 +137,7 @@ int		is_quote(char *line, int i);
 int		ignore_sep(char *line, int i);
 char	*quote_line(char c, char *s, int count);
 char	*delete_quote(char *s);
+int		check_line(t_shell *shell, char *line);
 
 /* /src/tools/file/redirections_utiles.c*/
 char	**delete_redir(char **line);
@@ -147,19 +155,18 @@ void	parent_process(t_shell *shell);
 
 /* /src/pipex/here_doc.c */
 int		nb_heredoc(char *line);
-int		create_here(t_shell *shell, char *av);
+int		create_here(t_shell *shell);
 int		recup_delim1(t_shell *shell);
 int		recup_delim2(t_shell *shell, char **tmp, int j);
 void	file_here(int i, t_here *here);
-void	child_here(t_shell *shell);
-int		exec_here(t_shell *shell);
-int		init_here(t_shell *shell, char *av);
+int		exec_here(t_shell *shell, char **env);
+int		init_here(t_shell *shell, char **env);
 
 /* /src/pipex/pipex.c */
 int		pipex(t_shell *shell, char *av, char ***env);
 void	dup_and_close(int oldfd, int newfd);
 t_shell	*create_data(void);
-void	free_shell(t_shell *shell, char *av);
+void	free_shell(t_shell *shell, char *av, int index);
 void	close_all_pipe(t_shell *shell);
 
 /* /src/builtins/builtins.c */

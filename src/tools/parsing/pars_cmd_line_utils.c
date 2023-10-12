@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:40:51 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/02 15:27:14 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:39:06 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ int	count_quote(char *s)
 			cmp2++;
 		i++;
 	}
+	if (cmp % 2 != 0 || cmp2 % 2 != 0)
+	{
+		ft_putstr_fd("syntaxe error: quote must be closed\n", 2);
+		return (-1);
+	}
 	return (cmp + cmp2);
 }
 
@@ -108,4 +113,21 @@ char	*delete_quote(char *s)
 	tab[j] = '\0';
 	free(s);
 	return (tab);
+}
+
+int	check_line(t_shell *shell, char *line)
+{
+	if (count_quote(line) == -1 || !shell->pid || !shell->token)
+	{
+		if (shell->token)
+		{
+			free_all(shell->token);
+			if (shell->av)
+				free(shell->av);
+			if (shell->pid)
+				free(shell->pid);
+		}
+		return (1);
+	}
+	return (0);
 }

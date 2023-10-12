@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:56:18 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/02 15:52:37 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/09 17:24:24 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <stdlib.h>
+
+char	*get_val_env(char *name)
+{
+	char	*val;
+
+	val = getenv(name);
+	if (!val)
+	{
+		val = malloc(1);
+		if (!val)
+			return (NULL);
+		val[0] = '\0';
+		return (val);
+	}
+	return (name);
+}
 
 char	*ft_avengers(char *before, char *after, char *expand)
 {
@@ -20,7 +37,15 @@ char	*ft_avengers(char *before, char *after, char *expand)
 
 	val = getenv(expand);
 	free(expand);
-	tmp = ft_strjoin(before, val);
+	if (!val)
+	{
+		val = malloc(1);
+		val[0] = 0;
+		tmp = ft_strjoin(before, val);
+		free(val);
+	}
+	else
+		tmp = ft_strjoin(before, val);
 	free(before);
 	if (!tmp)
 	{
@@ -103,25 +128,62 @@ char	*get_before_expand(char *str, int i)
 	return (ret);
 }
 
-char	*ft_expansions(char *str)
+char	*ret_status(char *before, char *after, char *status)
+{
+	char	*tmp;
+	char	*new_line;
+
+	tmp = ft_strjoin(before, status);
+	free(status);
+	free(before);
+	if (!tmp)
+	{
+		free(after);
+		return (NULL);
+	}
+	new_line = ft_strjoin(tmp, after);
+	free(tmp);
+	free(after);
+	if (!new_line)
+		return (NULL);
+	return (new_line);
+}
+
+void	stat_expand(char **tab, char *str, int i, t_shell *shell)
+{
+	tab[0] = get_before_expand(str, i);
+	if (!tab[0])
+		return ;
+	tab[1] = get_after_expand(str + i + 2);
+	if (!tab[1])
+		free_expand(tab, 1);
+	tab[2] = ft_itoa(shell->status);
+	if (!tab[2])
+		free_expand(tab, 2);
+	tab[3] = ret_status(tab[0], tab[1], tab[2]);
+}
+
+char	*ft_expansions(t_shell *shell, char *str)
 {
 	int		i;
 	char	*tab[4];
 
 	i = 0;
-	i = search_expand(str);
 	if (!str)
 		return (NULL);
-	if (str[i])
+	while (str[i])
 	{
+		i = search_expand(str);
 		if (str[i] == '$')
 		{
 			if (str[i + 1] == '?')
-				return (NULL);
-			if (tab_value(tab, str, i) == -1)
-				return (NULL);
+				stat_expand(tab, str, i, shell);
+			else
+				tab_value(tab, str, i);
 			free(str);
-			return (tab[3]);
+			if (!tab[3])
+				return (NULL);
+			str = tab[3];
 		}
 	}
 	return (str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:30:26 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/02 15:32:19 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/09 21:33:53 by zaki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_shell	*create_data(void)
 {
-	static t_shell	*shell;
+	static t_shell	shell;
 
-	return (shell);
+	return (&shell);
 }
 
 int	init_struct(t_shell *shell, char *av)

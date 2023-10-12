@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/02 15:38:59 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:35:30 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	**init_start_cmd(t_shell *shell, char *cmd_line, int index)
 	i = -1;
 	tab = ft_split(cmd_line, ' ');
 	fix_quote((signed char **)tab);
-	tab = find_expansion(tab);
+	tab = find_expansion(shell, tab);
 	if (!tab)
 		return (NULL);
 	if (index)

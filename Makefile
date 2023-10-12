@@ -8,6 +8,7 @@ SRCS = ./src/main.c \
 	./src/parsing/token.c \
 	./src/parsing/split_token.c \
 	./src/file/redirections.c \
+	./src/file/signaux.c \
 	./src/pipex/pipex.c \
 	./src/pipex/here_doc.c \
 	./src/pipex/here_doc_utils.c \

@@ -3,32 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 11:45:37 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/02 15:50:20 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:09:54 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	child_err(t_shell *shell, char **cmd, char **env)
+int	empty_cmd(char **cmd)
+{
+	if (cmd[0][0] == 0)
+		return (1);
+	return (0);
+}
+
+int	cmd_exist(char **cmd)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
+	while (cmd[i])
+	{
+		if (cmd[i][0] != 0)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+void	child_err(t_shell *shell, char **cmd, char **env)
+{
 	ft_putstr_fd(cmd[0], 2);
 	ft_putstr_fd(":command not found\n", 2);
-	while (cmd[++i])
-		free(cmd[i]);
-	free(cmd);
+	free_all(cmd);
+	if (shell->nb_here)
+		free(shell->here);
 	if (shell->pipefd[1])
 		close(shell->pipefd[1]);
 	free(shell->path);
 	free(shell->av);
 	free_all(shell->token);
 	free_env_tab(env);
-	free(shell);
 }
 
 char	**get_cmd_path(char **env)
@@ -93,18 +110,25 @@ void	child_process(t_shell *shell, int i, char ***env)
 	shell->index = i;
 	free(shell->pid);
 	cmd = init_start_cmd(shell, shell->token[i], 2);
-	if (!cmd)
+	if (!cmd || (cmd_exist(cmd) == -1 && empty_cmd(cmd)))
 	{
-		printf("ganged cmd\n");
-		return ;
+		close(shell->pipefd[0]);
+		if (shell->pipefd[1])
+			close(shell->pipefd[1]);
+		free(shell->av);
+		free_all(cmd);
+		free_all(shell->token);
+		free_env_tab(*env);
+		exit(127);
 	}
+	i = cmd_exist(cmd);
 	if (is_builtin(cmd[0]))
 		exit (exec_only_built(shell, env));
 	if (cmd[0])
-		shell->path = recup_path(cmd[0], *env);
+		shell->path = recup_path(cmd[i], *env);
 	if (shell->path)
 	{
-		if (execve(shell->path, cmd, *env) == -1)
+		if (execve(shell->path, cmd + i, *env) == -1)
 		{
 			perror("execve");
 			exit(2);
