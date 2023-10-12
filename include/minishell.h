@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 11:58:54 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:32:09 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,13 +193,14 @@ int		ft_export(char ***env, char *str);
 int		ft_unset(char ***env, char *str);
 
 /* /src/builtins/utils.c */
+int		ft_cd(char **env, char *str);
 int		print_and_return(char *str, int i);
 int		find_var(char **env, char *var);
 char	**ft_split_cmd(char *token, char **tab, unsigned int i);
 void	ft_free_tab(char **tab);
 
 /* /src/builtins/cd.c */
-int		ft_cd(char **env, char *str);
+int		try_exec_cd(char **env, char *directory);
 
 /* /src/builtins/cd_utils.c */
 int		old_pwd(char **env, int pwdposi);

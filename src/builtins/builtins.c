@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/09 21:33:46 by zaki             ###   ########.fr       */
+/*   Updated: 2023/10/12 18:31:36 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	ft_cd(char **env, char *str)
+{
+	char			**tab;
+
+	if (!str || str[0] == '\0')
+		return (cd_home(env));
+	tab = ft_nsplit(str, ' ', '\t');
+	if (!tab)
+		return (1);
+	if (tab && ft_strcmp(tab[0], "/") != 0 && tab[1])
+		return (too_many_args(tab));
+	// faire le cas / pwihfp 
+	try_exec_cd(env, tab[0]);
+	return (0);
+}
 
 int	is_builtin(char *cmd)
 {

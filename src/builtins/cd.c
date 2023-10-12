@@ -3,19 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/09 21:34:26 by zaki             ###   ########.fr       */
+/*   Updated: 2023/10/12 18:38:39 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// static	int is_directory(char **pwd, char *dir)
-// {
+static	int is_directory(char **pwd, char *dir, char **tab, int i)
+{
+	char		*path;
+	struct stat	info;
+	int			result;
+	char		*slash;
+	int			j;
 	
-// }
+	j = -1;
+	slash = ft_strjoin(&((*pwd)[4]), "/");
+	if (!slash)
+		return (1);
+	path = ft_strjoin(slash, dir);
+	free(slash);
+	if (!path)
+		return (0);
+	stat(path, &info);
+	result = S_ISDIR(info.st_mode);
+	if (result != 1)
+	{
+		printf("cd: no such file or directory: ");
+		while (++j <= i)
+		{
+			printf("%s", tab[j]);
+			if (j < i)
+				printf("/");
+		}
+		printf("\n");
+	}
+	free(path);
+	return (result);
+}
 
 static int	this_directory(char **pwd, char *dir)
 {
@@ -53,53 +81,49 @@ static int	exec_cd(char **env, char **tab, int posi)
 	return (0);
 }
 
-static int	try_exec_cd(char **env, char *directory)
+static int	ft_verif_path(char **tab, char *test)
+{
+	unsigned int i;
+
+	i = 0;
+	while (tab[i])
+	{
+		if (ft_strcmp("..", tab[i]) == 0)
+			previous_directory(&test);
+		else if (ft_strcmp(".", tab[i]) != 0)
+		{
+			if(!(is_directory(&test, tab[i], tab, i)))
+			{
+				free(test);
+				return (0);
+			}
+			else
+				this_directory(&test, tab[i]);
+		}
+		i++;
+	}
+	free(test);
+	return (1);
+}
+
+int	try_exec_cd(char **env, char *directory)
 {
 	int				posi;
 	char			**tab;
-	unsigned int	i;
-	// char			*test;
+	char			*test;
 
 	posi = -1;
-	i = 0;
 	posi = find_var(env, "PWD");
 	if (posi == -1)
 		return (1);
 	tab = ft_split(directory, '/');
 	if (!tab)
 		return (1);
-	// test = ft_strdup(env[posi]);
-	// if (!test)
-	// 	return (ft_free_tab(tab), 1);
-	// while (tab[i])
-	// {
-	// 	if (ft_strcmp("..", tab[i]) == 0)
-	// 		previous_directory(&test);
-	// 	else if (ft_strcmp(".", tab[i]) != 0)
-	// 	{
-	// 		if(!(is_directory(&test, tab[i])))
-	// 			printf("cd: no such file or directory: %s\n", "BLABLA");
-	// 		this_directory(&test, tab[i]);
-	// 	}
-	// 	i++;
-	// }
-	exec_cd(env, tab, posi);
+	test = ft_strdup(env[posi]);
+	if (!test)
+		return (ft_free_tab(tab), 1);
+	if (ft_verif_path(tab, test) == 1)
+		exec_cd(env, tab, posi);
 	ft_free_tab(tab);
-	return (0);
-}
-
-int	ft_cd(char **env, char *str)
-{
-	char			**tab;
-
-	if (!str || str[0] == '\0')
-		return (cd_home(env));
-	tab = ft_nsplit(str, ' ', '\t');
-	if (!tab)
-		return (1);
-	if (tab && ft_strcmp(tab[0], "/") != 0 && tab[1])
-		return (too_many_args(tab));
-	// faire le cas / pwihfp 
-	try_exec_cd(env, tab[0]);
 	return (0);
 }
