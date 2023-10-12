@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:09:56 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/02 15:22:26 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:26:48 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,49 +38,54 @@ int	cd_home(char **env)
 	pwdposi = find_var(env, "PWD");
 	if (pwdposi == -1)
 		return (1);
-	// chdir("~/");
 	old_pwd(env, pwdposi);
 	new = ft_strjoin("PWD", &(env[homeposi][4]));
 	if (!new)
 		return (1);
 	ft_export_one_by_one(&env, new);
 	free(new);
+	if (chdir(&(env[homeposi][5]))!= 0)
+		return (1);
 	return (0);
 }
 
-int	starting_directory(char **env, int posi)
+int	starting_directory(char **pwd)
 {
 	char			*new;
 
 	new = ft_strdup("PWD=/");
 	if (!new)
 		return (1);
-	free(env[posi]);
-	env[posi] = new;
+	free(*pwd);
+	*pwd = new;
+	if (chdir("/") != 0)
+		return (1);
 	return (0);
 }
 
-int	previous_directory(char **env, int posi)
+int	previous_directory(char **pwd)
 {
 	char			*new;
 	unsigned int	i;
 
 	i = 0;
-	while (env[posi][i] != '\0')
+	while ((*pwd)[i] != '\0')
 		i++;
 	i--;
 	if (i <= 4)
 		return (0);
-	while (i > 0 && env[posi][i] != '/')
+	while (i > 0 && (*pwd)[i] != '/')
 		i--;
 	if (i <= 4)
-		return (starting_directory(env, posi));
+		return (starting_directory(pwd));
 	else
-		new = ft_strndup(env[posi], i);
+		new = ft_strndup((*pwd), i);
 	if (!new)
 		return (1);
-	free(env[posi]);
-	env[posi] = new;
+	free(*pwd);
+	(*pwd) = new;
+	if (chdir(&((*pwd)[4])) != 0)
+		return (1);
 	return (0);
 }
 

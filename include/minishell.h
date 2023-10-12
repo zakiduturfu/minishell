@@ -6,7 +6,7 @@
 /*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 21:36:53 by zaki             ###   ########.fr       */
+/*   Updated: 2023/10/09 11:58:54 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 # include <stdbool.h>
+# include <sys/stat.h>
 
 typedef struct s_here
 {
@@ -203,12 +204,12 @@ int		ft_cd(char **env, char *str);
 /* /src/builtins/cd_utils.c */
 int		old_pwd(char **env, int pwdposi);
 int		cd_home(char **env);
-int		starting_directory(char **env, int posi);
-int		previous_directory(char **env, int posi);
+int		starting_directory(char **pwd);
+int		previous_directory(char **pwd);
 int		too_many_args(char **tab);
 
 /* /src/builtins/env.c */
-int		ft_ordonned_env(char **env);
+int		ft_ordonned_env(char **env, char *tmp, int i);
 int		ft_env(char **env);
 
 /* /src/builtins/str_utils.c */
