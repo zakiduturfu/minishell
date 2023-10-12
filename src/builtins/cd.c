@@ -12,6 +12,30 @@
 
 #include "../../include/minishell.h"
 
+// static	int is_directory(char **pwd, char *dir)
+// {
+	
+// }
+
+static int	this_directory(char **pwd, char *dir)
+{
+	char			*slash;
+	char			*new;
+
+	slash = ft_strjoin(*pwd, "/");
+	if (!slash)
+		return (1);
+	new = ft_strjoin(slash, dir);
+	free(slash);
+	if (!new)
+		return (1);
+	free(*pwd);
+	*pwd = new;
+	if (chdir(&((*pwd)[4])) != 0)
+		return (1);
+	return (0);
+}
+
 static int	exec_cd(char **env, char **tab, int posi)
 {
 	unsigned int	i;
@@ -21,9 +45,9 @@ static int	exec_cd(char **env, char **tab, int posi)
 	while (tab && tab[i])
 	{
 		if (ft_strcmp("..", tab[i]) == 0)
-			previous_directory(env, posi);
-		// else if (ft_strcmp(".", tab[i]) != 0)
-			// si repertoire ok
+			previous_directory(&(env[posi]));
+		else if (ft_strcmp(".", tab[i]) != 0)
+			this_directory(&(env[posi]), tab[i]);
 		i++;
 	}
 	return (0);
@@ -34,6 +58,7 @@ static int	try_exec_cd(char **env, char *directory)
 	int				posi;
 	char			**tab;
 	unsigned int	i;
+	// char			*test;
 
 	posi = -1;
 	i = 0;
@@ -43,10 +68,19 @@ static int	try_exec_cd(char **env, char *directory)
 	tab = ft_split(directory, '/');
 	if (!tab)
 		return (1);
+	// test = ft_strdup(env[posi]);
+	// if (!test)
+	// 	return (ft_free_tab(tab), 1);
 	// while (tab[i])
 	// {
-	// 	ici on verifiera la validite de tout le chemin, si pas valide message d'erreur et quitte
-	// 		// cd: no such file or directory: %s\n
+	// 	if (ft_strcmp("..", tab[i]) == 0)
+	// 		previous_directory(&test);
+	// 	else if (ft_strcmp(".", tab[i]) != 0)
+	// 	{
+	// 		if(!(is_directory(&test, tab[i])))
+	// 			printf("cd: no such file or directory: %s\n", "BLABLA");
+	// 		this_directory(&test, tab[i]);
+	// 	}
 	// 	i++;
 	// }
 	exec_cd(env, tab, posi);

@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/12 18:56:59 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/09 11:58:54 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/stat.h>
 # include "../libft/libft.h"
 # include <stdbool.h>
+# include <sys/stat.h>
 
 typedef struct s_here
 {
@@ -221,15 +222,15 @@ void		ft_free_tab(char **tab);
 int			ft_cd(char **env, char *str);
 
 /* /src/builtins/cd_utils.c */
-int			old_pwd(char **env, int pwdposi);
-int			cd_home(char **env);
-int			starting_directory(char **env, int posi);
-int			previous_directory(char **env, int posi);
-int			too_many_args(char **tab);
+int		old_pwd(char **env, int pwdposi);
+int		cd_home(char **env);
+int		starting_directory(char **pwd);
+int		previous_directory(char **pwd);
+int		too_many_args(char **tab);
 
 /* /src/builtins/env.c */
-int			ft_ordonned_env(char **env);
-int			ft_env(char **env);
+int		ft_ordonned_env(char **env, char *tmp, int i);
+int		ft_env(char **env);
 
 /* /src/builtins/str_utils.c */
 int			is_space(char c);
