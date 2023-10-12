@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:17:32 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 14:10:40 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/10 15:42:55 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	find_redir(t_shell *shell, char **cmd, int j)
 	int	i;
 
 	i = 0;
-//	printf("%s %d prev%d fd0%d, ==%d\n", cmd[0], shell->index, shell->prev_pipe, shell->pipefd[0], shell->index != shell->nb_cmd - 1);
 	if (shell->index != 0)
 		dup_and_close(shell->prev_pipe, STDIN_FILENO);
 	if (shell->index != shell->nb_cmd - 1)

@@ -6,32 +6,11 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 11:45:37 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 14:09:54 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/12 18:42:48 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	empty_cmd(char **cmd)
-{
-	if (cmd[0][0] == 0)
-		return (1);
-	return (0);
-}
-
-int	cmd_exist(char **cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i][0] != 0)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
 
 void	child_err(t_shell *shell, char **cmd, char **env)
 {
@@ -77,7 +56,7 @@ char	*recup_path(char *cmd, char **env)
 
 	i = -1;
 	if (ft_strchr(cmd, '/') && access(cmd, 0) == 0)
-		return (cmd);
+		return (ft_strdup(cmd));
 	else
 	{
 		path = get_cmd_path(env);
@@ -127,13 +106,7 @@ void	child_process(t_shell *shell, int i, char ***env)
 	if (cmd[0])
 		shell->path = recup_path(cmd[i], *env);
 	if (shell->path)
-	{
-		if (execve(shell->path, cmd + i, *env) == -1)
-		{
-			perror("execve");
-			exit(2);
-		}
-	}
+		ft_exec(shell, cmd, i, env);
 	child_err(shell, cmd, *env);
 	exit(127);
 }

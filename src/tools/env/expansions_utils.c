@@ -6,11 +6,27 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:59:59 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 15:33:20 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/12 19:04:05 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
+
+char	*get_val_env(char *name)
+{
+	char	*val;
+
+	val = getenv(name);
+	if (!val)
+	{
+		val = malloc(1);
+		if (!val)
+			return (NULL);
+		val[0] = '\0';
+		return (val);
+	}
+	return (name);
+}
 
 int	search_expand(char *str)
 {
@@ -19,9 +35,16 @@ int	search_expand(char *str)
 	i = 0;
 	while (str[i] && str[i] != '$')
 	{
-		if (str[i] == '\\' && str[i + 1] && str[i + 1] == '$')
-			i++;
 		i++;
+		if (str[i] == '$' && is_quote(str, i) == 2)
+			i++;
+		else if (str[i] == '$' && str[i - 1] == '\\')
+			i++;
+		else if (str[i] == '$' && str[i + 1] == '\0')
+			i++;
+		else if (str[i] == '$' && str[i + 1] && (str[i + 1] == '\''
+				|| str[i + 1] == '\"'))
+			i++;
 	}
 	return (i);
 }

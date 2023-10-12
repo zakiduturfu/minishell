@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:51:50 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/09 14:17:33 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/11 11:31:22 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ void	file_here(int i, t_here *here)
 	{
 		s = readline("here_doc>");
 		if (!s)
-		{
-			printf("oulala la catastrophe\n");
 			break ;
-		}
 		else if (!ft_strcmp(s, here[i].lim))
 		{
 			free(s);
@@ -73,17 +70,21 @@ int	exec_here(t_shell *shell, char **env)
 			close(shell->here[i].here_pipe[1]);
 		}
 	}
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &shell->status, 0);
 	return (1);
 }
 
 int	init_here(t_shell *shell, char **env)
 {
+	int	i;
+
+	i = -1;
 	if (shell->nb_here)
 	{
-		if (exec_here(shell, env) == -1)
+		if (exec_here(shell, env) == -1 || shell->status == 130)
 		{
-			free(shell->here);
+			while (++i < shell->nb_here)
+				close(shell->here[i].here_pipe[0]);
 			free_shell(shell, NULL, 1);
 			return (-1);
 		}

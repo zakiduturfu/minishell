@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:08:35 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/02 15:52:42 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:45:00 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ char	*modify_var_env(char *name, char **env, char *var)
 	i = 0;
 	while (env[i])
 	{
-		if (!strncmp(name, env[i], 6))
+		if (!ft_strncmp(name, env[i], 6))
 			break ;
 		i++;
 	}
 	free(env[i]);
-	env[i] = strdup(var);
+	env[i] = ft_strdup(var);
 	free(var);
 	return (env[i]);
 }
@@ -57,20 +57,23 @@ char	*recup_val_shlvl(char **env)
 	return (val);
 }
 
-void	increment_shlvl(char **env)
+int	increment_shlvl(char **env)
 {
 	char	*val;
 	char	*new_var;
 	int		nb;
 
 	if (!env)
-		return ;
+		return (-1);
 	val = getenv("SHLVL");
+	if (!val)
+		return (-1);
 	nb = ft_atoi(val);
 	nb += 1;
 	val = ft_itoa(nb);
 	new_var = ft_strjoin("SHLVL=", val);
 	free(val);
 	if (!modify_var_env("SHLVL=", env, new_var))
-		printf("FUCK\n");
+		return (-1);
+	return (1);
 }

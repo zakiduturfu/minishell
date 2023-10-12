@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:51:50 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/09 15:37:02 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/12 18:39:18 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ int	recup_delim2(t_shell *shell, char **tmp, int j)
 	i = 0;
 	while (tmp[i])
 	{
-		printf("%s\n", tmp[i]);
 		if (!ft_strcmp(tmp[i], "<<"))
 		{
-			shell->here[j].lim = delete_quote(tmp[i + 1]);
+			shell->here[j].lim = delete_quote(tmp[i + 1], 0, 0);
 			free(tmp[i]);
 			i++;
 			pipe(shell->here[j].here_pipe);
@@ -72,7 +71,7 @@ int	recup_delim1(t_shell *shell)
 		tmp = find_expansion(shell, tmp);
 		if (check_redirections(tmp) == -1)
 		{
-			printf("ganged here");
+			free_all(tmp);
 			return (-1);
 		}
 		j = recup_delim2(shell, tmp, j);

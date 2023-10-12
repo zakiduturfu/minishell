@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaki <zaki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/09 21:33:46 by zaki             ###   ########.fr       */
+/*   Updated: 2023/10/11 13:02:57 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <readline/history.h>
 
 int	is_builtin(char *cmd)
 {
@@ -35,6 +36,7 @@ int	is_builtin(char *cmd)
 int	ft_exit(char **env)
 {
 	free_env_tab(env);
+	clear_history();
 	exit(0);
 }
 
@@ -62,6 +64,7 @@ int	exec_only_built(t_shell	*shell, char ***env)
 	tab = NULL;
 	tab = ft_split_cmd(shell->token[0], tab, 0);
 	fix_quote((signed char **)tab);
+	tab = find_expansion(shell, tab);
 	// printf("tab[1] = %s\n", tab[1]);
 	if (!tab)
 		return (-1);

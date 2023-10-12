@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:22:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/02 15:47:09 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:57:01 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
+#include <stdlib.h>
 
 int	count_redir(char **line)
 {
@@ -78,7 +79,9 @@ void	wait_bin(t_shell *shell)
 	i = 0;
 	while (i < shell->nb_cmd)
 	{
-		waitpid(shell->pid[i], NULL, 0);
+		waitpid(shell->pid[i], &shell->status, 0);
+		if (WIFEXITED(shell->status))
+			shell->status = WEXITSTATUS(shell->status);
 		i++;
 	}
 }

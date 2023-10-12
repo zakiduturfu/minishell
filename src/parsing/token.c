@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 15:35:30 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/12 11:24:36 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	fix_quote(signed char **line)
 		j = 0;
 		while (line[i][j])
 		{
-			if (line[i][j] == -32)
+			if (line[i][j] == -32 || line[i][j] == -124)
 				line[i][j] = -line[i][j];
 			j++;
 		}
@@ -120,6 +120,6 @@ char	**init_start_cmd(t_shell *shell, char *cmd_line, int index)
 	}
 	tab = delete_redir(tab);
 	while (tab[++i])
-		tab[i] = delete_quote(tab[i]);
+		tab[i] = delete_quote(tab[i], 0, 0);
 	return (tab);
 }
