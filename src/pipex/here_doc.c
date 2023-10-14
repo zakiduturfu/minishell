@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:51:50 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/11 11:31:22 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/14 14:45:29 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,15 @@ void	file_here(int i, t_here *here)
 int	exec_here(t_shell *shell, char **env)
 {
 	int		i;
+	int		delim;
 	pid_t	pid;
 
 	i = -1;
-	if (recup_delim1(shell) == -1)
+	delim = recup_delim1(shell);
+	if (delim == -1)
 		return (-1);
+	else if (delim == -2)
+		return (-2);
 	pid = fork();
 	if (pid < 0)
 		return (-1);
@@ -77,12 +81,20 @@ int	exec_here(t_shell *shell, char **env)
 int	init_here(t_shell *shell, char **env)
 {
 	int	i;
+	int	ex;
 
 	i = -1;
+	ex = 0;
 	if (shell->nb_here)
 	{
-		if (exec_here(shell, env) == -1 || shell->status == 130)
+		ex = exec_here(shell, env);
+		if (ex == -1 || ex == -2 || shell->status == 130)
 		{
+			if (ex == -2)
+			{
+				free_shell(shell, NULL, 1);
+				return (-1);
+			}
 			while (++i < shell->nb_here)
 				close(shell->here[i].here_pipe[0]);
 			free_shell(shell, NULL, 1);

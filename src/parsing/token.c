@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/12 11:24:36 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/14 14:51:34 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int	is_token(char *line, int *i, char c, char *av)
 	return (1);
 }
 
-int	find_built(t_shell *shell)
+int	find_built(t_shell *shell, char **env)
 {
 	int		ret;
 	char	**tab;
 
 	ret = 0;
-	tab = init_start_cmd(shell, shell->token[0], 0);
+	tab = init_start_cmd(shell, shell->token[0], 0, env);
 	if (tab)
 	{
 		ret = is_builtin(tab[0]);
@@ -75,27 +75,36 @@ void	fix_quote(signed char **line)
 	}
 }
 
-int	check_redirections(char **tab)
+int	check_redirections(char **tab, int i)
 {
-	int	i;
-
-	i = 0;
-	while (tab[i])
+	i = -1;
+	while (tab[++i])
 	{
+		if ((tab[i][0] == '<' || tab[i][0] == '>') && (!tab[i + 1]))
+			break ;
 		if ((tab[i][0] == '<' || tab [i][0] == '>')
 			&& (tab[i + 1][0] == '<' || tab[i + 1][0] == '>'))
 		{
 			ft_putstr_fd("shell: pars error near `", 2);
 			ft_putstr_fd(tab[i + 1], 2);
-			ft_putstr_fd("'", 2);
-			return (-1);
+			ft_putstr_fd("'\n", 2);
+			return (1);
 		}
-		i++;
+	}
+	i = -1;
+	while (tab[++i])
+	{
+		if ((tab[i][0] == '<' || tab[i][0] == '>') && (!tab[i + 1]))
+		{
+			printf("%s\n", tab[i + 1]);
+			ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+			return (1);
+		}
 	}
 	return (0);
 }
 
-char	**init_start_cmd(t_shell *shell, char *cmd_line, int index)
+char	**init_start_cmd(t_shell *shell, char *cmd_line, int index, char **env)
 {
 	int		i;
 	char	**tab;
@@ -108,15 +117,15 @@ char	**init_start_cmd(t_shell *shell, char *cmd_line, int index)
 		return (NULL);
 	if (index)
 	{
-		if (check_redirections(tab) == -1)
+		if (check_redirections(tab, 0))
 		{
-			if (shell->index != -1)
+			if (shell->prev_pipe != -1)
 				close(shell->prev_pipe);
 			close_all_pipe(shell);
 			free_all(tab);
 			return (NULL);
 		}
-		find_redir(shell, tab, index);
+		find_redir(shell, tab, index, env);
 	}
 	tab = delete_redir(tab);
 	while (tab[++i])

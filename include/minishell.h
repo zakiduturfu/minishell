@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 11:58:54 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/14 14:50:33 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ int			search_expand(char *str);
 
 /* /src/file/redirections.c */
 void		dup_and_close(int oldfd, int newfd);
-void		open_fdin(t_shell *shell, char **cmd, int i);
-void		open_fdout(t_shell *shell, char **cmd, int i);
-void		open_redir(t_shell *shell, char **cmd, int i);
-void		find_redir(t_shell *shell, char **cmd, int j);
+void		open_fdin(t_shell *shell, char **cmd, int i, char **env);
+void		open_fdout(t_shell *shell, char **cmd, int i, char **env);
+void		open_redir(t_shell *shell, char **cmd, int i, char **env);
+void		find_redir(t_shell *shell, char **cmd, int j, char **env);
 
 /* src/file/signaux.c*/
 void		handler_sig(int sig);
@@ -129,10 +129,10 @@ int			t_ignore_sep(char *line, int i, char c, char *av);
 
 /* /src/parsing/token.c */
 int			is_token(char *line, int *i, char c, char *av);
-int			find_built(t_shell *shell);
-int			check_redirections(char **tab);
+int			find_built(t_shell *shell, char **env);
+int			check_redirections(char **tab, int i);
 void		fix_quote(signed char **line);
-char		**init_start_cmd(t_shell *shell, char *cmd_line, int index);
+char		**init_start_cmd(t_shell *shell, char *cmd_line, int index, char **env);
 
 /* /src/tools/parsing/token_utils.c*/
 int			is_in_quote(char *line, int i, char c);
@@ -245,4 +245,5 @@ void		quotes_gestion(int n, int max, bool *boolopen);
 t_quotes	quotes_count(char *str);	
 
 int	is_slash(char *s, int i);
+void	safe_close(int	fd);
 #endif

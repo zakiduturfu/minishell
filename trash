@@ -39,3 +39,5 @@ void	affiche_test(char *cmd)
 // 		free_all(cmd);
 // 	}
 // }
+
+cat Makefile | cat | | cat

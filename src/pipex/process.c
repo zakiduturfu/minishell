@@ -6,11 +6,21 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 11:45:37 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/12 18:42:48 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/14 14:42:35 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <errno.h>
+
+void	safe_close(int fd)
+{
+	if (close(fd) == -1)
+	{
+		perror("fd");
+		exit(errno);
+	}
+}
 
 void	child_err(t_shell *shell, char **cmd, char **env)
 {
@@ -66,7 +76,10 @@ char	*recup_path(char *cmd, char **env)
 			tab = ft_strjoin(tmp, cmd);
 			free (tmp);
 			if (access(tab, 0) == 0)
+			{
+				free_all(path);
 				return (tab);
+			}
 			free(tab);
 		}
 		free_all(path);
@@ -88,17 +101,19 @@ void	child_process(t_shell *shell, int i, char ***env)
 
 	shell->index = i;
 	free(shell->pid);
-	cmd = init_start_cmd(shell, shell->token[i], 2);
+	cmd = init_start_cmd(shell, shell->token[i], 2, *env);
 	if (!cmd || (cmd_exist(cmd) == -1 && empty_cmd(cmd)))
 	{
-		close(shell->pipefd[0]);
+		if (shell->pipefd[0])
+			close(shell->pipefd[0]);
 		if (shell->pipefd[1])
 			close(shell->pipefd[1]);
 		free(shell->av);
-		free_all(cmd);
+		if (cmd)
+			free_all(cmd);
 		free_all(shell->token);
 		free_env_tab(*env);
-		exit(127);
+		exit(0);
 	}
 	i = cmd_exist(cmd);
 	if (is_builtin(cmd[0]))
