@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 18:42:04 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/12 18:46:17 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/14 14:39:57 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	empty_cmd(char **cmd)
 {
+	if (!cmd[0])
+		return (1);
 	if (cmd[0][0] == 0)
 		return (1);
 	return (0);

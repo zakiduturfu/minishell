@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 14:09:02 by zaki              #+#    #+#             */
-/*   Updated: 2023/10/09 14:09:50 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/14 14:47:04 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	free_shell(t_shell *shell, char *av, int index)
 {
 	if (!index)
 		free(av);
-	free(shell->pid);
+	if (index == 1)
+		free(shell->pid);
 	free_all(shell->token);
 	free(shell->av);
 	if (shell->nb_here && shell->here)

@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/11 12:52:05 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/14 14:48:08 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	pars_line(char *line, char ***env)
 		return (free(av), -1);
 	if (check_line(shell, line))
 		return (free(av), -1);
-	if (shell->nb_cmd == 1 && find_built(shell) == 1)
+	if (shell->nb_cmd == 1 && find_built(shell, *env) == 1)
 		return (process_one_built(shell, av, env));
 	else if (pipex(shell, av, env) == -1)
 		return (-1);
