@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/14 14:50:33 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/16 17:58:28 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,18 @@
 # include "../libft/libft.h"
 # include <stdbool.h>
 # include <sys/stat.h>
+# include <errno.h>
 
 typedef struct s_here
 {
 	char	*lim;
 	int		here_pipe[2];
 }	t_here;
+
+typedef	struct s_env
+{
+	char 	**env;
+}t_env;
 
 typedef struct s_shell
 {
@@ -162,16 +168,18 @@ void		close_in_here(t_shell *shell);
 void		wait_bin(t_shell *shell);
 
 /* /src/pipex/process.c */
-void		child_err(t_shell *shell, char **cmd, char **env);
-char		**get_cmd_path(char **env);
+void		child_err(t_shell *shell, char **cmd, char **env, int i);
+char		**get_cmd_path(char *cmd, char **env);
 char		*recup_path(char *cmd, char **env);
 void		child_process(t_shell *shell, int i, char ***env);
 void		parent_process(t_shell *shell);
 
 /* /src/pipex/process_utils.c */
+char		*find_path(char *tab, char **path);
 int			empty_cmd(char **cmd);
 int			cmd_exist(char **cmd);
 void		ft_exec(t_shell *shell, char **cmd, int i, char ***env);
+void		ft_good_bye(t_shell *shell, char ***env);
 
 /* /src/pipex/here_doc.c */
 int			nb_heredoc(char *line);
@@ -246,4 +254,5 @@ t_quotes	quotes_count(char *str);
 
 int	is_slash(char *s, int i);
 void	safe_close(int	fd);
+t_env	*create_env(void);
 #endif

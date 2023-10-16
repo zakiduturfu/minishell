@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 18:42:04 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/14 14:39:57 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/16 17:55:29 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,22 @@ void	ft_exec(t_shell *shell, char **cmd, int i, char ***env)
 		free_env_tab(*env);
 		exit(2);
 	}
+}
+
+char	*find_path(char *tab, char **path)
+{
+	free_all(path);
+	return (tab);
+}
+
+void	ft_good_bye(t_shell *shell, char ***env)
+{
+	if (shell->pipefd[0])
+		close(shell->pipefd[0]);
+	if (shell->pipefd[1])
+		close(shell->pipefd[1]);
+	free(shell->av);
+	free_all(shell->token);
+	free_env_tab(*env);
+	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 14:09:02 by zaki              #+#    #+#             */
-/*   Updated: 2023/10/14 14:47:04 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/16 17:50:56 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,13 @@ void	close_all_pipe(t_shell *shell)
 {
 	close(shell->pipefd[0]);
 	close(shell->pipefd[1]);
+}
+
+void	safe_close(int fd)
+{
+	if (close(fd) == -1)
+	{
+		perror("fd");
+		exit(errno);
+	}
 }
