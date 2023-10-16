@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/14 14:51:34 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/16 17:57:46 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int	check_redirections(char **tab, int i)
 	{
 		if ((tab[i][0] == '<' || tab[i][0] == '>') && (!tab[i + 1]))
 		{
-			printf("%s\n", tab[i + 1]);
 			ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 			return (1);
 		}
