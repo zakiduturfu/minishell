@@ -6,20 +6,18 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/17 16:10:38 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/17 18:14:54 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static	int is_directory(char **pwd, char *dir, char **tab, int i)
+static	int	is_directory(char **pwd, char *dir, char **tab, int i)
 {
 	char		*path;
 	struct stat	info;
 	char		*slash;
-	int			j;
-	
-	j = -1;
+
 	slash = ft_strjoin(&((*pwd)[4]), "/");
 	if (!slash)
 		return (1);
@@ -34,13 +32,7 @@ static	int is_directory(char **pwd, char *dir, char **tab, int i)
 			printf("cd: not a directory: ");
 		else
 			printf("cd: no such file or directory: ");
-		while (++j <= i)
-		{
-			printf("%s", tab[j]);
-			if (j < i)
-				printf("/");
-		}
-		printf("\n");
+		print_path(i, tab);
 	}
 	free(path);
 	return (S_ISDIR(info.st_mode));
@@ -84,7 +76,7 @@ static int	exec_cd(char **env, char **tab, int posi)
 
 static int	ft_verif_path(char **tab, char *test)
 {
-	unsigned int i;
+	unsigned int	i;
 
 	i = 0;
 	while (tab[i])
@@ -93,7 +85,7 @@ static int	ft_verif_path(char **tab, char *test)
 			previous_directory(&test);
 		else if (ft_strcmp(".", tab[i]) != 0)
 		{
-			if(!(is_directory(&test, tab[i], tab, i)))
+			if (!(is_directory(&test, tab[i], tab, i)))
 			{
 				free(test);
 				return (0);

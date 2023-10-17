@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/11 13:02:57 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/17 18:28:50 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,13 @@ int	ft_cd(char **env, char *str)
 		return (1);
 	if (tab && ft_strcmp(tab[0], "/") != 0 && tab[1])
 		return (too_many_args(tab));
-	// faire le cas / pwihfp 
+	if (tab && ft_strcmp(tab[0], "/") == 0 && tab[1])
+	{
+		printf("cd: no such file or directory: %s", tab[1]);
+		ft_pwd(env, NULL);
+		ft_free_tab(tab);
+		return (0);
+	}
 	try_exec_cd(env, tab[0]);
 	return (0);
 }
@@ -81,7 +87,6 @@ int	exec_only_built(t_shell	*shell, char ***env)
 	tab = ft_split_cmd(shell->token[0], tab, 0);
 	fix_quote((signed char **)tab);
 	tab = find_expansion(shell, tab);
-	// printf("tab[1] = %s\n", tab[1]);
 	if (!tab)
 		return (-1);
 	else if (ft_strcmp("cd", tab[0]) == 0)
