@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:51:50 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/14 14:45:29 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/17 18:58:12 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	exec_here(t_shell *shell, char **env)
 	pid_t	pid;
 
 	i = -1;
-	delim = recup_delim1(shell);
+	delim = recup_delim1(shell, env);
 	if (delim == -1)
 		return (-1);
 	else if (delim == -2)

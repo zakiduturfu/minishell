@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:51:50 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/14 14:44:04 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/17 18:58:41 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	recup_delim2(t_shell *shell, char **tmp, int j)
 	return (j);
 }
 
-int	recup_delim1(t_shell *shell)
+int	recup_delim1(t_shell *shell, char **env)
 {
 	int		i;
 	int		j;
@@ -68,7 +68,7 @@ int	recup_delim1(t_shell *shell)
 		if (!tmp)
 			return (-1);
 		fix_quote((signed char **)tmp);
-		tmp = find_expansion(shell, tmp);
+		tmp = find_expansion(shell, tmp, env);
 		if (check_redirections(tmp, 0))
 		{
 			free_all(tmp);

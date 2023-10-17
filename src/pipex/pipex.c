@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 03:13:43 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/14 14:43:22 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/17 19:03:54 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	exec_process(t_shell *shell, int i, char ***env)
 {
 	if (pipe(shell->pipefd) == -1)
 		return (-1);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, &handler_cmd);
 	signal(SIGINT, &handler_cmd);
 	shell->pid[i] = fork();
 	if (shell->pid[i] == -1)
@@ -39,6 +41,8 @@ int	exec_pipex(t_shell *shell, char ***env)
 	{
 		if (exec_process(shell, i, env) == -1)
 			return (-1);
+		if (find_built(shell, *env, i))
+			waitpid(shell->pid[i], &shell->status, 0);
 		if (shell->nb_here && strstr(shell->token[i], "<<"))
 			shell->c_here++;
 		i++;
@@ -59,4 +63,26 @@ int	pipex(t_shell *shell, char *av, char ***env)
 		return (-1);
 	}
 	return (0);
+}
+
+char	*ft_strstr(char *str, char *needle)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (!needle[i])
+		return (str);
+	while (str[i])
+	{
+		j = 0;
+		while (needle[j] == str[i + j])
+		{
+			if (needle[j + 1] == '\0')
+				return (str + i);
+			j++;
+		}
+		i++;
+	}
+	return (NULL);
 }

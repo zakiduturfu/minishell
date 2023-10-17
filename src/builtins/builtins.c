@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/11 13:02:57 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/17 19:01:33 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	exec_only_built(t_shell	*shell, char ***env)
 	tab = NULL;
 	tab = ft_split_cmd(shell->token[0], tab, 0);
 	fix_quote((signed char **)tab);
-	tab = find_expansion(shell, tab);
+	tab = find_expansion(shell, tab, *env);
 	// printf("tab[1] = %s\n", tab[1]);
 	if (!tab)
 		return (-1);

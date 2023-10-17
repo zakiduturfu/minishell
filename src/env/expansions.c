@@ -6,19 +6,40 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:56:18 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/12 18:57:16 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/17 19:02:25 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*ft_avengers(char *before, char *after, char *expand)
+char	*ft_getenv(char *name, char **env)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (env[i])
+	{
+		if (!ft_strncmp(name, env[i], ft_strlen(name)))
+		{
+			while (env[i][j] != '=')
+				j++;
+			j++;
+			return (env[i] + j);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+char	*ft_avengers(char *before, char *after, char *expand, char **env)
 {
 	char	*val;
 	char	*tmp;
 	char	*new_line;
 
-	val = getenv(expand);
+	val = ft_getenv(expand, env);
 	free(expand);
 	if (!val)
 	{
@@ -50,7 +71,7 @@ char	*get_expand_val(char *str, int i)
 	if (str[i] == '$')
 		i++;
 	k = i;
-	while (str[i] && ft_isalpha(str[i]))
+	while (str[i] && ft_isalnum(str[i]))
 		i++;
 	value = malloc (sizeof(char) * ((i - k) + 1));
 	if (!value)
@@ -108,7 +129,7 @@ char	*get_before_expand(char *str, int i)
 	return (ret);
 }
 
-char	*ft_expansions(t_shell *shell, char *str)
+char	*ft_expansions(t_shell *shell, char *str, char **env)
 {
 	int		i;
 	char	*tab[4];
@@ -124,7 +145,7 @@ char	*ft_expansions(t_shell *shell, char *str)
 			if (str[i + 1] == '?')
 				stat_expand(tab, str, i, shell);
 			else
-				tab_value(tab, str, i);
+				tab_value(tab, str, i, env);
 			free(str);
 			if (!tab[3])
 				return (NULL);
