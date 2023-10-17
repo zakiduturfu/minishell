@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/17 18:39:41 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/17 18:51:56 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void		close_all_pipe(t_shell *shell);
 /* /src/builtins/builtins.c */
 int			is_builtin(char *cmd);
 int			ft_pwd(char **env, char *str);
-int			ft_exit(char **env, t_shell shell)
+int			ft_exit(char **env, t_shell shell);
 int			exec_only_built(t_shell	*shell, char ***env);
 
 /* /src/builtins/echo.c */
