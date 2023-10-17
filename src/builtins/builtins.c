@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
 /*   Updated: 2023/10/17 19:01:33 by zlemery          ###   ########.fr       */
@@ -12,6 +12,28 @@
 
 #include "../../include/minishell.h"
 #include <readline/history.h>
+
+int	ft_cd(char **env, char *str)
+{
+	char			**tab;
+
+	if (!str || str[0] == '\0')
+		return (cd_home(env));
+	tab = ft_nsplit(str, ' ', '\t');
+	if (!tab)
+		return (1);
+	if (tab && ft_strcmp(tab[0], "/") != 0 && tab[1])
+		return (too_many_args(tab));
+	if (tab && ft_strcmp(tab[0], "/") == 0 && tab[1])
+	{
+		printf("cd: no such file or directory: %s", tab[1]);
+		ft_pwd(env, NULL);
+		ft_free_tab(tab);
+		return (0);
+	}
+	try_exec_cd(env, tab[0]);
+	return (0);
+}
 
 int	is_builtin(char *cmd)
 {
@@ -33,11 +55,11 @@ int	is_builtin(char *cmd)
 		return (0);
 }
 
-int	ft_exit(char **env)
+int	ft_exit(char **env, t_shell shell)
 {
 	free_env_tab(env);
 	clear_history();
-	exit(0);
+	exit(shell.status);
 }
 
 int	ft_pwd(char **env, char *str)
@@ -73,7 +95,7 @@ int	exec_only_built(t_shell	*shell, char ***env)
 	else if (ft_strcmp("echo", tab[0]) == 0)
 		ft_echo(tab[1], *env);
 	else if (ft_strcmp("exit", tab[0]) == 0)
-		ft_exit(*env);
+		ft_exit(*env, *shell);
 	else if (ft_strcmp("pwd", tab[0]) == 0)
 		ft_pwd(*env, tab[1]);
 	else if (ft_strcmp("export", tab[0]) == 0)
