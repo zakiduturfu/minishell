@@ -6,13 +6,13 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/17 18:14:54 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/17 18:36:48 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static	int	is_directory(char **pwd, char *dir, char **tab, int i)
+static int	is_directory(char **pwd, char *dir, char **tab, int i)
 {
 	char		*path;
 	struct stat	info;
@@ -40,8 +40,8 @@ static	int	is_directory(char **pwd, char *dir, char **tab, int i)
 
 static int	this_directory(char **pwd, char *dir)
 {
-	char			*slash;
-	char			*new;
+	char	*slash;
+	char	*new;
 
 	slash = ft_strjoin(*pwd, "/");
 	if (!slash)
@@ -101,9 +101,9 @@ static int	ft_verif_path(char **tab, char *test)
 
 int	try_exec_cd(char **env, char *directory)
 {
-	int				posi;
-	char			**tab;
-	char			*test;
+	int		posi;
+	char	**tab;
+	char	*test;
 
 	posi = -1;
 	posi = find_var(env, "PWD");
