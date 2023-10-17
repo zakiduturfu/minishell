@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/12 18:38:39 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:10:38 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static	int is_directory(char **pwd, char *dir, char **tab, int i)
 {
 	char		*path;
 	struct stat	info;
-	int			result;
 	char		*slash;
 	int			j;
 	
@@ -29,10 +28,12 @@ static	int is_directory(char **pwd, char *dir, char **tab, int i)
 	if (!path)
 		return (0);
 	stat(path, &info);
-	result = S_ISDIR(info.st_mode);
-	if (result != 1)
+	if (S_ISDIR(info.st_mode) != 1)
 	{
-		printf("cd: no such file or directory: ");
+		if (S_ISREG(info.st_mode) == 1)
+			printf("cd: not a directory: ");
+		else
+			printf("cd: no such file or directory: ");
 		while (++j <= i)
 		{
 			printf("%s", tab[j]);
@@ -42,7 +43,7 @@ static	int is_directory(char **pwd, char *dir, char **tab, int i)
 		printf("\n");
 	}
 	free(path);
-	return (result);
+	return (S_ISDIR(info.st_mode));
 }
 
 static int	this_directory(char **pwd, char *dir)

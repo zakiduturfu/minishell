@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:15:54 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/09 11:30:05 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/17 17:57:26 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,49 @@ static void	dollar_gestion(char *str, int *i, char **env)
 	}	
 }
 
+// static void	backslash_gestion(char *str, int *i, t_quotes quotes)
+// {
+// 	unsigned int	c;
+
+// 	c = 0;
+// 	while (str[*i + c] == '\\')
+// 		c++;
+// 	*i = *i + c - 1;
+// 	if (quotes.double_open == 1)
+// 	{
+// 		printf("%c", '\\');
+// 		c = c - 1;
+// 		while (c >= 4)
+// 		{
+// 			printf("%c", '\\');
+// 			c = c - 4;
+// 		}
+// 	}
+// 	else if (quotes.single_open == 1)
+// 	{
+// 		printf("%c", '\\');
+// 		c = c - 1;
+// 		while (c >= 2)
+// 		{
+// 			printf("%c", '\\');
+// 			c = c - 2;
+// 		}
+// 	}
+// 	else
+// 	{
+// 		if (c % 2 != 1)
+// 		{
+// 			printf("%c", '\\');
+// 			c = c - 2;
+// 			while (c >= 6)
+// 			{
+// 				printf("%c", '\\');
+// 				c = c - 6;
+// 			}
+// 		}
+// 	}
+// }
+
 static void	print(char *str, int newline, int i, char **env)
 {
 	t_quotes	quotes;
@@ -51,7 +94,9 @@ static void	print(char *str, int newline, int i, char **env)
 		else if (is_double_quote(str[i]) && quotes.single_open == 0)
 			quotes_gestion(quotes.this_d++,
 				quotes.doubles, &quotes.double_open);
-		else if (is_dollar(str[i] == 1))
+		// else if (str[i] ==  '\\')
+		// 	backslash_gestion(str, &i, quotes);
+		else if (is_dollar(str[i] == 1)) // inutile si gestion par Zac avant donc p-e a supp 
 			dollar_gestion(str, &i, env);
 		else if (open_quotes(quotes) == 1 || is_space(str[i]) == 0)
 			printf("%c", str[i]);
