@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/16 17:57:46 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/17 18:53:24 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int	is_token(char *line, int *i, char c, char *av)
 	return (1);
 }
 
-int	find_built(t_shell *shell, char **env)
+int	find_built(t_shell *shell, char **env, int i)
 {
 	int		ret;
 	char	**tab;
 
 	ret = 0;
-	tab = init_start_cmd(shell, shell->token[0], 0, env);
+	tab = init_start_cmd(shell, shell->token[i], 0, env);
 	if (tab)
 	{
 		ret = is_builtin(tab[0]);
@@ -111,7 +111,7 @@ char	**init_start_cmd(t_shell *shell, char *cmd_line, int index, char **env)
 	i = -1;
 	tab = ft_split(cmd_line, ' ');
 	fix_quote((signed char **)tab);
-	tab = find_expansion(shell, tab);
+	tab = find_expansion(shell, tab, env);
 	if (!tab)
 		return (NULL);
 	if (index)

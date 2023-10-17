@@ -21,7 +21,12 @@ void	dup_and_close(int oldfd, int newfd)
 
 void	file_error(char *file, char **cmd, t_shell *shell, char **env)
 {
+	int	i;
+
+	i = -1;
 	perror(file);
+	while (++i < shell->nb_here)
+		close(shell->here[i].here_pipe[0]);
 	free_all(cmd);
 	free_env_tab(env);
 	free_shell(shell, NULL, 2);

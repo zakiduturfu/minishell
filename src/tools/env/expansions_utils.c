@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:59:59 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/12 19:04:05 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/17 19:01:14 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ int	search_expand(char *str)
 	return (i);
 }
 
-char	**find_expansion(t_shell *shell, char **tab)
+char	**find_expansion(t_shell *shell, char **tab, char **env)
 {
 	int	i;
 
 	i = 0;
 	while (tab[i])
 	{
-		tab[i] = ft_expansions(shell, tab[i]);
+		tab[i] = ft_expansions(shell, tab[i], env);
 		if (!tab[i])
 		{
 			free_all(tab);
@@ -79,7 +79,7 @@ int	free_expand(char **tab, int index)
 	return (-1);
 }
 
-void	tab_value(char **tab, char *str, int i)
+void	tab_value(char **tab, char *str, int i, char **env)
 {
 	tab[0] = get_before_expand(str, i);
 	if (!tab[0])
@@ -90,5 +90,5 @@ void	tab_value(char **tab, char *str, int i)
 	tab[2] = get_expand_val(str, i);
 	if (!tab[2])
 		free_expand(tab, 2);
-	tab[3] = ft_avengers(tab[0], tab[1], tab[2]);
+	tab[3] = ft_avengers(tab[0], tab[1], tab[2], env);
 }
