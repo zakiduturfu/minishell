@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:39:30 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/09 11:27:07 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/17 18:07:27 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void	quotes_gestion(int n, int max, bool *boolopen)
 		*boolopen = 1;
 	else if (*boolopen == 1)
 		*boolopen = 0;
-	// if (n == max && max % 2 == 1) si on veut afficher les quotes ouvertes solitaires
-	// 	printf("%c"); 
 }
 
 t_quotes	quotes_count(char *str)

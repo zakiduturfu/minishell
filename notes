@@ -1,16 +1,35 @@
-GENERAL :
 
-PB quand $, par exemple 
-minishell>echo " owgpu $"
-ganged cmd
-free(): double free detected in tcache 2
-(avant d'arriver dans builtins donc a priori dans parsing)
 
 ECHO :
 
-Verif si decision de traiter les " ouverts comme des caracteres normaux (les afficher) OK 
-	/ faut-il sinon les ignorer totalement ?
--> pour l'instant si quote solitaire on ignore, mais chgt facile si besoin de l'afficher
+PB QUI VIENT D'AVANT (partie Zac) :
+Si on a une variable qui a le meme debut de nom qu'une autre, echo recoit la phrase 
+avec la valeur deja remplacee, mais pas forcement la bonne.
+Ex : si on a TEST2 et TEST, echo recoit une str avec la valeur de TEST meme si on a \$TEST2 
+(J'ai une fonction pour remplacer les variables par leurs valeurs dans echo donc c'est pas 
+necessaire de le gerer avant, sauf si c'est utile pour d'autres choses)
+
+\\ = \
+mais \\\ = rien
+\ew entre " = rien
+mais \ew hors " = ew
+
+Verif traitement des variables \$
+
+CD :
+
+PB
+Si chemin non valide mais debut de chemin valide, pwd reste bien inchange 
+mais quand on fait ls on a bouge dans la partie valide...
+Verif deja faite :
+if (ft_verif_path(tab, test) == 1)
+	exec_cd(env, tab, posi);
+=> On n'entre effectivement pas dedans quand path invalide, donc on n'exec pas le chemin, donc pb ailleurs
+
+
+Question generale :
+
+Est-ce ok de ne pas recevoir le signal exit avec ctrl D si caracteres deja ecrits en ligne de commande ?
 
 
 zaki:
@@ -106,7 +125,7 @@ child_err(l.44): while (cmd[++i]) retirer et ajoute de:
 if (shell->nb_here)
 		free(shell->here);
 et donc suppression de la variable i;
-
+// else if ()
 child_err(l.49): suppression de free(shell);
 
 child_process(l.113): changement dans if (!cmd) -> if (!cmd || (cmd_exist(cmd) == -1 && empty_cmd(cmd)))
@@ -136,6 +155,10 @@ les fichier ne sont pas encore aux normes
 Je ne sais plus quel fichier pour echo rajout de la fonction find_expansions
 
 -------------------------------------------------------------
+
+
+ICI lien avec PB de ECHO en haut
+
 choses restantes a modifier:
 '$?' = $? mais "$?" = status
 - \$ retirer le '\'
