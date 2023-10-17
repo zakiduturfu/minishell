@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 14:59:31 by zlemery           #+#    #+#             */
-/*   Updated: 2023/09/25 15:47:14 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/16 17:40:26 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+t_env	*create_env(void)
+{
+	static t_env	env;
+
+	return (&env);
+}
 
 char	*dup_var_name(char *str, int index)
 {

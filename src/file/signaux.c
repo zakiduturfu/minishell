@@ -6,14 +6,12 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:14 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 15:21:45 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/16 15:39:47 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <readline/readline.h>
-
-char	**g_env;
 
 void	handler_sig(int sig)
 {
@@ -41,11 +39,13 @@ void	handler_cmd(int sig)
 void	handler_here(int sig)
 {
 	t_shell	*shell;
+	t_env	*env;
 	int		i;
 
 	i = -1;
 	(void)sig;
 	shell = create_data();
+	env = create_env();
 	write(2, "\n", 1);
 	while (++i < shell->nb_here)
 	{
@@ -53,7 +53,7 @@ void	handler_here(int sig)
 		close(shell->here[i].here_pipe[1]);
 		free(shell->here[i].lim);
 	}
-	free_env_tab(g_env);
+	free_env_tab(env->env);
 	free(shell->pid);
 	free(shell->av);
 	free_all(shell->token);
@@ -63,12 +63,13 @@ void	handler_here(int sig)
 
 void	child_here(t_shell *shell, char **env)
 {
-	int	i;
+	int		i;
+	t_env	*envp;
 
 	i = 0;
-	if (!g_env)
-		g_env = env;
 	signal(SIGINT, &handler_here);
+	envp = create_env();
+	envp->env = env;
 	while (i < shell->nb_here)
 	{
 		file_here(i, shell->here);

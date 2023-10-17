@@ -6,55 +6,36 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 11:45:37 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 14:09:54 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/16 17:58:39 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	empty_cmd(char **cmd)
+void	child_err(t_shell *shell, char **cmd, char **env, int i)
 {
-	if (cmd[0][0] == 0)
-		return (1);
-	return (0);
-}
-
-int	cmd_exist(char **cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i][0] != 0)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-void	child_err(t_shell *shell, char **cmd, char **env)
-{
-	ft_putstr_fd(cmd[0], 2);
+	ft_putstr_fd(cmd[i], 2);
 	ft_putstr_fd(":command not found\n", 2);
 	free_all(cmd);
 	if (shell->nb_here)
 		free(shell->here);
 	if (shell->pipefd[1])
 		close(shell->pipefd[1]);
-	free(shell->path);
+	if (shell->path)
+		free(shell->path);
 	free(shell->av);
 	free_all(shell->token);
 	free_env_tab(env);
 }
 
-char	**get_cmd_path(char **env)
+char	**get_cmd_path(char *cmd, char **env)
 {
 	int		i;
 	char	*cmd_path;
 	char	**path;
 
 	i = 1;
+	(void)cmd;
 	cmd_path = NULL;
 	while (env[i])
 	{
@@ -77,17 +58,19 @@ char	*recup_path(char *cmd, char **env)
 
 	i = -1;
 	if (ft_strchr(cmd, '/') && access(cmd, 0) == 0)
-		return (cmd);
+		return (ft_strdup(cmd));
 	else
 	{
-		path = get_cmd_path(env);
+		path = get_cmd_path(cmd, env);
+		if (!path)
+			return (NULL);
 		while (path[++i])
 		{
 			tmp = ft_strjoin(path[i], "/");
 			tab = ft_strjoin(tmp, cmd);
 			free (tmp);
 			if (access(tab, 0) == 0)
-				return (tab);
+				return (find_path(tab, path));
 			free(tab);
 		}
 		free_all(path);
@@ -109,17 +92,12 @@ void	child_process(t_shell *shell, int i, char ***env)
 
 	shell->index = i;
 	free(shell->pid);
-	cmd = init_start_cmd(shell, shell->token[i], 2);
+	cmd = init_start_cmd(shell, shell->token[i], 2, *env);
 	if (!cmd || (cmd_exist(cmd) == -1 && empty_cmd(cmd)))
 	{
-		close(shell->pipefd[0]);
-		if (shell->pipefd[1])
-			close(shell->pipefd[1]);
-		free(shell->av);
-		free_all(cmd);
-		free_all(shell->token);
-		free_env_tab(*env);
-		exit(127);
+		if (cmd)
+			free_all(cmd);
+		ft_good_bye(shell, env);
 	}
 	i = cmd_exist(cmd);
 	if (is_builtin(cmd[0]))
@@ -127,13 +105,7 @@ void	child_process(t_shell *shell, int i, char ***env)
 	if (cmd[0])
 		shell->path = recup_path(cmd[i], *env);
 	if (shell->path)
-	{
-		if (execve(shell->path, cmd + i, *env) == -1)
-		{
-			perror("execve");
-			exit(2);
-		}
-	}
-	child_err(shell, cmd, *env);
+		ft_exec(shell, cmd, i, env);
+	child_err(shell, cmd, *env, i);
 	exit(127);
 }

@@ -6,28 +6,11 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:56:18 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 17:24:24 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/12 18:57:16 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <stdlib.h>
-
-char	*get_val_env(char *name)
-{
-	char	*val;
-
-	val = getenv(name);
-	if (!val)
-	{
-		val = malloc(1);
-		if (!val)
-			return (NULL);
-		val[0] = '\0';
-		return (val);
-	}
-	return (name);
-}
 
 char	*ft_avengers(char *before, char *after, char *expand)
 {
@@ -48,10 +31,7 @@ char	*ft_avengers(char *before, char *after, char *expand)
 		tmp = ft_strjoin(before, val);
 	free(before);
 	if (!tmp)
-	{
-		free(after);
-		return (NULL);
-	}
+		return (free(after), NULL);
 	new_line = ft_strjoin(tmp, after);
 	free(tmp);
 	free(after);
@@ -126,41 +106,6 @@ char	*get_before_expand(char *str, int i)
 	}
 	ret[j] = '\0';
 	return (ret);
-}
-
-char	*ret_status(char *before, char *after, char *status)
-{
-	char	*tmp;
-	char	*new_line;
-
-	tmp = ft_strjoin(before, status);
-	free(status);
-	free(before);
-	if (!tmp)
-	{
-		free(after);
-		return (NULL);
-	}
-	new_line = ft_strjoin(tmp, after);
-	free(tmp);
-	free(after);
-	if (!new_line)
-		return (NULL);
-	return (new_line);
-}
-
-void	stat_expand(char **tab, char *str, int i, t_shell *shell)
-{
-	tab[0] = get_before_expand(str, i);
-	if (!tab[0])
-		return ;
-	tab[1] = get_after_expand(str + i + 2);
-	if (!tab[1])
-		free_expand(tab, 1);
-	tab[2] = ft_itoa(shell->status);
-	if (!tab[2])
-		free_expand(tab, 2);
-	tab[3] = ret_status(tab[0], tab[1], tab[2]);
 }
 
 char	*ft_expansions(t_shell *shell, char *str)

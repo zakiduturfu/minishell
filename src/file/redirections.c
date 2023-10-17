@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:17:32 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/09 14:10:40 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/14 14:49:29 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,41 @@ void	dup_and_close(int oldfd, int newfd)
 	close(oldfd);
 }
 
-void	open_fdin(t_shell *shell, char **cmd, int i)
+void	file_error(char *file, char **cmd, t_shell *shell, char **env)
+{
+	perror(file);
+	free_all(cmd);
+	free_env_tab(env);
+	free_shell(shell, NULL, 2);
+	exit(1);
+}
+
+void	open_fdin(t_shell *shell, char **cmd, int i, char **env)
 {
 	shell->fdin = open(cmd[i + 1], O_RDONLY);
 	if (shell->fdin == -1)
-		ft_putstr_fd("infile: no such file or directory", 2);
+		file_error(cmd[i + 1], cmd, shell, env);
 }
 
-void	open_fdout(t_shell *shell, char **cmd, int i)
+void	open_fdout(t_shell *shell, char **cmd, int i, char **env)
 {
 	if (is_redir(cmd[i]) == 1)
 		shell->fdout = open(cmd[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (is_redir(cmd[i]) == 3)
 		shell->fdout = open(cmd[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (shell->fdout == -1)
-		ft_putstr_fd("outfile: no such file or directory", 2);
+		file_error(cmd[i + 1], cmd, shell, env);
 }
 
-void	open_redir(t_shell *shell, char **cmd, int i)
+void	open_redir(t_shell *shell, char **cmd, int i, char **env)
 {
 	int	redir;
 
 	redir = is_redir(cmd[i]);
 	if (redir == 1 || redir == 3)
-		open_fdout(shell, cmd, i);
+		open_fdout(shell, cmd, i, env);
 	if (redir == 2)
-		open_fdin(shell, cmd, i);
+		open_fdin(shell, cmd, i, env);
 	if (redir == 4)
 		dup_and_close(shell->here[shell->c_here].here_pipe[0], STDIN_FILENO);
 	if (redir == 1 || redir == 3)
@@ -53,12 +62,11 @@ void	open_redir(t_shell *shell, char **cmd, int i)
 		dup_and_close(shell->fdin, STDIN_FILENO);
 }
 
-void	find_redir(t_shell *shell, char **cmd, int j)
+void	find_redir(t_shell *shell, char **cmd, int j, char **env)
 {
 	int	i;
 
 	i = 0;
-//	printf("%s %d prev%d fd0%d, ==%d\n", cmd[0], shell->index, shell->prev_pipe, shell->pipefd[0], shell->index != shell->nb_cmd - 1);
 	if (shell->index != 0)
 		dup_and_close(shell->prev_pipe, STDIN_FILENO);
 	if (shell->index != shell->nb_cmd - 1)
@@ -70,7 +78,7 @@ void	find_redir(t_shell *shell, char **cmd, int j)
 	}
 	while (cmd[i])
 	{
-		open_redir(shell, cmd, i);
+		open_redir(shell, cmd, i, env);
 		i++;
 	}
 	i = -1;

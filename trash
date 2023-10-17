@@ -1,0 +1,43 @@
+
+/*
+void	affiche_test(char *cmd)
+{
+	char	**cmd_line;
+
+	cmd_line = split_token(cmd, '|');
+	while (*cmd_line)
+	{
+		printf("%s\n", *cmd_line);
+		cmd_line++;
+	}
+}*/
+
+// void	test_cmd(t_shell *shell)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	**cmd;
+
+// 	i = 0;
+// 	while (i < shell->nb_cmd)
+// 	{
+// 		j = 0;
+// 		cmd = init_start_cmd(shell, shell->token[i], 2);
+// 		if (cmd)
+// 		{
+// 			while (cmd[j])
+// 			{
+// 				printf("cmd = %s\n", cmd[j]);
+// 				j++;
+// 			}
+// 		}
+// 		printf("fdin = %d\n", shell->fdin);
+// 		printf("fdout = %d\n", shell->fdout);
+// 		printf("--------------------------\n");
+// 		i++;
+// 		shell->index = i;
+// 		free_all(cmd);
+// 	}
+// }
+
+cat Makefile | cat | | cat
