@@ -6,12 +6,11 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/18 12:16:12 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/18 12:44:10 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <readline/history.h>
 
 int	ft_cd(char **env, char *str)
 {
