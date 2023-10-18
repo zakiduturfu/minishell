@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/18 12:44:10 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:15:16 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,6 @@ int	is_builtin(char *cmd)
 		return (0);
 }
 
-int	ft_exit(char **env, t_shell shell)
-{
-	free_env_tab(env);
-	clear_history();
-	exit(shell.status);
-}
-
 int	ft_pwd(char **env, char *str)
 {
 	int	posi;
@@ -78,14 +71,12 @@ int	ft_pwd(char **env, char *str)
 	return (0);
 }
 
-int	exec_only_built(t_shell	*shell, char ***env)
+int	exec_only_built(t_shell	*shell, char ***env, int i)
 {
 	char	**tab;
 
 	tab = NULL;
-	tab = ft_split_cmd(shell->token[0], tab, 0);
-	fix_quote((signed char **)tab);
-	tab = find_expansion(shell, tab, *env);
+	tab = init_start_cmd(shell, shell->token[shell->index] + i, 1, *env);
 	if (!tab)
 		return (-1);
 	else if (ft_strcmp("cd", tab[0]) == 0)
@@ -93,7 +84,7 @@ int	exec_only_built(t_shell	*shell, char ***env)
 	else if (ft_strcmp("echo", tab[0]) == 0)
 		ft_echo(tab[1]);
 	else if (ft_strcmp("exit", tab[0]) == 0)
-		ft_exit(*env, *shell);
+		ft_exit(tab, shell, *env);
 	else if (ft_strcmp("pwd", tab[0]) == 0)
 		ft_pwd(*env, tab[1]);
 	else if (ft_strcmp("export", tab[0]) == 0)
