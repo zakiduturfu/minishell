@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 12:16:30 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/18 13:18:53 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ int			previous_directory(char **pwd, bool test);
 int			too_many_args(char **tab);
 
 /* /src/builtins/env.c */
-int			ft_ordonned_env(char **env, char *tmp, int i);
+int			ft_ordonned_env(char **env, char *tmp, int i, char	**env_cop);
 int			ft_env(char **env);
 
 /* /src/builtins/str_utils.c */
