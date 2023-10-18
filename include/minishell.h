@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/17 18:49:48 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/18 12:16:30 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ int			exec_only_built(t_shell	*shell, char ***env);
 /*static int	n_param(char *str, int *i)*/
 // int		open_quote(char *str); / not in the mandatory new subjet
 // int		dquote(void); / not in the mandatory new subjet
-int			ft_echo(char *str, char **env);
+int			ft_echo(char *str);
 
 /* /src/builtins/export.c */
 int			ft_export_one_by_one(char ***env, char *str);
@@ -238,8 +238,8 @@ void		ft_free_tab(char **tab);
 /* /src/builtins/cd_utils.c */
 int			old_pwd(char **env, int pwdposi);
 int			cd_home(char **env);
-int			starting_directory(char **pwd);
-int			previous_directory(char **pwd);
+int			starting_directory(char **pwd, bool test);
+int			previous_directory(char **pwd, bool test);
 int			too_many_args(char **tab);
 
 /* /src/builtins/env.c */

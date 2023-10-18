@@ -6,80 +6,13 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:15:54 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/17 18:15:47 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/18 12:15:58 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	dollar_gestion(char *str, int *i, char **env)
-{
-	int				posi;
-	unsigned int	j;
-
-	j = 0;
-	posi = -1;
-	*i = *i + 1;
-	if (is_dollar(str[*i]))
-		printf("4202"); // verif pourquoi c'est ca qui se print
-	else if (is_end(str[*i]) || is_space(str[*i]))
-		printf("$");
-	else
-	{
-		posi = find_var(env, &(str[*i]));
-		if (posi != -1)
-		{
-			while (!(is_end(str[*i + j]) && !(is_space(str[*i + j]))))
-				j++;
-			printf("%s", &(env[posi][j]));
-		}
-	}	
-}
-
-// static void	backslash_gestion(char *str, int *i, t_quotes quotes)
-// {
-// 	unsigned int	c;
-
-// 	c = 0;
-// 	while (str[*i + c] == '\\')
-// 		c++;
-// 	*i = *i + c - 1;
-// 	if (quotes.double_open == 1)
-// 	{
-// 		printf("%c", '\\');
-// 		c = c - 1;
-// 		while (c >= 4)
-// 		{
-// 			printf("%c", '\\');
-// 			c = c - 4;
-// 		}
-// 	}
-// 	else if (quotes.single_open == 1)
-// 	{
-// 		printf("%c", '\\');
-// 		c = c - 1;
-// 		while (c >= 2)
-// 		{
-// 			printf("%c", '\\');
-// 			c = c - 2;
-// 		}
-// 	}
-// 	else
-// 	{
-// 		if (c % 2 != 1)
-// 		{
-// 			printf("%c", '\\');
-// 			c = c - 2;
-// 			while (c >= 6)
-// 			{
-// 				printf("%c", '\\');
-// 				c = c - 6;
-// 			}
-// 		}
-// 	}
-// }
-
-static void	print(char *str, int newline, int i, char **env)
+static void	print(char *str, int newline, int i)
 {
 	t_quotes	quotes;
 
@@ -94,8 +27,6 @@ static void	print(char *str, int newline, int i, char **env)
 		else if (is_double_quote(str[i]) && quotes.single_open == 0)
 			quotes_gestion(quotes.this_d++,
 				quotes.doubles, &quotes.double_open);
-		else if (is_dollar(str[i] == 1)) // inutile si gestion par Zac
-			dollar_gestion(str, &i, env);
 		else if (open_quotes(quotes) == 1 || is_space(str[i]) == 0)
 			printf("%c", str[i]);
 		else if (is_space(str[i])
@@ -134,7 +65,7 @@ static int	n_param(char *str, int *i, bool n, int last)
 	return (n);
 }
 
-int	ft_echo(char *str, char **env)
+int	ft_echo(char *str)
 {
 	int	i;
 
@@ -142,9 +73,9 @@ int	ft_echo(char *str, char **env)
 	if (str)
 	{
 		if (n_param(str, &i, 0, 0) == 1)
-			print(&(str[i]), 0, 0, env);
+			print(&(str[i]), 0, 0);
 		else
-			print(&(str[i]), 1, 0, env);
+			print(&(str[i]), 1, 0);
 	}
 	else
 		printf("\n");
