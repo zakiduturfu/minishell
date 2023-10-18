@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/17 18:36:48 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/18 12:12:25 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	is_directory(char **pwd, char *dir, char **tab, int i)
 	return (S_ISDIR(info.st_mode));
 }
 
-static int	this_directory(char **pwd, char *dir)
+static int	this_directory(char **pwd, char *dir, bool test)
 {
 	char	*slash;
 	char	*new;
@@ -52,7 +52,7 @@ static int	this_directory(char **pwd, char *dir)
 		return (1);
 	free(*pwd);
 	*pwd = new;
-	if (chdir(&((*pwd)[4])) != 0)
+	if (test == 0 && chdir(&((*pwd)[4])) != 0)
 		return (1);
 	return (0);
 }
@@ -66,9 +66,9 @@ static int	exec_cd(char **env, char **tab, int posi)
 	while (tab && tab[i])
 	{
 		if (ft_strcmp("..", tab[i]) == 0)
-			previous_directory(&(env[posi]));
+			previous_directory(&(env[posi]), 0);
 		else if (ft_strcmp(".", tab[i]) != 0)
-			this_directory(&(env[posi]), tab[i]);
+			this_directory(&(env[posi]), tab[i], 0);
 		i++;
 	}
 	return (0);
@@ -82,7 +82,7 @@ static int	ft_verif_path(char **tab, char *test)
 	while (tab[i])
 	{
 		if (ft_strcmp("..", tab[i]) == 0)
-			previous_directory(&test);
+			previous_directory(&test, 1);
 		else if (ft_strcmp(".", tab[i]) != 0)
 		{
 			if (!(is_directory(&test, tab[i], tab, i)))
@@ -91,7 +91,7 @@ static int	ft_verif_path(char **tab, char *test)
 				return (0);
 			}
 			else
-				this_directory(&test, tab[i]);
+				this_directory(&test, tab[i], 1);
 		}
 		i++;
 	}
