@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/18 12:12:25 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/18 12:35:48 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,15 @@ static int	is_directory(char **pwd, char *dir, char **tab, int i)
 	free(slash);
 	if (!path)
 		return (0);
-	stat(path, &info);
+	if (stat(path, &info) == -1)
+	{
+		printf("cd: no such file or directory: ");
+		print_path(i, tab);
+		return (0);
+	}
 	if (S_ISDIR(info.st_mode) != 1)
 	{
-		if (S_ISREG(info.st_mode) == 1)
-			printf("cd: not a directory: ");
-		else
-			printf("cd: no such file or directory: ");
+		printf("cd: not a directory: ");
 		print_path(i, tab);
 	}
 	free(path);
