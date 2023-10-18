@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 15:15:32 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/18 20:32:01 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	process_one_built(t_shell *shell, char *line, char ***env)
 	dup_and_close(shell->builtin, STDIN_FILENO);
 	dup_and_close(shell->builtout, STDOUT_FILENO);
 	free(line);
-	exec_only_built(shell, env, 0);
+	exec_only_built(shell, env, 0, NULL);
 	free_all(shell->token);
 	free(shell->av);
 	return (shell->status);
