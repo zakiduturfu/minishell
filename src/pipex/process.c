@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 11:45:37 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/16 17:58:39 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/17 18:55:40 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	child_process(t_shell *shell, int i, char ***env)
 	}
 	i = cmd_exist(cmd);
 	if (is_builtin(cmd[0]))
-		exit (exec_only_built(shell, env));
+		exit (process_one_built(shell, NULL, env));
 	if (cmd[0])
 		shell->path = recup_path(cmd[i], *env);
 	if (shell->path)

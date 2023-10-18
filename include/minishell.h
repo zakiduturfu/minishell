@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/17 18:51:56 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/17 18:49:48 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_shell
 	int		nb_cmd;
 	int		index;
 	int		c_here;
+	int		builtin;
+	int		builtout;
 	int		status;
 	t_here	*here;
 }	t_shell;
@@ -76,11 +78,11 @@ char		*find_var_name(char *env);
 char		*dup_var_name(char *str, int index);
 
 /* /src/env/expansions.c */
-char		*ft_expansions(t_shell *shell, char *str);
+char		*ft_expansions(t_shell *shell, char *str, char **env);
 char		*get_before_expand(char *str, int i);
 char		*get_after_expand(char *str);
 char		*get_expand_val(char *str, int i);
-char		*ft_avengers(char *before, char *after, char *expand);
+char		*ft_avengers(char *before, char *after, char *expand, char **env);
 
 /* /src/env/shlvl.c */
 int			increment_shlvl(char **env);
@@ -90,7 +92,7 @@ char		*modify_var_env(char *name, char **env, char *var);
 /* /src/tools/env/env_utils */
 int			size_env(char **env);
 void		free_env_tab(char **env);
-void		tab_value(char **tab, char *str, int i);
+void		tab_value(char **tab, char *str, int i, char **env);
 char		*ret_status(char *before, char *after, char *status);
 void		stat_expand(char **tab, char *str, int i, t_shell *shell);
 
@@ -98,7 +100,7 @@ void		stat_expand(char **tab, char *str, int i, t_shell *shell);
 char		*get_val_env(char *name);
 int			search_expand(char *str);
 int			free_expand(char **tab, int index);
-char		**find_expansion(t_shell *shell, char **tab);
+char		**find_expansion(t_shell *shell, char **tab, char **env);
 int			search_expand(char *str);
 
 /* /src/file/redirections.c */
@@ -115,6 +117,7 @@ void		handler_here(int sig);
 void		child_here(t_shell *shell, char **env);
 
 /* /src/parsing/pars_cmd_line.c */
+int			process_one_built(t_shell *shell, char *line, char ***env);
 int			pars_line(char *line, char ***env);
 void		loop_shell(char **env, char *line);
 
@@ -135,7 +138,7 @@ int			t_ignore_sep(char *line, int i, char c, char *av);
 
 /* /src/parsing/token.c */
 int			is_token(char *line, int *i, char c, char *av);
-int			find_built(t_shell *shell, char **env);
+int			find_built(t_shell *shell, char **env, int i);
 int			check_redirections(char **tab, int i);
 void		fix_quote(signed char **line);
 char		**init_start_cmd(t_shell *shell,
@@ -185,7 +188,7 @@ void		ft_good_bye(t_shell *shell, char ***env);
 /* /src/pipex/here_doc.c */
 int			nb_heredoc(char *line);
 int			create_here(t_shell *shell);
-int			recup_delim1(t_shell *shell);
+int			recup_delim1(t_shell *shell, char **env);
 int			recup_delim2(t_shell *shell, char **tmp, int j);
 void		file_here(int i, t_here *here);
 int			exec_here(t_shell *shell, char **env);

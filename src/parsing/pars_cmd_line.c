@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/14 14:48:08 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/18 11:42:10 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	loop_shell(char **env, char *line)
 {
-	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
+		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, &handler_sig);
 		line = readline("minishell>");
 		if (line == NULL)
@@ -27,9 +27,7 @@ void	loop_shell(char **env, char *line)
 		}
 		if (line != NULL)
 		{
-			if (ft_strcmp("exit", line) == 0)
-				ft_exit(env);
-			else if (ft_strcmp("cd", line) == 0)
+			if (ft_strcmp("cd", line) == 0)
 				ft_cd(env, NULL);
 			else if (strcmp("env", line) == 0)
 				ft_env(env);
@@ -49,11 +47,17 @@ void	loop_shell(char **env, char *line)
 
 int	process_one_built(t_shell *shell, char *line, char ***env)
 {
-	free(line);
+	shell->builtin = dup(STDIN_FILENO);
+	shell->builtout = dup(STDOUT_FILENO);
+	dup(shell->builtout);
+	if (line)
+		free(line);
 	exec_only_built(shell, env);
 	free_all(shell->token);
 	free(shell->av);
 	free(shell->pid);
+	dup_and_close(shell->builtin, STDIN_FILENO);
+	dup_and_close(shell->builtout, STDOUT_FILENO);
 	return (shell->status);
 }
 
@@ -72,7 +76,7 @@ int	pars_line(char *line, char ***env)
 		return (free(av), -1);
 	if (check_line(shell, line))
 		return (free(av), -1);
-	if (shell->nb_cmd == 1 && find_built(shell, *env) == 1)
+	if (shell->nb_cmd == 1 && find_built(shell, *env, 0) == 1)
 		return (process_one_built(shell, av, env));
 	else if (pipex(shell, av, env) == -1)
 		return (-1);

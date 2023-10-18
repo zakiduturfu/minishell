@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:40:51 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/12 18:50:42 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/17 18:51:34 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,19 @@ int	count_quote(char *s)
 	int	cmp2;
 	int	i;
 
-	i = 0;
+	i = -1;
 	cmp = 0;
 	cmp2 = 0;
-	while (s[i])
+	while (s[++i])
 	{
-		if (s[i] == '\"' && cmp2 % 2 == 0)
+		if (i == 0 && s[i] == '\"' && cmp2 % 2 == 0)
 			cmp++;
-		if (s[i] == '\'' && cmp % 2 == 0)
+		else if (i > 0 && s[i] == '\"' && cmp2 % 2 == 0 && s[i - 1] != '\\')
+			cmp++;
+		if (i == 0 && s[i] == '\'' && cmp % 2 == 0)
 			cmp2++;
-		i++;
+		else if (i > 0 && s[i] == '\'' && cmp % 2 == 0 && s[i - 1] != '\\')
+			cmp2++;
 	}
 	if (cmp % 2 != 0 || cmp2 % 2 != 0)
 	{
@@ -87,8 +90,8 @@ char	*delete_quote(char *s, int i, int j)
 			i++;
 		else if (!s[i])
 			break ;
-		else if (s[i] == '\\' && (is_quote(s, i) == 1 || is_quote(s, i) == 0)
-			&& s[i + 1] && s[i + 1] == '$')
+		else if (s[i] == '\\' && (is_quote(s, i) != 2) && s[i + 1]
+			&& (s[i + 1] == '$' || s[i + 1] == '\"'))
 			i++;
 		else if (s[i] == '\\' && !is_quote(s, i))
 			i++;
