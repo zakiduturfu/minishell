@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:09:56 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/17 18:05:47 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/18 12:12:45 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	cd_home(char **env)
 	return (0);
 }
 
-int	starting_directory(char **pwd)
+int	starting_directory(char **pwd, bool test)
 {
 	char			*new;
 
@@ -58,12 +58,12 @@ int	starting_directory(char **pwd)
 		return (1);
 	free(*pwd);
 	*pwd = new;
-	if (chdir("/") != 0)
+	if (test == 0 && chdir("/") != 0)
 		return (1);
 	return (0);
 }
 
-int	previous_directory(char **pwd)
+int	previous_directory(char **pwd, bool test)
 {
 	char			*new;
 	unsigned int	i;
@@ -77,14 +77,14 @@ int	previous_directory(char **pwd)
 	while (i > 0 && (*pwd)[i] != '/')
 		i--;
 	if (i <= 4)
-		return (starting_directory(pwd));
+		return (starting_directory(pwd, test));
 	else
 		new = ft_strndup((*pwd), i);
 	if (!new)
 		return (1);
 	free(*pwd);
 	(*pwd) = new;
-	if (chdir(&((*pwd)[4])) != 0)
+	if (test == 0 && chdir(&((*pwd)[4])) != 0)
 		return (1);
 	return (0);
 }

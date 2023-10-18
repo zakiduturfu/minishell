@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 11:42:10 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/18 12:16:20 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	loop_shell(char **env, char *line)
 			else if (strcmp("env", line) == 0)
 				ft_env(env);
 			else if (strcmp("echo", line) == 0)
-				ft_echo(NULL, env);
+				ft_echo(NULL);
 			else if (strcmp("export", line) == 0)
 				ft_export(&env, NULL);
 			else if (strcmp("unset", line) == 0)

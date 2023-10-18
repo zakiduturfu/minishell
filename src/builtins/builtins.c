@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/18 11:19:44 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/18 12:16:12 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	exec_only_built(t_shell	*shell, char ***env)
 	else if (ft_strcmp("cd", tab[0]) == 0)
 		ft_cd(*env, tab[1]);
 	else if (ft_strcmp("echo", tab[0]) == 0)
-		ft_echo(tab[1], *env);
+		ft_echo(tab[1]);
 	else if (ft_strcmp("exit", tab[0]) == 0)
 		ft_exit(*env, *shell);
 	else if (ft_strcmp("pwd", tab[0]) == 0)
