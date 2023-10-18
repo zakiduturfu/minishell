@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 12:16:30 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:29:26 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ int			search_expand(char *str);
 
 /* /src/file/redirections.c */
 void		dup_and_close(int oldfd, int newfd);
-void		open_fdin(t_shell *shell, char **cmd, int i, char **env);
-void		open_fdout(t_shell *shell, char **cmd, int i, char **env);
+int			open_fdin(t_shell *shell, char **cmd, int i, char **env);
+int			open_fdout(t_shell *shell, char **cmd, int i, char **env);
 void		open_redir(t_shell *shell, char **cmd, int i, char **env);
 void		find_redir(t_shell *shell, char **cmd, int j, char **env);
 
@@ -204,8 +204,10 @@ void		close_all_pipe(t_shell *shell);
 /* /src/builtins/builtins.c */
 int			is_builtin(char *cmd);
 int			ft_pwd(char **env, char *str);
-int			ft_exit(char **env, t_shell shell);
-int			exec_only_built(t_shell	*shell, char ***env);
+void		ft_exit(char **tab, t_shell *shell, char **env);
+int			exec_only_built(t_shell	*shell, char ***env, int i);
+
+/* /src/builtins/exit.c */
 
 /* /src/builtins/echo.c */
 /*static void		print(char *str, int newline)*/
@@ -261,4 +263,5 @@ t_quotes	quotes_count(char *str);
 int			is_slash(char *s, int i);
 void		safe_close(int fd);
 t_env		*create_env(void);
+int			process_built(t_shell *shell, char ***env, int i);
 #endif
