@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/18 15:15:16 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/18 20:31:23 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,13 @@ int	ft_pwd(char **env, char *str)
 	return (0);
 }
 
-int	exec_only_built(t_shell	*shell, char ***env, int i)
+int	exec_only_built(t_shell	*shell, char ***env, int i, char **tab)
 {
-	char	**tab;
-
-	tab = NULL;
-	tab = init_start_cmd(shell, shell->token[shell->index] + i, 1, *env);
+	tab = ft_split_cmd(shell->token[shell->index] + i, tab, 0);
+	if (!tab)
+		return (-1);
+	fix_quote((signed char **)tab);
+	tab = find_expansion(shell, tab, *env);
 	if (!tab)
 		return (-1);
 	else if (ft_strcmp("cd", tab[0]) == 0)

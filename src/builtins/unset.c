@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/02 15:15:17 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/18 20:12:10 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static int	ft_erase_var(char ***env, int posi)
 	if (!newenv)
 		return (-1);
 	newenv[size] = NULL;
+	free((*env)[posi]);
 	while (i < posi)
 	{
 		newenv[i] = (*env)[i];
