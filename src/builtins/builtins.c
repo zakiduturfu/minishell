@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <readline/history.h>
-#include <unistd.h>
 
 int	ft_cd(char **env, char *str)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/09 11:28:07 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/18 13:36:23 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,12 @@ int	ft_export_one_by_one(char ***env, char *str)
 	if (posi == -1)
 	{
 		if (ft_create_var(env, var, 0) == -1)
-			return (1);
+			return (free(var), 1);
 		posi = find_var(*env, var);
 	}
 	if (ft_change_val(*env, posi, &(str[i]), i) == -1)
-		return (1);
+		return (free(var), 1);
+	free(var);
 	return (0);
 }
 
@@ -122,7 +123,7 @@ int	ft_export(char ***env, char *str)
 
 	i = 0;
 	if (!str || str[0] == '\0')
-		return (ft_ordonned_env(*env, NULL, -1));
+		return (ft_ordonned_env(*env, NULL, -1, NULL));
 	tab = ft_nsplit(str, ' ', '\t');
 	if (!tab)
 		return (1);
