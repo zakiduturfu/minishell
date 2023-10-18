@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/17 18:51:03 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/18 11:42:10 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ void	loop_shell(char **env, char *line)
 		}
 		if (line != NULL)
 		{
-			if (ft_strcmp("exit", line) == 0)
-				ft_exit(env);
-			else if (ft_strcmp("cd", line) == 0)
+			if (ft_strcmp("cd", line) == 0)
 				ft_cd(env, NULL);
 			else if (strcmp("env", line) == 0)
 				ft_env(env);
