@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 16:07:24 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:46:52 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,5 +263,6 @@ int			is_slash(char *s, int i);
 void		safe_close(int fd);
 t_env		*create_env(void);
 int			process_built(t_shell *shell, char ***env, int i);
+char		*ft_getenv(char *name, char **env);
 
 #endif
