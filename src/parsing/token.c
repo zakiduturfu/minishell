@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 15:15:19 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 15:13:42 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,11 @@ char	**init_start_cmd(t_shell *shell, char *cmd_line, int index, char **env)
 			free_all(tab);
 			return (NULL);
 		}
-		find_redir(shell, tab, index, env);
+		if (find_redir(shell, tab, index, env) == -1)
+		{
+			free_all(tab);
+			return (NULL);
+		}
 	}
 	tab = delete_redir(tab);
 	while (tab[++i])
