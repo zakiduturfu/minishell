@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:17:32 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 15:23:50 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 14:46:18 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ void	file_error(char *file, char **cmd, t_shell *shell, char **env)
 
 	i = -1;
 	perror(file);
-	if (shell->nb_cmd > 1)
+	if (shell->nb_cmd == 1 && find_built(shell, env, 0))
+		return ;
+	else
 	{
 		while (++i < shell->nb_here)
 			close(shell->here[i].here_pipe[0]);
@@ -61,7 +63,7 @@ int	open_fdout(t_shell *shell, char **cmd, int i, char **env)
 	return (1);
 }
 
-void	open_redir(t_shell *shell, char **cmd, int i, char **env)
+int	open_redir(t_shell *shell, char **cmd, int i, char **env)
 {
 	int	redir;
 
@@ -69,12 +71,12 @@ void	open_redir(t_shell *shell, char **cmd, int i, char **env)
 	if (redir == 1 || redir == 3)
 	{
 		if (open_fdout(shell, cmd, i, env) == -1)
-			return ;
+			return (-1);
 	}
 	if (redir == 2)
 	{
 		if (open_fdin(shell, cmd, i, env) == -1)
-			return ;
+			return (-1);
 	}
 	if (redir == 4)
 		dup_and_close(shell->here[shell->c_here].here_pipe[0], STDIN_FILENO);
@@ -82,9 +84,10 @@ void	open_redir(t_shell *shell, char **cmd, int i, char **env)
 		dup_and_close(shell->fdout, STDOUT_FILENO);
 	if (redir == 2)
 		dup_and_close(shell->fdin, STDIN_FILENO);
+	return (1);
 }
 
-void	find_redir(t_shell *shell, char **cmd, int j, char **env)
+int	find_redir(t_shell *shell, char **cmd, int j, char **env)
 {
 	int	i;
 
@@ -100,10 +103,12 @@ void	find_redir(t_shell *shell, char **cmd, int j, char **env)
 	}
 	while (cmd[i])
 	{
-		open_redir(shell, cmd, i, env);
+		if (open_redir(shell, cmd, i, env) == -1)
+			return (-1);
 		i++;
 	}
 	i = -1;
 	while (++i < shell->nb_here)
 		close(shell->here[i].here_pipe[0]);
+	return (1);
 }

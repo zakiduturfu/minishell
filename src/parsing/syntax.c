@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 12:49:25 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/11 17:56:52 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 15:12:54 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,36 @@ int	is_empty_line(char *line)
 		i++;
 	}
 	return (0);
+}
+
+int	pipe_error(t_shell *shell)
+{
+	ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+	shell->status = 2;
+	return (-1);
+}
+
+int	check_pipe(char *line, t_shell *shell, int i)
+{
+	char	c;
+
+	c = 'p';
+	while (line[++i])
+	{
+		if (i == 0 && line[i] == '|' && !is_quote(line, i))
+			return (pipe_error(shell));
+		else if (line[i] == '|' && c == '|' && !is_quote(line, i))
+			return (pipe_error(shell));
+		else if (line[i] == '|' && !is_quote(line, i) && line[i + 1] == '|')
+			return (pipe_error(shell));
+		else if (line[i] == '|' && c == '|')
+			return (pipe_error(shell));
+		else if (line[i] != ' ' && c == '|')
+			c = 'p';
+		if (line[i] == '|' && !is_quote(line, i))
+			c = '|';
+	}
+	if (c == '|')
+		return (pipe_error(shell));
+	return (1);
 }

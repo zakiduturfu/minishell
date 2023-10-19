@@ -105,7 +105,7 @@ char	*delete_quote(char *s, int i, int j)
 
 int	check_line(t_shell *shell, char *line)
 {
-	if (count_quote(line) == -1 || !shell->pid || !shell->token)
+	if (count_quote(line) == -1 || check_pipe(line, shell, -1) == -1)
 	{
 		if (shell->token)
 		{
