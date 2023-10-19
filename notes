@@ -1,4 +1,14 @@
-Global
+TESTS :
+
+dans histo readline meme si vide
+
+OK = Export variable pas darret a lespace puisque gere dans le split avant
+
+Attention si tentative crea dun fichier avec caracteres interdits = permission denied
+
+Pb grep, rev ou autre apres pipe apres redir / heredoc
+
+En cas de copier/coller commande avec here_doc, pas prise en compte des lignes suivant la commande
 
 penser a plit autant aux tab quaux espaces, ex :
 
