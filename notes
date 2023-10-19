@@ -1,9 +1,8 @@
+Global
 
+penser a plit autant aux tab quaux espaces, ex :
 
-Export :
-
-ordored env : lecture trop loin ? Dans fichier env.c
-
+tab = ft_nsplit(str, ' ', '\t');
 
 
 zaki:

@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 20:32:01 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 14:59:46 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	loop_shell(char **env, char *line)
 			if (ft_strcmp("cd", line) == 0)
 				ft_cd(env, NULL);
 			else if (strcmp("env", line) == 0)
-				ft_env(env);
+				ft_env(env, NULL);
 			else if (strcmp("echo", line) == 0)
 				ft_echo(NULL);
 			else if (strcmp("export", line) == 0)

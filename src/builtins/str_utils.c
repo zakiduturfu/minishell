@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:39:30 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/09 11:30:16 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 15:24:49 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@ int	is_space(char c)
 int	is_end(char c)
 {
 	if (c == '\0')
-		return (1);
-	return (0);
-}
-
-int	is_dollar(char c)
-{
-	if (c == 36)
 		return (1);
 	return (0);
 }

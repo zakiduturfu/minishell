@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/18 20:12:10 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 15:15:53 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,22 +76,17 @@ static int	ft_unset_one_by_one(char ***env, char *str)
 	return (0);
 }
 
-int	ft_unset(char ***env, char *str)
+int	ft_unset(char ***env, char **tab)
 {
-	char			**tab;
 	unsigned int	i;
 
 	i = 0;
-	if (!str)
-		return (print_and_return("unset: not enough arguments\n", -1));
-	tab = ft_nsplit(str, ' ', '\t');
 	if (!tab)
-		return (1);
+		return (print_and_return("unset: not enough arguments\n", -1));
 	while (tab[i])
 	{
 		ft_unset_one_by_one(env, tab[i]);
 		i++;
 	}
-	ft_free_tab(tab);
 	return (0);
 }
