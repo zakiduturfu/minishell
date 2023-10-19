@@ -30,7 +30,7 @@ void	loop_shell(char **env, char *line)
 			if (ft_strcmp("cd", line) == 0)
 				ft_cd(env, NULL);
 			else if (strcmp("env", line) == 0)
-				ft_env(env);
+				ft_env(env, NULL);
 			else if (strcmp("echo", line) == 0)
 				ft_echo(NULL);
 			else if (strcmp("export", line) == 0)
