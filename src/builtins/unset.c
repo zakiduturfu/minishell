@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 15:15:53 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 17:01:36 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_unset(char ***env, char **tab)
 	unsigned int	i;
 
 	i = 0;
-	if (!tab)
+	if (!tab || !(tab[0]) || tab[0][0] == '\0')
 		return (print_and_return("unset: not enough arguments\n", -1));
 	while (tab[i])
 	{

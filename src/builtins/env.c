@@ -17,7 +17,7 @@ int	ft_env(char **env, char **tab)
 	unsigned int	i;
 
 	i = 0;
-	if (tab && tab[0] != NULL && tab[0][0] != '\0')
+	if (tab && tab[0] && tab[0][0] != '\0')
 	{
 		printf("env: ‘%s’: No such file or directory\n", tab[0]);
 		return (0);

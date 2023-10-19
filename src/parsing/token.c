@@ -6,13 +6,11 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 16:28:32 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:51:17 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <stdio.h>
-#include <unistd.h>
 
 int	is_token(char *line, int *i, char c, char *av)
 {
