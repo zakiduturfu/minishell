@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:14 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 13:15:08 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 16:48:31 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <readline/readline.h>
 
 void	handler_sig(int sig)
 {
