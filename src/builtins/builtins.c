@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/18 20:31:23 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 11:26:37 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	ft_cd(char **env, char *str)
 		ft_free_tab(tab);
 		return (0);
 	}
-	try_exec_cd(env, tab[0]);
+	try_exec_cd(env, tab[0], -1);
+	ft_free_tab(tab);
 	return (0);
 }
 
