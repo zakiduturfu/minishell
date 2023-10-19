@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 15:15:39 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 17:52:19 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	ft_export(char ***env, char **tab)
 	unsigned int	i;
 
 	i = 0;
-	if (!tab)
+	if (!tab || !(tab[0]) || tab[0][0] == '\0')
 		return (ft_ordonned_env(*env, NULL, -1, NULL));
 	while (tab[i])
 	{

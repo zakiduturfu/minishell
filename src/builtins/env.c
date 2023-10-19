@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 16:15:19 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 17:00:16 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_env(char **env, char **tab)
 	unsigned int	i;
 
 	i = 0;
-	if (tab)
+	if (tab && tab[0] && tab[0][0] != '\0')
 	{
 		printf("env: ‘%s’: No such file or directory\n", tab[0]);
 		return (0);

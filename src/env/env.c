@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 14:59:31 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/16 17:40:26 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 16:44:24 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_env	*create_env(void)
 	return (&env);
 }
 
-char	*dup_var_name(char *str, int index)
+static char	*dup_var_name(char *str, int index)
 {
 	int		i;
 	char	*var;
@@ -37,7 +37,7 @@ char	*dup_var_name(char *str, int index)
 	return (var);
 }
 
-char	*find_var_name(char *env)
+static char	*find_var_name(char *env)
 {
 	int		i;
 	char	*ret;
@@ -49,7 +49,7 @@ char	*find_var_name(char *env)
 	return (ret);
 }
 
-char	*recup_env_ligne(char *str)
+static char	*recup_env_ligne(char *str)
 {
 	char	*var;
 	char	*ret;
