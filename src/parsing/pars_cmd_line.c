@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 14:58:21 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 15:36:17 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	loop_shell(char **env, char *line)
 			if (ft_strcmp("cd", line) == 0)
 				ft_cd(env, NULL);
 			else if (strcmp("env", line) == 0)
-				ft_env(env);
+				ft_env(env, NULL);
 			else if (strcmp("echo", line) == 0)
 				ft_echo(NULL);
 			else if (strcmp("export", line) == 0)
@@ -50,12 +50,12 @@ int	process_one_built(t_shell *shell, char *line, char ***env)
 	free(shell->pid);
 	shell->builtin = dup(STDIN_FILENO);
 	shell->builtout = dup(STDOUT_FILENO);
-	dup_and_close(shell->builtin, STDIN_FILENO);
-	dup_and_close(shell->builtout, STDOUT_FILENO);
 	free(line);
 	exec_only_built(shell, env, 0, NULL);
 	free_all(shell->token);
 	free(shell->av);
+	dup_and_close(shell->builtin, STDIN_FILENO);
+	dup_and_close(shell->builtout, STDOUT_FILENO);
 	return (shell->status);
 }
 

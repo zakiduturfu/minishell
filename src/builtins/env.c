@@ -6,17 +6,22 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 12:26:56 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 15:15:27 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_env(char **env)
+int	ft_env(char **env, char **tab)
 {
 	unsigned int	i;
 
 	i = 0;
+	if (tab)
+	{
+		printf("env: ‘%s’: No such file or directory\n", tab[0]);
+		return (0);
+	}
 	if (!env)
 		return (1);
 	while (env[i] != NULL)
@@ -52,6 +57,6 @@ int	ft_ordonned_env(char **env, char *tmp, int i, char **env_cop)
 		}
 		i++;
 	}
-	ft_env(env_cop);
+	ft_env(env_cop, NULL);
 	return (0);
 }

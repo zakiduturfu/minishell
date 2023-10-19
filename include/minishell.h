@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 15:10:51 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 15:22:58 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ void		close_all_pipe(t_shell *shell);
 
 /* /src/builtins/builtins.c */
 int			is_builtin(char *cmd);
-int			ft_pwd(char **env, char *str);
+int			ft_pwd(char **env, char **tab);
 void		ft_exit(char **tab, t_shell *shell, char **env);
 int			exec_only_built(t_shell	*shell, char ***env, int i, char **tab);
 
@@ -215,27 +215,27 @@ int			exec_only_built(t_shell	*shell, char ***env, int i, char **tab);
 /*static int	n_param(char *str, int *i)*/
 // int		open_quote(char *str); / not in the mandatory new subjet
 // int		dquote(void); / not in the mandatory new subjet
-int			ft_echo(char *str);
+int			ft_echo(char **tab);
 
 /* /src/builtins/export.c */
 int			ft_export_one_by_one(char ***env, char *str);
-int			ft_export(char ***env, char *str);
+int			ft_export(char ***env, char **tab);
 
 /* /src/builtins/unset.c */
 /*static int	ft_parse(char *str, unsigned int i);*/
 /*static int	ft_erase_var(t_shell *shell, int posi);*/
 /*static int	ft_unset_one_by_one(t_shell *shell, char *str);*/
-int			ft_unset(char ***env, char *str);
+int			ft_unset(char ***env, char **tab);
 
 /* /src/builtins/cd.c */
 int			try_exec_cd(char **env, char *directory, int posi);
-int			ft_cd(char **env, char *str);
+int			ft_cd(char **env, char **tab);
 
 /* /src/builtins/utils.c */
 void		print_path(int i, char **tab);
 int			print_and_return(char *str, int i);
 int			find_var(char **env, char *var);
-char		**ft_split_cmd(char *token, char **tab, unsigned int i);
+// char		**ft_split_cmd(char *token, char **tab, unsigned int i);
 void		ft_free_tab(char **tab);
 
 /* /src/builtins/cd_utils.c */
@@ -247,19 +247,11 @@ int			too_many_args(char **tab);
 
 /* /src/builtins/env.c */
 int			ft_ordonned_env(char **env, char *tmp, int i, char	**env_cop);
-int			ft_env(char **env);
+int			ft_env(char **env, char **tab);
 
 /* /src/builtins/str_utils.c */
 int			is_space(char c);
 int			is_end(char c);
-int			is_dollar(char c);
-
-/* /src/builtins/quotes_utils.c */
-int			is_single_quote(char c);
-int			is_double_quote(char c);
-int			open_quotes(t_quotes quotes);
-void		quotes_gestion(int n, int max, bool *boolopen);
-t_quotes	quotes_count(char *str);	
 
 int			is_slash(char *s, int i);
 void		safe_close(int fd);

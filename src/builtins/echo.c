@@ -6,76 +6,64 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:15:54 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/18 20:23:54 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 15:24:44 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	print(char *str, int newline, int i)
+static void	print(char **tab, bool newline)
 {
-	t_quotes	quotes;
+	unsigned int	i;
 
-	quotes = quotes_count(str);
-	while (is_space(str[i]))
-		i++;
-	while (str && !(is_end(str[i])))
+	i = 0;
+	while (tab[i])
 	{
-		if (is_single_quote(str[i]) && quotes.double_open == 0)
-			quotes_gestion(quotes.this_s++,
-				quotes.singles, &quotes.single_open);
-		else if (is_double_quote(str[i]) && quotes.single_open == 0)
-			quotes_gestion(quotes.this_d++,
-				quotes.doubles, &quotes.double_open);
-		else if (open_quotes(quotes) == 1 || is_space(str[i]) == 0)
-			printf("%c", str[i]);
-		else if (is_space(str[i])
-			&& !(is_space(str[i + 1])) && !(is_end(str[i + 1])))
+		if (i != 0)
 			printf(" ");
+		printf("%s", tab[i]);
 		i++;
 	}
 	if (newline == 1)
 		printf("\n");
 }
 
-static int	n_param(char *str, int *i, bool n, int last)
+static int	n_param(char **tab, int *i, bool n)
 {
-	last = *i;
-	if (!str)
+	unsigned int	j;
+
+	if (!(tab[*i]))
 		return (n);
-	while (!(is_end(str[*i])))
+	while (tab[*i])
 	{
-		while (is_space(str[*i]))
-			*i = *i + 1;
-		if (str[*i] != '-')
+		j = 0;
+		while (is_space(tab[*i][j]))
+			j++;
+		if (tab[*i][j++] != '-')
 			return (n);
-		*i = *i + 1;
-		while (str[*i] == 'n')
-			*i = *i + 1;
-		if (str[*i - 1] != 'n'
-			|| (is_space(str[*i]) == 0 && is_end(str[*i] == 0)))
-		{
-			*i = last;
+		while (tab[*i][j] == 'n')
+			j++;
+		if (tab[*i][j - 1] != 'n'
+			|| (is_space(tab[*i][j]) == 0 && is_end(tab[*i][j] == 0)))
 			return (n);
-		}
 		else
 			n = 1;
-		last = *i;
+		*i = *i + 1;
 	}
 	return (n);
 }
 
-int	ft_echo(char *str)
+int	ft_echo(char **tab)
 {
 	int	i;
 
 	i = 0;
-	if (str)
+	if (tab)
 	{
-		if (n_param(str, &i, 0, 0) == 1)
-			print(&(str[i]), 0, 0);
+		if (n_param(tab, &i, 0) == 1)
+			print(&(tab[i]), 0);
 		else
-			print(&(str[i]), 1, 0);
+			print(&(tab[i]), 1);
 	}
 	else
 		printf("\n");
