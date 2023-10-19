@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:04:02 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/12 18:56:37 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 15:01:23 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,18 @@ void	stat_expand(char **tab, char *str, int i, t_shell *shell)
 	tab[1] = get_after_expand(str + i + 2);
 	if (!tab[1])
 		free_expand(tab, 1);
-	tab[2] = ft_itoa(shell->status);
+	if (str[i] == '$' && str[i + 1] && str[i + 1] == '$')
+	{
+		tab[2] = malloc(sizeof(char) * 2);
+		if (!tab[2])
+		{
+			free_expand(tab, 2);
+			return ;
+		}
+		ft_strlcpy(tab[2], "$", 2);
+	}
+	else
+		tab[2] = ft_itoa(shell->status);
 	if (!tab[2])
 		free_expand(tab, 2);
 	tab[3] = ret_status(tab[0], tab[1], tab[2]);
