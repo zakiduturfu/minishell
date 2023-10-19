@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 15:15:27 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:15:19 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,5 @@ int	ft_ordonned_env(char **env, char *tmp, int i, char **env_cop)
 		i++;
 	}
 	ft_env(env_cop, NULL);
-	return (0);
+	return (free(env_cop), 0);
 }

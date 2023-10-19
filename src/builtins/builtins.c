@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 15:17:50 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:10:35 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,22 @@
 
 int	ft_cd(char **env, char **tab)
 {
-	if (!tab || tab[0][0] == '\0')
+	if (!tab || !(tab[0]) || tab[0][0] == '\0')
 		return (cd_home(env));
-	if (ft_strcmp(tab[0], "/") != 0 && tab[1] && tab[2])
-		return (too_many_args(tab));
+	if (tab[0] && tab[1] && tab[2])
+	{
+		printf("cd: too many arguments\n");
+		return (0);
+	}
 	if (ft_strcmp(tab[0], "/") == 0 && tab[1])
 	{
 		printf("cd: no such file or directory: %s", tab[1]);
 		ft_pwd(env, NULL);
+		return (0);
+	}
+	if (tab[1])
+	{
+		printf("cd: string not in pwd: %s\n", tab[0]);
 		return (0);
 	}
 	try_exec_cd(env, tab[0], -1);
@@ -53,7 +61,7 @@ int	ft_pwd(char **env, char **tab)
 	int	posi;
 
 	posi = -1;
-	if (!tab)
+	if (!tab || !(tab[0]) || tab[0][0] == '\0')
 	{
 		posi = find_var(env, "PWD");
 		if (posi == -1)

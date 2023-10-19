@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 23:06:12 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/02 15:46:16 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:32:38 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,6 @@ int	count_cmd(char **tab)
 	while (tab[i])
 		i++;
 	return (i);
-}
-
-int	check_redir(char **cmd)
-{
-	int	i;
-
-	i = -1;
-	while (cmd[i++])
-	{
-		if ((cmd[i][0] == '<' || cmd[i][0] == '>') && !cmd[i + 1])
-			return (-1);
-		//message d'erreur pars error near `
-	}
-	i = -1;
-	while (cmd[i++])
-	{
-		if ((cmd[i][0] == '<' || cmd[i][0] == '>')
-			&& (cmd[i + 1][0] == '<' || cmd[i][0] == '>'))
-			return (-1);
-		//message d'erreur pars errors near `
-	}
-	return (0);
 }
 
 int	size_token(char *line, char c, char *av)

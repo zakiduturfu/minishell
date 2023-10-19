@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:56:18 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/17 19:02:25 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 16:34:14 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-char	*ft_getenv(char *name, char **env)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (env[i])
-	{
-		if (!ft_strncmp(name, env[i], ft_strlen(name)))
-		{
-			while (env[i][j] != '=')
-				j++;
-			j++;
-			return (env[i] + j);
-		}
-		i++;
-	}
-	return (NULL);
-}
 
 char	*ft_avengers(char *before, char *after, char *expand, char **env)
 {

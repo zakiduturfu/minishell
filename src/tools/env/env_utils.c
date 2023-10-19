@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:04:02 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 15:01:23 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 16:34:26 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,25 @@ void	stat_expand(char **tab, char *str, int i, t_shell *shell)
 	if (!tab[2])
 		free_expand(tab, 2);
 	tab[3] = ret_status(tab[0], tab[1], tab[2]);
+}
+
+char	*ft_getenv(char *name, char **env)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (env[i])
+	{
+		if (!ft_strncmp(name, env[i], ft_strlen(name)))
+		{
+			while (env[i][j] != '=')
+				j++;
+			j++;
+			return (env[i] + j);
+		}
+		i++;
+	}
+	return (NULL);
 }
