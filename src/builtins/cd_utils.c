@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:09:56 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 16:06:38 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:15:26 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,3 @@ int	previous_directory(char **pwd, bool test)
 		return (1);
 	return (0);
 }
-
