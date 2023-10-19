@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:17:32 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 14:46:18 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 16:31:04 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <unistd.h>
-
-void	dup_and_close(int oldfd, int newfd)
-{
-	dup2(oldfd, newfd);
-	close(oldfd);
-}
 
 void	file_error(char *file, char **cmd, t_shell *shell, char **env)
 {
