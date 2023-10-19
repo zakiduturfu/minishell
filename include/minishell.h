@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 20:31:36 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 11:26:49 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ int			ft_export(char ***env, char *str);
 int			ft_unset(char ***env, char *str);
 
 /* /src/builtins/cd.c */
-int			try_exec_cd(char **env, char *directory);
+int			try_exec_cd(char **env, char *directory, int posi);
 int			ft_cd(char **env, char *str);
 
 /* /src/builtins/utils.c */
