@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:09:56 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 11:19:08 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:06:38 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,3 @@ int	previous_directory(char **pwd, bool test)
 	return (0);
 }
 
-int	too_many_args(char **tab)
-{
-	unsigned int	i;
-
-	i = 0;
-	printf("cd: string not in pwd: %s\n", tab[0]);
-	ft_free_tab(tab);
-	return (0);
-}
