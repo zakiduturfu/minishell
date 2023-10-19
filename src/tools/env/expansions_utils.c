@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:59:59 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/17 19:01:14 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 15:02:00 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,9 @@ void	tab_value(char **tab, char *str, int i, char **env)
 		free_expand(tab, 1);
 	tab[2] = get_expand_val(str, i);
 	if (!tab[2])
+	{
 		free_expand(tab, 2);
+		return ;
+	}
 	tab[3] = ft_avengers(tab[0], tab[1], tab[2], env);
 }
