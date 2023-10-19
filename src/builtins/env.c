@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/18 20:13:44 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:24:24 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,14 @@ int	ft_ordonned_env(char **env, char *tmp, int i, char **env_cop)
 	if (!env)
 		return (-1);
 	size = size_env(env);
-	env_cop = malloc(sizeof(char) * size);
+	env_cop = malloc(sizeof(char *) * (size + 1));
 	if (!env_cop)
 		return (-1);
+	env_cop[size] = NULL;
 	while (++i < size)
-	{
-		printf("ici i = %i\n", i);
-		printf("on copie la ligne %s\n", env[i]);
-		env_cop[i] = env[i];
-	}
+		env_cop[i] = ft_strdup(env[i]);
 	i = 0;
-	while (i + 1 < size)
+	while (i < size - 1)
 	{
 		if (ft_strcmp(env_cop[i], env_cop[i + 1]) > 0)
 		{
@@ -56,6 +53,6 @@ int	ft_ordonned_env(char **env, char *tmp, int i, char **env_cop)
 		i++;
 	}
 	ft_env(env_cop);
-	free(env_cop);
+	free_env_tab(env_cop);
 	return (0);
 }
