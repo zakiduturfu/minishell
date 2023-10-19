@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 03:13:43 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/17 19:03:54 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 16:32:00 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,23 @@ char	*ft_strstr(char *str, char *needle)
 		i++;
 	}
 	return (NULL);
+}
+
+void	ft_exec(t_shell *shell, char **cmd, int i, char ***env)
+{
+	if (execve(shell->path, cmd + i, *env) == -1)
+	{
+		perror("execve");
+		close(shell->pipefd[0]);
+		if (shell->pipefd[1])
+			close(shell->pipefd[1]);
+		free(shell->av);
+		if (shell->path)
+			free(shell->path);
+		if (cmd)
+			free_all(cmd);
+		free_all(shell->token);
+		free_env_tab(*env);
+		exit(2);
+	}
 }

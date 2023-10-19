@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:31:19 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 15:13:42 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 16:28:32 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,14 +121,10 @@ char	**init_start_cmd(t_shell *shell, char *cmd_line, int index, char **env)
 			if (shell->prev_pipe != -1)
 				close(shell->prev_pipe);
 			close_all_pipe(shell);
-			free_all(tab);
-			return (NULL);
+			return (free_all(tab), NULL);
 		}
 		if (find_redir(shell, tab, index, env) == -1)
-		{
-			free_all(tab);
-			return (NULL);
-		}
+			return (free_all(tab), NULL);
 	}
 	tab = delete_redir(tab);
 	while (tab[++i])

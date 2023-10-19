@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 15:36:17 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 16:26:48 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static void	exec_line(char *line, char **env)
+{
+	if (ft_strcmp("cd", line) == 0)
+		ft_cd(env, NULL);
+	else if (strcmp("env", line) == 0)
+		ft_env(env, NULL);
+	else if (strcmp("echo", line) == 0)
+		ft_echo(NULL);
+	else if (strcmp("export", line) == 0)
+		ft_export(&env, NULL);
+	else if (strcmp("unset", line) == 0)
+		ft_unset(&env, NULL);
+	else if (line[0] != '\0')
+		pars_line(line, &env);
+}
 
 void	loop_shell(char **env, char *line)
 {
@@ -27,18 +43,7 @@ void	loop_shell(char **env, char *line)
 		}
 		if (line != NULL)
 		{
-			if (ft_strcmp("cd", line) == 0)
-				ft_cd(env, NULL);
-			else if (strcmp("env", line) == 0)
-				ft_env(env, NULL);
-			else if (strcmp("echo", line) == 0)
-				ft_echo(NULL);
-			else if (strcmp("export", line) == 0)
-				ft_export(&env, NULL);
-			else if (strcmp("unset", line) == 0)
-				ft_unset(&env, NULL);
-			else if (line[0] != '\0')
-				pars_line(line, &env);
+			exec_line(line, env);
 			add_history(line);
 			free(line);
 		}

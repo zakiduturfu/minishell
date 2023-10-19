@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 15:56:17 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:07:24 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,6 @@ int			old_pwd(char **env, int pwdposi);
 int			cd_home(char **env);
 int			starting_directory(char **pwd, bool test);
 int			previous_directory(char **pwd, bool test);
-int			too_many_args(char **tab);
 
 /* /src/builtins/cd.c */
 //static int	is_directory(char **pwd, char *dir, char **tab, int i)
