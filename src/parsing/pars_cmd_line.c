@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 12:16:20 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/18 20:32:01 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,15 @@ void	loop_shell(char **env, char *line)
 
 int	process_one_built(t_shell *shell, char *line, char ***env)
 {
+	free(shell->pid);
 	shell->builtin = dup(STDIN_FILENO);
 	shell->builtout = dup(STDOUT_FILENO);
-	dup(shell->builtout);
-	if (line)
-		free(line);
-	exec_only_built(shell, env);
-	free_all(shell->token);
-	free(shell->av);
-	free(shell->pid);
 	dup_and_close(shell->builtin, STDIN_FILENO);
 	dup_and_close(shell->builtout, STDOUT_FILENO);
+	free(line);
+	exec_only_built(shell, env, 0, NULL);
+	free_all(shell->token);
+	free(shell->av);
 	return (shell->status);
 }
 

@@ -1,12 +1,9 @@
-CD
 
-PB
-Si chemin non valide mais debut de chemin valide, pwd reste bien inchange 
-mais quand on fait ls on a bouge dans la partie valide...
-Verif deja faite :
-if (ft_verif_path(tab, test) == 1)
-	exec_cd(env, tab, posi);
-=> On n'entre effectivement pas dedans quand path invalide, donc on n'exec pas le chemin, donc pb ailleurs
+
+Export :
+
+ordored env : lecture trop loin ? Dans fichier env.c
+
 
 
 zaki:

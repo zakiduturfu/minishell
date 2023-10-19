@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 18:42:04 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/16 17:55:29 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/18 20:32:27 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,15 @@ void	ft_good_bye(t_shell *shell, char ***env)
 	free_all(shell->token);
 	free_env_tab(*env);
 	exit(0);
+}
+
+int	process_built(t_shell *shell, char ***env, int i)
+{
+	exec_only_built(shell, env, i, NULL);
+	free_all(shell->token);
+	if (shell->nb_here)
+		free(shell->here);
+	free(shell->av);
+	free_env_tab(*env);
+	return (0);
 }

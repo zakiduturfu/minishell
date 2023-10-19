@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 12:16:30 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 11:26:49 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ int			search_expand(char *str);
 
 /* /src/file/redirections.c */
 void		dup_and_close(int oldfd, int newfd);
-void		open_fdin(t_shell *shell, char **cmd, int i, char **env);
-void		open_fdout(t_shell *shell, char **cmd, int i, char **env);
+int			open_fdin(t_shell *shell, char **cmd, int i, char **env);
+int			open_fdout(t_shell *shell, char **cmd, int i, char **env);
 void		open_redir(t_shell *shell, char **cmd, int i, char **env);
 void		find_redir(t_shell *shell, char **cmd, int j, char **env);
 
@@ -204,8 +204,10 @@ void		close_all_pipe(t_shell *shell);
 /* /src/builtins/builtins.c */
 int			is_builtin(char *cmd);
 int			ft_pwd(char **env, char *str);
-int			ft_exit(char **env, t_shell shell);
-int			exec_only_built(t_shell	*shell, char ***env);
+void		ft_exit(char **tab, t_shell *shell, char **env);
+int			exec_only_built(t_shell	*shell, char ***env, int i, char **tab);
+
+/* /src/builtins/exit.c */
 
 /* /src/builtins/echo.c */
 /*static void		print(char *str, int newline)*/
@@ -225,7 +227,7 @@ int			ft_export(char ***env, char *str);
 int			ft_unset(char ***env, char *str);
 
 /* /src/builtins/cd.c */
-int			try_exec_cd(char **env, char *directory);
+int			try_exec_cd(char **env, char *directory, int posi);
 int			ft_cd(char **env, char *str);
 
 /* /src/builtins/utils.c */
@@ -243,7 +245,7 @@ int			previous_directory(char **pwd, bool test);
 int			too_many_args(char **tab);
 
 /* /src/builtins/env.c */
-int			ft_ordonned_env(char **env, char *tmp, int i);
+int			ft_ordonned_env(char **env, char *tmp, int i, char	**env_cop);
 int			ft_env(char **env);
 
 /* /src/builtins/str_utils.c */
@@ -261,4 +263,5 @@ t_quotes	quotes_count(char *str);
 int			is_slash(char *s, int i);
 void		safe_close(int fd);
 t_env		*create_env(void);
+int			process_built(t_shell *shell, char ***env, int i);
 #endif
