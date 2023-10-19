@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 15:50:07 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/19 15:56:17 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ int			search_expand(char *str);
 void		dup_and_close(int oldfd, int newfd);
 int			open_fdin(t_shell *shell, char **cmd, int i, char **env);
 int			open_fdout(t_shell *shell, char **cmd, int i, char **env);
-void		open_redir(t_shell *shell, char **cmd, int i, char **env);
-void		find_redir(t_shell *shell, char **cmd, int j, char **env);
+int			open_redir(t_shell *shell, char **cmd, int i, char **env);
+int			find_redir(t_shell *shell, char **cmd, int j, char **env);
 
 /* src/file/signaux.c*/
 void		handler_sig(int sig);
@@ -125,6 +125,7 @@ void		loop_shell(char **env, char *line);
 char		*space_sep(char *line);
 char		*syntax_line(char *line, int i, int j);
 int			is_empty_line(char *line);
+int			check_pipe(char *line, t_shell *shell, int i);
 
 /* /src/parsing/init.c */
 t_shell		*create_data(void);
