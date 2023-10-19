@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:22:34 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 14:57:16 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 15:42:35 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_str_isdigit(char *s)
+static int	ft_str_isdigit(char *s)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ int	ft_str_isdigit(char *s)
 	return (1);
 }
 
-int	exit_mini(char **tab, char **env, t_shell *shell, int n)
+static int	exit_mini(char **tab, char **env, t_shell *shell, int n)
 {
 	free_all(tab);
 	free_all(shell->token);
