@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:22:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/20 17:51:46 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 18:16:21 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,11 @@ int	is_redir(char *redir)
 	return (0);
 }
 
-char	**delete_redir(char **line, int i)
+char	**delete_redir(char **line, int i, int j)
 {
-	int		j;
 	char	**ret;
 	int		size;
 
-	j = 0;
 	size = count_redir(line);
 	if (!size)
 		return (free_all(line), NULL);
@@ -64,26 +62,14 @@ char	**delete_redir(char **line, int i)
 		else
 		{
 			ret[j] = ft_strdup(line[i]);
+			if (!ret[j])
+				return (free_all(line), free_all(ret), NULL);
 			j++;
 		}
 	}
 	ret[j] = 0;
 	free_all(line);
 	return (ret);
-}
-
-void	wait_bin(t_shell *shell)
-{
-	int	i;
-
-	i = 0;
-	while (i < shell->nb_cmd)
-	{
-		waitpid(shell->pid[i], &shell->status, 0);
-		if (WIFEXITED(shell->status))
-			shell->status = WEXITSTATUS(shell->status);
-		i++;
-	}
 }
 
 void	close_in_here(t_shell *shell)

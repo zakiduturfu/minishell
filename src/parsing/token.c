@@ -119,7 +119,7 @@ char	**init_start_cmd(t_shell *shell, char *cmd_line, int index, char **env)
 		if (find_redir(shell, tab, index, env) == -1)
 			return (free_all(tab), NULL);
 	}
-	tab = delete_redir(tab, -1);
+	tab = delete_redir(tab, -1, 0);
 	if (!tab)
 		return (NULL);
 	while (tab[++i])

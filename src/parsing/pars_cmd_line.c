@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/20 17:25:57 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 18:14:52 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,20 @@ int	process_one_built(t_shell *shell, char *line, char ***env)
 	dup_and_close(shell->builtin, STDIN_FILENO);
 	dup_and_close(shell->builtout, STDOUT_FILENO);
 	return (shell->status);
+}
+
+void	wait_bin(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (i < shell->nb_cmd)
+	{
+		waitpid(shell->pid[i], &shell->status, 0);
+		if (WIFEXITED(shell->status))
+			shell->status = WEXITSTATUS(shell->status);
+		i++;
+	}
 }
 
 int	pars_line(char *line, char ***env)
