@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 03:13:43 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 16:32:00 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:58:24 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	exec_pipex(t_shell *shell, char ***env)
 			return (-1);
 		if (find_built(shell, *env, i))
 			waitpid(shell->pid[i], &shell->status, 0);
-		if (shell->nb_here && strstr(shell->token[i], "<<"))
+		if (shell->nb_here && ft_strstr(shell->token[i], "<<"))
 			shell->c_here++;
 		i++;
 	}
@@ -65,26 +65,12 @@ int	pipex(t_shell *shell, char *av, char ***env)
 	return (0);
 }
 
-char	*ft_strstr(char *str, char *needle)
+void	parent_process(t_shell *shell)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	if (!needle[i])
-		return (str);
-	while (str[i])
-	{
-		j = 0;
-		while (needle[j] == str[i + j])
-		{
-			if (needle[j + 1] == '\0')
-				return (str + i);
-			j++;
-		}
-		i++;
-	}
-	return (NULL);
+	close(shell->pipefd[1]);
+	if (shell->prev_pipe != -1)
+		close(shell->prev_pipe);
+	shell->prev_pipe = shell->pipefd[0];
 }
 
 void	ft_exec(t_shell *shell, char **cmd, int i, char ***env)

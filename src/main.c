@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:56:46 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/12 18:53:54 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 17:26:30 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,3 @@ int	main(int ac, char **av, char **env)
 		loop_shell(new_env, NULL);
 	}
 }
-
-/*	do {
-		bjr = readline("> ");
-		printf("SALUT %s", bjr);
-		if (strcmp("exit", bjr) == 0)
-			break;
-		free(bjr);
-	} while (bjr);*/

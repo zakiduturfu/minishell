@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:17:32 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 16:31:04 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:36:59 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ void	file_error(char *file, char **cmd, t_shell *shell, char **env)
 
 int	open_fdin(t_shell *shell, char **cmd, int i, char **env)
 {
+	if (is_redir(cmd[i]) == 1 && cmd[i + 1])
+	{
+		cmd[i + 1] = delete_quote(cmd[i + 1], 0, 0);
+		if (!cmd[i + 1])
+		{
+			file_error(cmd[i + 1], cmd, shell, env);
+			return (-1);
+		}
+	}
 	shell->fdin = open(cmd[i + 1], O_RDONLY);
 	if (shell->fdin == -1)
 	{
@@ -44,6 +53,15 @@ int	open_fdin(t_shell *shell, char **cmd, int i, char **env)
 
 int	open_fdout(t_shell *shell, char **cmd, int i, char **env)
 {
+	if (is_redir(cmd[i]) == 1 && cmd[i + 1])
+	{
+		cmd[i + 1] = delete_quote(cmd[i + 1], 0, 0);
+		if (!cmd[i + 1])
+		{
+			file_error(cmd[i + 1], cmd, shell, env);
+			return (-1);
+		}
+	}
 	if (is_redir(cmd[i]) == 1)
 		shell->fdout = open(cmd[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (is_redir(cmd[i]) == 3)
