@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 16:58:46 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 20:55:53 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,10 @@ int	ft_ordonned_env(char **env, char *tmp, int i, char **env_cop)
 	env_cop = malloc(sizeof(char *) * (size + 1));
 	if (!env_cop)
 		return (-1);
-	env_cop[size] = NULL;
-	while (++i < size)
+	while (++i < size + 1)
 		env_cop[i] = env[i];
-	i = 0;
-	while (i < size - 1)
+	i = -1;
+	while (++i < size - 1)
 	{
 		if (ft_strcmp(env_cop[i], env_cop[i + 1]) > 0)
 		{
@@ -55,8 +54,9 @@ int	ft_ordonned_env(char **env, char *tmp, int i, char **env_cop)
 			env_cop[i + 1] = tmp;
 			i = -1;
 		}
-		i++;
 	}
-	ft_env(env_cop, NULL);
+	i = -1;
+	while (++i < size)
+		printf("export %s\n", env_cop[i]);
 	return (free(env_cop), 0);
 }

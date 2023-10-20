@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/20 15:49:27 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 20:41:15 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,9 @@ int	ft_cd(char ***env, char **tab)
 {
 	if (!tab || !(tab[0]) || tab[0][0] == '\0')
 		return (cd_home(env));
-	if (tab[0] && tab[1] && tab[2])
+	if (tab[0] && tab[1])
 	{
 		printf("cd: too many arguments\n");
-		return (0);
-	}
-	if (ft_strcmp(tab[0], "/") == 0 && tab[1])
-	{
-		printf("cd: no such file or directory: %s", tab[1]);
-		ft_pwd(NULL);
-		return (0);
-	}
-	if (tab[1])
-	{
-		printf("cd: string not in pwd: %s\n", tab[0]);
 		return (0);
 	}
 	try_exec_cd(env, tab[0], -1, NULL);
@@ -56,20 +45,15 @@ int	is_builtin(char *cmd)
 		return (0);
 }
 
-int	ft_pwd(char **tab)
+int	ft_pwd(void)
 {
 	char	*buf;
 
-	if (!tab || !(tab[0]) || tab[0][0] == '\0')
-	{
-		buf = malloc(sizeof(char) * 1000);
-		if (!buf)
-			return (1);
-		printf("%s\n", getcwd(buf, 1000));
-		free(buf);
-		return (0);
-	}
-	printf("pwd: too many arguments\n");
+	buf = malloc(sizeof(char) * 1000);
+	if (!buf)
+		return (1);
+	printf("%s\n", getcwd(buf, 1000));
+	free(buf);
 	return (0);
 }
 
@@ -85,7 +69,7 @@ int	exec_only_built(t_shell	*shell, char ***env, int i, char **tab)
 	else if (ft_strcmp("exit", tab[0]) == 0)
 		ft_exit(tab, shell, *env);
 	else if (ft_strcmp("pwd", tab[0]) == 0)
-		ft_pwd(&(tab[1]));
+		ft_pwd();
 	else if (ft_strcmp("export", tab[0]) == 0)
 		ft_export(env, &(tab[1]));
 	else if (ft_strcmp("unset", tab[0]) == 0)

@@ -1,6 +1,8 @@
 TESTS :
 
-BUILTINS : tout vérifier dans bash !!! ex : PWd ok avec arguments
+EN COURS // BUILTINS : tout vérifier dans bash !!! 
+OK // pwd ok avec arguments
+OK // export sans arguments
 
 Bash fonctionne qd même sans env
 Env -i ./minishell => trois variables, shlvl, pwd et ?
