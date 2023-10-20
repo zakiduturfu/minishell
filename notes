@@ -1,13 +1,16 @@
 TESTS :
 
-Pour chemins des commandes
-Pour PATH="::" ou . .. etc. il faut recreer chemin quand meme
+OK // pwd se baser sur currentdir et pas sur la variable PWD de l'env
 
-Si cmd avec deux fichiers dont un sans autorisation, ca doit quand meme faire sur le premier
+OK // idem pour tous les deplacements avec cd
 
-dans histo readline meme si vide
+OK // export si valeur nulle penser a retirer ancienne valeur !
 
-OK = Export variable pas darret a lespace puisque gere dans le split avant
+OK // Si cmd avec deux fichiers dont un sans autorisation, ca doit quand meme faire sur le premier
+
+OK // dans histo readline meme si vide
+
+OK // Export variable pas darret a lespace puisque gere dans le split avant
 
 Attention si tentative crea dun fichier avec caracteres interdits = permission denied
 

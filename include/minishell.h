@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 16:46:52 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 16:09:33 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,23 +74,24 @@ typedef struct s_quotes
 /* /SRCBUILTINS*/
 
 /* /src/builtins/builtins.c */
-int			ft_cd(char **env, char **tab);
+int			ft_cd(char ***env, char **tab);
 int			is_builtin(char *cmd);
-int			ft_pwd(char **env, char **tab);
+int			ft_pwd(char **tab);
 int			exec_only_built(t_shell	*shell, char ***env, int i, char **tab);
 
 /* /src/builtins/cd_utils.c */
-int			old_pwd(char **env, int pwdposi);
-int			cd_home(char **env);
+int			old_pwd(char ***env, int pwdposi);
+int			cd_home(char ***env);
 int			starting_directory(char **pwd, bool test);
 int			previous_directory(char **pwd, bool test);
+char		*start_directory(char *directory);
 
 /* /src/builtins/cd.c */
 //static int	is_directory(char **pwd, char *dir, char **tab, int i)
 //static int	this_directory(char **pwd, char *dir, bool test)
 //static int	exec_cd(char **env, char **tab, int posi, char *start)
 //static int	ft_verif_path(char **tab, char *test)
-int			try_exec_cd(char **env, char *directory, int posi);
+int			try_exec_cd(char ***env, char *directory, int posi, char *start);
 
 /* /src/builtins/echo.c */
 //static void	print(char *str, int newline)
