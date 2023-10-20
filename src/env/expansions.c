@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:56:18 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 16:34:14 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:04:16 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	*ft_expansions(t_shell *shell, char *str, char **env)
 		i = search_expand(str);
 		if (str[i] == '$')
 		{
-			if (str[i + 1] == '?')
+			if (str[i + 1] == '?' || str[i + 1] == '$')
 				stat_expand(tab, str, i, shell);
 			else
 				tab_value(tab, str, i, env);

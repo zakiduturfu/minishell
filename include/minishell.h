@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/20 16:09:33 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:20:26 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,5 +284,6 @@ int			count_cmd(char **tab);
 int			size_token(char *line, char c, char *av);
 int			ft_strcmp(const char *str1, const char *str2);
 int			is_in_quote(char *line, int i, char c);
+char		**err_cmd(t_shell *shell, char **tab);
 
 #endif

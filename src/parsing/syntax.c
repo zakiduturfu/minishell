@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 12:49:25 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 15:12:54 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 19:41:21 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	is_empty_line(char *line)
 	int	i;
 
 	i = 0;
+	if (!line)
+		return (1);
 	while (line[i])
 	{
 		if (line[i] != ' ' && (line[i] < 7 || line[i] > 13))
