@@ -66,11 +66,17 @@ int	is_empty_line(char *line)
 	i = 0;
 	if (!line)
 		return (1);
-	while (line[i])
+	if (!line[0])
+		return (0);
+	else
 	{
-		if (line[i] != ' ' && (line[i] < 7 || line[i] > 13))
-			return (1);
-		i++;
+		while (line[i])
+		{
+			if (line[i] != ' ' && (line[i] < 7 || line[i] > 13))
+				return (1);
+			i++;
+		}
+		return (-1);
 	}
 	return (0);
 }

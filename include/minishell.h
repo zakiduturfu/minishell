@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/20 22:37:31 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 22:44:25 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,7 +267,7 @@ void		close_in_here(t_shell *shell);
 /* /src/tools/parsing/pars_cmd_line_utils.c */
 int			is_sep(char *line, int i);
 int			is_quote(char *line, int i);
-int			count_quote(char *s);
+int			count_quote(t_shell *shell, char *s);
 char		*delete_quote(char *s, int i, int j);
 int			check_line(t_shell *shell, char *line);
 
