@@ -47,7 +47,7 @@ int	is_quote(char *line, int i)
 	return (count);
 }
 
-int	count_quote(char *s)
+int	count_quote(t_shell *shell, char *s)
 {
 	int	cmp;
 	int	cmp2;
@@ -70,6 +70,7 @@ int	count_quote(char *s)
 	if (cmp % 2 != 0 || cmp2 % 2 != 0)
 	{
 		ft_putstr_fd("syntaxe error: quote must be closed\n", 2);
+		shell->status = 1;
 		return (-1);
 	}
 	return (cmp + cmp2);
@@ -105,9 +106,8 @@ char	*delete_quote(char *s, int i, int j)
 
 int	check_line(t_shell *shell, char *line)
 {
-	if (count_quote(line) == -1 || check_pipe(line, shell, -1) == -1)
+	if (count_quote(shell, line) == -1 || check_pipe(line, shell, -1) == -1)
 	{
-		shell->status = 1;
 		if (shell->token)
 		{
 			free_all(shell->token);
