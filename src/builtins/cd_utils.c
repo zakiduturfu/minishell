@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:09:56 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/20 16:09:27 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:56:08 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*start_directory(char *directory)
 	char	*buf;
 	char	*start;
 
-	if (!directory || directory[0] == '\0' || directory[0] == '/')
+	if (directory && directory[0] == '/')
 		start = ft_strdup("PWD=/");
 	else
 	{
