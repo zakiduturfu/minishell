@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 18:42:04 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 16:31:51 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:26:15 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	ft_good_bye(t_shell *shell, char ***env)
 		close(shell->pipefd[1]);
 	free(shell->av);
 	free_all(shell->token);
+	if (shell->nb_here)
+		free(shell->here);
 	free_env_tab(*env);
 	exit(0);
 }
