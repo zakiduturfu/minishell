@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/20 20:53:27 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 21:51:11 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,15 @@ static int	exec_cd(char ***env, char **tab, int posi, char *start)
 	while (tab && tab[i])
 	{
 		if (ft_strcmp("..", tab[i]) == 0)
-			previous_directory(&((*env)[posi]), 0);
+		{
+			if (previous_directory(&((*env)[posi]), 0) == 1)
+				return (1);
+		}
 		else if (ft_strcmp(".", tab[i]) != 0)
-			this_directory(&((*env)[posi]), tab[i], 0);
+		{
+			if (this_directory(&((*env)[posi]), tab[i], 0) == 1)
+				return (1);
+		}
 		i++;
 	}
 	return (0);
@@ -96,7 +102,7 @@ static int	ft_verif_path(char **tab, char *test, char *initialpath)
 			if (!(is_directory(&test, tab[i], initialpath)))
 			{
 				free(test);
-				return (0);
+				return (1);
 			}
 			else
 				this_directory(&test, tab[i], 1);
@@ -104,7 +110,7 @@ static int	ft_verif_path(char **tab, char *test, char *initialpath)
 		i++;
 	}
 	free(test);
-	return (1);
+	return (0);
 }
 
 int	try_exec_cd(char ***env, char *directory, int posi, char *start)
@@ -127,9 +133,9 @@ int	try_exec_cd(char ***env, char *directory, int posi, char *start)
 	test = ft_strdup(start);
 	if (!test)
 		return (free(start), ft_free_tab(tab), 1);
-	if (ft_verif_path(tab, test, directory) == 1)
-		exec_cd(env, tab, posi, start);
+	if (ft_verif_path(tab, test, directory) == 0
+		&& exec_cd(env, tab, posi, start) == 0)
+		return (ft_free_tab(tab), 0);
 	else
-		free(start);
-	return (ft_free_tab(tab), 0);
+		return (free(start), ft_free_tab(tab), 1);
 }

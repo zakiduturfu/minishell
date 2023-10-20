@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/20 20:52:30 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 21:41:43 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ typedef struct s_quotes
 /* /SRCBUILTINS*/
 
 /* /src/builtins/builtins.c */
-int			ft_cd(char ***env, char **tab);
+int			ft_cd(char ***env, char **tab, t_shell *shell);
 int			is_builtin(char *cmd);
-int			ft_pwd(void);
+int			ft_pwd(t_shell *shell);
 int			exec_only_built(t_shell	*shell, char ***env, int i, char **tab);
 
 /* /src/builtins/cd_utils.c */
 int			old_pwd(char ***env, int pwdposi);
-int			cd_home(char ***env);
+int			cd_home(char ***env, t_shell *shell);
 int			starting_directory(char **pwd, bool test);
 int			previous_directory(char **pwd, bool test);
 char		*start_directory(char *directory);
@@ -96,10 +96,10 @@ int			try_exec_cd(char ***env, char *directory, int posi, char *start);
 /* /src/builtins/echo.c */
 //static void	print(char *str, int newline)
 //static int	n_param(char *str, int *i)
-int			ft_echo(char **tab);
+int			ft_echo(char **tab, t_shell *shell);
 
 /* /src/builtins/env.c */
-int			ft_env(char **env, char **tab);
+int			ft_env(char **env, char **tab, t_shell *shell);
 int			ft_ordonned_env(char **env, char *tmp, int i, char	**env_cop);
 
 /* /src/builtins/exit.c */
@@ -113,17 +113,16 @@ void		ft_exit(char **tab, t_shell *shell, char **env);
 //		unsigned int posi, char *val, unsigned int i)
 //static int	ft_create_var(char ***env, char *var, unsigned int i)
 int			ft_export_one_by_one(char ***env, char *str);
-int			ft_export(char ***env, char **tab);
+int			ft_export(char ***env, char **tab, t_shell *shell);
 
 /* /src/builtins/str_utils.c */
 int			is_space(char c);
 int			is_end(char c);
 
 /* /src/builtins/unset.c */
-//static int	ft_parse(char *str, unsigned int i);
 //static int	ft_erase_var(t_shell *shell, int posi);
 //static int	ft_unset_one_by_one(t_shell *shell, char *str);
-int			ft_unset(char ***env, char **tab);
+int			ft_unset(char ***env, char **tab, t_shell *shell);
 
 /* /src/builtins/utils.c */
 int			print_and_return(char *str, int i);

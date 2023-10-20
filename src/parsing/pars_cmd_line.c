@@ -6,29 +6,11 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/20 20:35:40 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 21:37:09 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static void	exec_line(char *line, char ***env)
-{
-	if (ft_strcmp("cd", line) == 0)
-		ft_cd(env, NULL);
-	else if (ft_strcmp("env", line) == 0)
-		ft_env(*env, NULL);
-	else if (ft_strcmp("pwd", line) == 0)
-		ft_pwd();
-	else if (ft_strcmp("echo", line) == 0)
-		ft_echo(NULL);
-	else if (ft_strcmp("export", line) == 0)
-		ft_export(env, NULL);
-	else if (ft_strcmp("unset", line) == 0)
-		ft_unset(env, NULL);
-	else if (line[0] != '\0')
-		pars_line(line, env);
-}
 
 void	loop_shell(char **env, char *line)
 {
@@ -47,7 +29,7 @@ void	loop_shell(char **env, char *line)
 		}
 		else if (line != NULL)
 		{
-			exec_line(line, &env);
+			pars_line(line, &env);
 			add_history(line);
 			free(line);
 		}

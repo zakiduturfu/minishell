@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:15:54 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 15:24:44 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 21:01:47 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	n_param(char **tab, int *i, bool n)
 	return (n);
 }
 
-int	ft_echo(char **tab)
+int	ft_echo(char **tab, t_shell *shell)
 {
 	int	i;
 
@@ -67,5 +67,6 @@ int	ft_echo(char **tab)
 	}
 	else
 		printf("\n");
+	shell->status = 0;
 	return (0);
 }

@@ -1,15 +1,19 @@
 TESTS :
 
-EN COURS // BUILTINS : tout vérifier dans bash !!! 
+semble OK // BUILTINS : tout vérifier dans bash !!! 
 OK // pwd ok avec arguments
 OK // export sans arguments
+OK // cd messages d'erreur dans le bon sens et 2 args = too many
+OK // unset peu importe si arg ou pas
+OK // env
+OK // echo
+
+semble OK // Status doit se mettre à jour dans dans les builtins 
 
 Bash fonctionne qd même sans env
 Env -i ./minishell => trois variables, shlvl, pwd et ?
 
 Exit -1 => 255
-
-Status doit se mettre à jour dans dans les builtins 
 
 Si cmd vide il faut afficher command not found 
 
