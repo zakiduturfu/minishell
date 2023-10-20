@@ -55,7 +55,7 @@ char	**delete_redir(char **line)
 	j = 0;
 	size = count_redir(line);
 	if (!size)
-		return (line);
+		return (free_all(line), NULL);
 	ret = malloc(sizeof(char *) * (size + 1));
 	while (line[++i])
 	{

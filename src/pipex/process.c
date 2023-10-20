@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 11:45:37 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/18 13:29:29 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/19 20:31:32 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*recup_path(char *cmd, char **env)
 	int		i;
 
 	i = -1;
-	if (ft_strchr(cmd, '/') && access(cmd, 0) == 0)
+	if (ft_strchr(cmd, '/') && access(cmd, F_OK | X_OK) == 0)
 		return (ft_strdup(cmd));
 	else
 	{
@@ -69,7 +69,7 @@ char	*recup_path(char *cmd, char **env)
 			tmp = ft_strjoin(path[i], "/");
 			tab = ft_strjoin(tmp, cmd);
 			free (tmp);
-			if (access(tab, 0) == 0)
+			if (access(tab, F_OK | X_OK) == 0)
 				return (find_path(tab, path));
 			free(tab);
 		}

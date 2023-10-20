@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 17:55:08 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:05:55 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,15 @@ void	loop_shell(char **env, char *line)
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, &handler_sig);
 		line = readline("minishell>");
-		if (line == NULL)
+		if (!is_empty_line(line))
+			free(line);
+		else if (line == NULL)
 		{
 			printf("exit\n");
 			free_env_tab(env);
 			exit(2);
 		}
-		if (line != NULL)
+		else if (line != NULL)
 		{
 			exec_line(line, &env);
 			add_history(line);

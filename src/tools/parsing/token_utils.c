@@ -72,3 +72,13 @@ int	is_in_quote(char *line, int i, char c)
 		return (1);
 	return (0);
 }
+
+char	**err_cmd(t_shell *shell, char **tab)
+{
+	if (shell->prev_pipe != -1)
+		close(shell->prev_pipe);
+	close_all_pipe(shell);
+	if (tab)
+		free_all(tab);
+	return (NULL);
+}
