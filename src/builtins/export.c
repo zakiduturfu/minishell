@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 18:59:05 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 15:32:27 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@ static int	ft_change_val(char **env,
 	char	*newval;
 	char	*new;
 
-	if (!val || val[0] == '\0' || val[0] == ' ' || val[0] == '\t')
-		return (0);
 	newvar = ft_strndup(env[posi], i);
 	if (!newvar)
 		return (-1);
-	newval = ft_strdup(val);
+	if (!val || val[0] == '\0' || val[0] == ' ' || val[0] == '\t')
+		newval = ft_strdup("\0");
+	else
+		newval = ft_strdup(val);
 	if (!newval)
 		return (free(newvar), -1);
 	new = ft_strjoin(newvar, newval);

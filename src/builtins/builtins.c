@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 16:58:58 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 15:49:27 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_cd(char **env, char **tab)
+int	ft_cd(char ***env, char **tab)
 {
 	if (!tab || !(tab[0]) || tab[0][0] == '\0')
 		return (cd_home(env));
@@ -24,7 +24,7 @@ int	ft_cd(char **env, char **tab)
 	if (ft_strcmp(tab[0], "/") == 0 && tab[1])
 	{
 		printf("cd: no such file or directory: %s", tab[1]);
-		ft_pwd(env, NULL);
+		ft_pwd(NULL);
 		return (0);
 	}
 	if (tab[1])
@@ -32,7 +32,7 @@ int	ft_cd(char **env, char **tab)
 		printf("cd: string not in pwd: %s\n", tab[0]);
 		return (0);
 	}
-	try_exec_cd(env, tab[0], -1);
+	try_exec_cd(env, tab[0], -1, NULL);
 	return (0);
 }
 
@@ -56,17 +56,17 @@ int	is_builtin(char *cmd)
 		return (0);
 }
 
-int	ft_pwd(char **env, char **tab)
+int	ft_pwd(char **tab)
 {
-	int	posi;
+	char	*buf;
 
-	posi = -1;
 	if (!tab || !(tab[0]) || tab[0][0] == '\0')
 	{
-		posi = find_var(env, "PWD");
-		if (posi == -1)
-			return (-1);
-		printf("%s\n", &(env[posi][4]));
+		buf = malloc(sizeof(char) * 1000);
+		if (!buf)
+			return (1);
+		printf("%s\n", getcwd(buf, 1000));
+		free(buf);
 		return (0);
 	}
 	printf("pwd: too many arguments\n");
@@ -79,13 +79,13 @@ int	exec_only_built(t_shell	*shell, char ***env, int i, char **tab)
 	if (!tab)
 		return (-1);
 	else if (ft_strcmp("cd", tab[0]) == 0)
-		ft_cd(*env, &(tab[1]));
+		ft_cd(env, &(tab[1]));
 	else if (ft_strcmp("echo", tab[0]) == 0)
 		ft_echo(&(tab[1]));
 	else if (ft_strcmp("exit", tab[0]) == 0)
 		ft_exit(tab, shell, *env);
 	else if (ft_strcmp("pwd", tab[0]) == 0)
-		ft_pwd(*env, &(tab[1]));
+		ft_pwd(&(tab[1]));
 	else if (ft_strcmp("export", tab[0]) == 0)
 		ft_export(env, &(tab[1]));
 	else if (ft_strcmp("unset", tab[0]) == 0)
