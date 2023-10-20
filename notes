@@ -2,7 +2,9 @@ TESTS :
 
 OK // pwd se baser sur currentdir et pas sur la variable PWD de l'env
 
-EN COURS // idem pour tous les deplacements avec cd
+OK // idem pour tous les deplacements avec cd
+
+OK // export si valeur nulle penser a retirer ancienne valeur !
 
 OK // Si cmd avec deux fichiers dont un sans autorisation, ca doit quand meme faire sur le premier
 

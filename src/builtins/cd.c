@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/20 15:18:53 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:09:53 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,27 +108,18 @@ static int	ft_verif_path(char **tab, char *test)
 	return (1);
 }
 
-int	try_exec_cd(char ***env, char *directory, int posi, char *buf)
+int	try_exec_cd(char ***env, char *directory, int posi, char *start)
 {
 	char	**tab;
 	char	*test;
-	char	*start;
 
+	posi = find_var(*env, "PWD");
 	while (posi == -1)
 	{
 		posi = find_var(*env, "PWD");
 		ft_export_one_by_one(env, "PWD=");
 	}
-	if (!directory || directory[0] == '\0' || directory[0] == '/')
-		start = ft_strdup("PWD=/");
-	else
-	{
-		buf = malloc(sizeof(char) * 1000);
-		if (!buf)
-			return (1);
-		start = ft_strjoin("PWD=", getcwd(buf, 1000));
-		free(buf);
-	}
+	start = start_directory(directory);
 	if (!start)
 		return (1);
 	tab = ft_split(directory, '/');
@@ -141,6 +132,5 @@ int	try_exec_cd(char ***env, char *directory, int posi, char *buf)
 		exec_cd(env, tab, posi, start);
 	else
 		free(start);
-	ft_free_tab(tab);
-	return (0);
+	return (ft_free_tab(tab), 0);
 }

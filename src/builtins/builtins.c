@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/20 15:06:22 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 15:49:27 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	is_builtin(char *cmd)
 
 int	ft_pwd(char **tab)
 {
-	char *buf;
+	char	*buf;
 
 	if (!tab || !(tab[0]) || tab[0][0] == '\0')
 	{
