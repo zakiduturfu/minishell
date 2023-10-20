@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:51:50 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/17 18:58:41 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 17:19:35 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	recup_delim2(t_shell *shell, char **tmp, int j)
 			shell->here[j].lim = delete_quote(tmp[i + 1], 0, 0);
 			free(tmp[i]);
 			i++;
+			if (!shell->here[j].lim)
+				return (free_all(tmp), -1);
 			pipe(shell->here[j].here_pipe);
 			j++;
 		}

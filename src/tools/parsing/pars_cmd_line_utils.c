@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:40:51 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/17 18:51:34 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 17:29:54 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	check_line(t_shell *shell, char *line)
 {
 	if (count_quote(line) == -1 || check_pipe(line, shell, -1) == -1)
 	{
+		shell->status = 1;
 		if (shell->token)
 		{
 			free_all(shell->token);

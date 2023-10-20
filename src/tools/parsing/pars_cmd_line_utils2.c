@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 18:46:53 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/12 18:50:26 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 17:58:13 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,26 @@ int	is_slash(char *s, int i)
 	else if (i > 0 && (!is_quote(s, i)) && s[i] == '\'' && s[i - 1] == '\\')
 		return (0);
 	return (1);
+}
+
+char	*ft_strstr(char *str, char *needle)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (!needle[i])
+		return (str);
+	while (str[i])
+	{
+		j = 0;
+		while (needle[j] == str[i + j])
+		{
+			if (needle[j + 1] == '\0')
+				return (str + i);
+			j++;
+		}
+		i++;
+	}
+	return (NULL);
 }

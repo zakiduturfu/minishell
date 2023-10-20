@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 17:22:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/11 16:57:01 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 17:51:46 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,19 @@ int	is_redir(char *redir)
 	return (0);
 }
 
-char	**delete_redir(char **line)
+char	**delete_redir(char **line, int i)
 {
-	int		i;
 	int		j;
 	char	**ret;
 	int		size;
 
-	i = -1;
 	j = 0;
 	size = count_redir(line);
 	if (!size)
 		return (free_all(line), NULL);
 	ret = malloc(sizeof(char *) * (size + 1));
+	if (!ret)
+		return (free_all(line), NULL);
 	while (line[++i])
 	{
 		if ((line[i][0] == '<' || line[i][0] == '>') && line[i + 1])

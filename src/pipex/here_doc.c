@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:51:50 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/18 14:24:19 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 18:07:33 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,20 @@ void	file_here(int i, t_here *here)
 	{
 		s = readline("here_doc>");
 		if (!s)
+		{
+			ft_putstr_fd("bash: here-document at line 1", 2);
+			ft_putstr_fd("delimited by end-of-file (wanted `", 2);
+			ft_putstr_fd(here[i].lim, 2);
+			ft_putstr_fd("')\n", 2);
 			break ;
+		}
 		else if (!ft_strcmp(s, here[i].lim))
 		{
 			free(s);
 			break ;
 		}
-		else
-		{
-			ft_putendl_fd(s, here[i].here_pipe[1]);
-			free(s);
-		}
+		ft_putendl_fd(s, here[i].here_pipe[1]);
+		free(s);
 	}	
 	close(here[i].here_pipe[0]);
 	close(here[i].here_pipe[1]);

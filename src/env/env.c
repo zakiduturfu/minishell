@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 14:59:31 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 16:44:24 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:40:42 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static char	*recup_env_ligne(char *str)
 		return (NULL);
 	value = getenv(var);
 	ret = ft_strjoin(var, "=");
+	if (!ret)
+		return (free(var), NULL);
 	free(var);
 	var = ft_strjoin(ret, value);
 	free(ret);

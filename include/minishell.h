@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/20 16:20:26 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 17:58:56 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,7 @@ int			init_here(t_shell *shell, char **env);
 int			exec_process(t_shell *shell, int i, char ***env);
 int			exec_pipex(t_shell *shell, char ***env);
 int			pipex(t_shell *shell, char *av, char ***env);
+void		parent_process(t_shell *shell);
 void		ft_exec(t_shell *shell, char **cmd, int i, char ***env);
 
 /* /src/pipex/process_utils.c */
@@ -230,7 +231,6 @@ int			process_built(t_shell *shell, char ***env, int i);
 void		child_err(t_shell *shell, char **cmd, char **env, int i);
 char		**get_cmd_path(char *cmd, char **env);
 char		*recup_path(char *cmd, char **env);
-void		parent_process(t_shell *shell);
 void		child_process(t_shell *shell, int i, char ***env);
 
 /* SRC/TOOLS/ENV */
@@ -260,7 +260,7 @@ void		safe_close(int fd);
 /* /src/tools/file/redirections_utils.c*/
 int			count_redir(char **line);
 int			is_redir(char *redir);
-char		**delete_redir(char **line);
+char		**delete_redir(char **line, int i);
 void		wait_bin(t_shell *shell);
 void		close_in_here(t_shell *shell);
 
@@ -278,6 +278,7 @@ int			ignore_sep(char *line, int i);
 int			del_quote(char *s);
 int			del_slash(char *str);
 int			is_slash(char *s, int i);
+char		*ft_strstr(char *s, char *to_find);
 
 /* /src/tools/parsing/token_utils.c*/
 int			count_cmd(char **tab);
