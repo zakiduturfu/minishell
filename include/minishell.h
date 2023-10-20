@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/20 21:41:43 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 22:37:31 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ int			exec_only_built(t_shell	*shell, char ***env, int i, char **tab);
 int			old_pwd(char ***env, int pwdposi);
 int			cd_home(char ***env, t_shell *shell);
 int			starting_directory(char **pwd, bool test);
-int			previous_directory(char **pwd, bool test);
+int			previous_directory(char **pwd, bool test, char *initialpath, int i);
 char		*start_directory(char *directory);
 
 /* /src/builtins/cd.c */
 //static int	is_directory(char **pwd, char *dir, char *initialpath)
-//static int	this_directory(char **pwd, char *dir, bool test)
+//static int	this_directory(char **pwd, char *dir, bool test, char *initpath)
 //static int	exec_cd(char **env, char **tab, int posi, char *start)
 //static int	ft_verif_path(char **tab, char *test, char *initialpath)
 int			try_exec_cd(char ***env, char *directory, int posi, char *start);

@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:09:56 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/20 21:42:17 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 22:35:50 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,10 @@ int	starting_directory(char **pwd, bool test)
 	return (0);
 }
 
-int	previous_directory(char **pwd, bool test)
+int	previous_directory(char **pwd, bool test, char *initialpath, int i)
 {
 	char			*new;
-	unsigned int	i;
 
-	i = 0;
 	while ((*pwd)[i] != '\0')
 		i++;
 	i--;
@@ -80,6 +78,11 @@ int	previous_directory(char **pwd, bool test)
 		return (1);
 	free(*pwd);
 	(*pwd) = new;
+	if (access(&((*pwd)[4]), F_OK | X_OK) != 0)
+	{
+		printf("cd: %s: Permission denied\n", initialpath);
+		return (1);
+	}
 	if (test == 0 && chdir(&((*pwd)[4])) != 0)
 		return (1);
 	return (0);

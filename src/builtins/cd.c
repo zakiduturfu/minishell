@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/20 21:51:11 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 22:36:27 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	is_directory(char **pwd, char *dir, char *initialpath)
 	return (S_ISDIR(info.st_mode));
 }
 
-static int	this_directory(char **pwd, char *dir, bool test)
+static int	this_directory(char **pwd, char *dir, bool test, char *initialpath)
 {
 	char	*slash;
 	char	*new;
@@ -56,6 +56,11 @@ static int	this_directory(char **pwd, char *dir, bool test)
 		return (1);
 	free(*pwd);
 	*pwd = new;
+	if (access(&((*pwd)[4]), F_OK | X_OK) != 0)
+	{
+		printf("cd: %s: Permission denied\n", initialpath);
+		return (1);
+	}
 	if (test == 0 && chdir(&((*pwd)[4])) != 0)
 		return (1);
 	return (0);
@@ -75,12 +80,12 @@ static int	exec_cd(char ***env, char **tab, int posi, char *start)
 	{
 		if (ft_strcmp("..", tab[i]) == 0)
 		{
-			if (previous_directory(&((*env)[posi]), 0) == 1)
+			if (previous_directory(&((*env)[posi]), 0, NULL, 0) == 1)
 				return (1);
 		}
 		else if (ft_strcmp(".", tab[i]) != 0)
 		{
-			if (this_directory(&((*env)[posi]), tab[i], 0) == 1)
+			if (this_directory(&((*env)[posi]), tab[i], 0, NULL) == 1)
 				return (1);
 		}
 		i++;
@@ -88,15 +93,15 @@ static int	exec_cd(char ***env, char **tab, int posi, char *start)
 	return (0);
 }
 
-static int	ft_verif_path(char **tab, char *test, char *initialpath)
+static int	ft_verif_path(char **tab, char *test, char *initialpath, int i)
 {
-	unsigned int	i;
-
-	i = 0;
 	while (tab[i])
 	{
 		if (ft_strcmp("..", tab[i]) == 0)
-			previous_directory(&test, 1);
+		{
+			if (previous_directory(&test, 1, initialpath, 0) == 1)
+				return (1);
+		}
 		else if (ft_strcmp(".", tab[i]) != 0)
 		{
 			if (!(is_directory(&test, tab[i], initialpath)))
@@ -104,13 +109,15 @@ static int	ft_verif_path(char **tab, char *test, char *initialpath)
 				free(test);
 				return (1);
 			}
-			else
-				this_directory(&test, tab[i], 1);
+			else if (this_directory(&test, tab[i], 1, initialpath) == 1)
+			{
+				free(test);
+				return (1);
+			}
 		}
 		i++;
 	}
-	free(test);
-	return (0);
+	return (free(test), 0);
 }
 
 int	try_exec_cd(char ***env, char *directory, int posi, char *start)
@@ -133,9 +140,8 @@ int	try_exec_cd(char ***env, char *directory, int posi, char *start)
 	test = ft_strdup(start);
 	if (!test)
 		return (free(start), ft_free_tab(tab), 1);
-	if (ft_verif_path(tab, test, directory) == 0
-		&& exec_cd(env, tab, posi, start) == 0)
-		return (ft_free_tab(tab), 0);
-	else
-		return (free(start), ft_free_tab(tab), 1);
+	if (ft_verif_path(tab, test, directory, 0) == 0)
+		if (exec_cd(env, tab, posi, start) == 0)
+			return (ft_free_tab(tab), 0);
+	return (free(start), ft_free_tab(tab), 1);
 }
