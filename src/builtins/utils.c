@@ -6,26 +6,11 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 15:23:11 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 20:50:58 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void	print_path(int i, char **tab)
-{
-	int	j;
-
-	j = 0;
-	while (j <= i)
-	{
-		printf("%s", tab[j]);
-		if (j < i)
-			printf("/");
-		j++;
-	}
-	printf("\n");
-}
 
 int	print_and_return(char *str, int i)
 {

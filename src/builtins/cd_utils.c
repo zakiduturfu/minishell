@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:09:56 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/20 16:56:08 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 21:42:17 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	old_pwd(char ***env, int pwdposi)
 	return (0);
 }
 
-int	cd_home(char ***env)
+int	cd_home(char ***env, t_shell *shell)
 {
 	int		homeposi;
 
@@ -35,9 +35,14 @@ int	cd_home(char ***env)
 	if (homeposi == -1)
 	{
 		printf("cd: HOME not set\n");
-		return (0);
+		shell->status = 1;
+		return (1);
 	}
-	return (try_exec_cd(env, &(*env)[homeposi][5], -1, NULL));
+	if (try_exec_cd(env, &(*env)[homeposi][5], -1, NULL) == 1)
+		shell->status = 1;
+	else
+		shell->status = 0;
+	return (0);
 }
 
 int	starting_directory(char **pwd, bool test)

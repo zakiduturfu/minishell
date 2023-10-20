@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 16:58:46 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 21:33:00 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_env(char **env, char **tab)
+int	ft_env(char **env, char **tab, t_shell *shell)
 {
 	unsigned int	i;
 
@@ -20,15 +20,20 @@ int	ft_env(char **env, char **tab)
 	if (tab && tab[0] && tab[0][0] != '\0')
 	{
 		printf("env: ‘%s’: No such file or directory\n", tab[0]);
-		return (0);
+		shell->status = 127;
+		return (1);
 	}
 	if (!env)
+	{
+		shell->status = 1;
 		return (1);
+	}
 	while (env[i] != NULL)
 	{
 		printf("%s \n", env[i]);
 		i++;
 	}
+	shell->status = 0;
 	return (0);
 }
 
@@ -37,16 +42,15 @@ int	ft_ordonned_env(char **env, char *tmp, int i, char **env_cop)
 	int	size;
 
 	if (!env)
-		return (-1);
+		return (1);
 	size = size_env(env);
 	env_cop = malloc(sizeof(char *) * (size + 1));
 	if (!env_cop)
-		return (-1);
-	env_cop[size] = NULL;
-	while (++i < size)
+		return (1);
+	while (++i < size + 1)
 		env_cop[i] = env[i];
-	i = 0;
-	while (i < size - 1)
+	i = -1;
+	while (++i < size - 1)
 	{
 		if (ft_strcmp(env_cop[i], env_cop[i + 1]) > 0)
 		{
@@ -55,8 +59,9 @@ int	ft_ordonned_env(char **env, char *tmp, int i, char **env_cop)
 			env_cop[i + 1] = tmp;
 			i = -1;
 		}
-		i++;
 	}
-	ft_env(env_cop, NULL);
+	i = -1;
+	while (++i < size)
+		printf("export %s\n", env_cop[i]);
 	return (free(env_cop), 0);
 }
