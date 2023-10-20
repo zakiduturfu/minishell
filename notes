@@ -1,5 +1,22 @@
 TESTS :
 
+BUILTINS : tout vérifier dans bash !!! ex : PWd ok avec arguments
+
+Bash fonctionne qd même sans env
+Env -i ./minishell => trois variables, shlvl, pwd et ?
+
+Exit -1 => 255
+
+Status doit se mettre à jour dans dans les builtins 
+
+Si cmd vide il faut afficher command not found 
+
+Faute de frappe espace après numéro de ligne quand on quitte here doc sans délimiteur 
+
+Ajouter les cmd vides à l’histo 
+
+Dans env 0=bash ?
+
 OK // pwd se baser sur currentdir et pas sur la variable PWD de l'env
 
 OK // idem pour tous les deplacements avec cd
