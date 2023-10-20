@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/20 16:05:55 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 16:44:57 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	exec_line(char *line, char ***env)
 {
 	if (ft_strcmp("cd", line) == 0)
-		ft_cd(*env, NULL);
+		ft_cd(env, NULL);
 	else if (strcmp("env", line) == 0)
 		ft_env(*env, NULL);
 	else if (strcmp("echo", line) == 0)
