@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/19 16:46:52 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 14:17:06 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_quotes
 /* /src/builtins/builtins.c */
 int			ft_cd(char **env, char **tab);
 int			is_builtin(char *cmd);
-int			ft_pwd(char **env, char **tab);
+int			ft_pwd(char **tab);
 int			exec_only_built(t_shell	*shell, char ***env, int i, char **tab);
 
 /* /src/builtins/cd_utils.c */
