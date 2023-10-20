@@ -6,7 +6,7 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/19 15:40:34 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 15:18:53 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,22 @@ static int	this_directory(char **pwd, char *dir, bool test)
 	return (0);
 }
 
-static int	exec_cd(char **env, char **tab, int posi, char *start)
+static int	exec_cd(char ***env, char **tab, int posi, char *start)
 {
 	unsigned int	i;
 
 	i = 0;
 	old_pwd(env, posi);
-	free(env[posi]);
-	env[posi] = start;
-	if (chdir(&((env[posi])[4])) != 0)
+	free((*env)[posi]);
+	(*env)[posi] = start;
+	if (chdir((&((*env)[posi][4]))) != 0)
 		return (1);
 	while (tab && tab[i])
 	{
 		if (ft_strcmp("..", tab[i]) == 0)
-			previous_directory(&(env[posi]), 0);
+			previous_directory(&((*env)[posi]), 0);
 		else if (ft_strcmp(".", tab[i]) != 0)
-			this_directory(&(env[posi]), tab[i], 0);
+			this_directory(&((*env)[posi]), tab[i], 0);
 		i++;
 	}
 	return (0);
@@ -108,25 +108,33 @@ static int	ft_verif_path(char **tab, char *test)
 	return (1);
 }
 
-int	try_exec_cd(char **env, char *directory, int posi)
+int	try_exec_cd(char ***env, char *directory, int posi, char *buf)
 {
 	char	**tab;
 	char	*test;
 	char	*start;
 
-	posi = find_var(env, "PWD");
-	if (posi == -1 || !directory)
-		return (1);
-	if (directory[0] == '/')
+	while (posi == -1)
+	{
+		posi = find_var(*env, "PWD");
+		ft_export_one_by_one(env, "PWD=");
+	}
+	if (!directory || directory[0] == '\0' || directory[0] == '/')
 		start = ft_strdup("PWD=/");
 	else
-		start = ft_strdup(env[posi]);
+	{
+		buf = malloc(sizeof(char) * 1000);
+		if (!buf)
+			return (1);
+		start = ft_strjoin("PWD=", getcwd(buf, 1000));
+		free(buf);
+	}
 	if (!start)
 		return (1);
 	tab = ft_split(directory, '/');
 	if (!tab)
 		return (free(start), 1);
-	test = ft_strdup(env[posi]);
+	test = ft_strdup(start);
 	if (!test)
 		return (free(start), ft_free_tab(tab), 1);
 	if (ft_verif_path(tab, test) == 1)

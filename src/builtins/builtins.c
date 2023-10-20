@@ -6,13 +6,13 @@
 /*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 17:35:59 by hstephan          #+#    #+#             */
-/*   Updated: 2023/10/20 14:17:36 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 15:06:22 by hstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_cd(char **env, char **tab)
+int	ft_cd(char ***env, char **tab)
 {
 	if (!tab || !(tab[0]) || tab[0][0] == '\0')
 		return (cd_home(env));
@@ -32,7 +32,7 @@ int	ft_cd(char **env, char **tab)
 		printf("cd: string not in pwd: %s\n", tab[0]);
 		return (0);
 	}
-	try_exec_cd(env, tab[0], -1);
+	try_exec_cd(env, tab[0], -1, NULL);
 	return (0);
 }
 
@@ -79,7 +79,7 @@ int	exec_only_built(t_shell	*shell, char ***env, int i, char **tab)
 	if (!tab)
 		return (-1);
 	else if (ft_strcmp("cd", tab[0]) == 0)
-		ft_cd(*env, &(tab[1]));
+		ft_cd(env, &(tab[1]));
 	else if (ft_strcmp("echo", tab[0]) == 0)
 		ft_echo(&(tab[1]));
 	else if (ft_strcmp("exit", tab[0]) == 0)
