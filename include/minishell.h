@@ -6,7 +6,7 @@
 /*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:57:08 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/20 17:58:56 by zlemery          ###   ########.fr       */
+/*   Updated: 2023/10/20 18:12:35 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ int			init_struct(t_shell *shell, char *av);
 
 /* /src/parsing/pars_cmd_line.c */
 //static void	exec_line(char *line, char **env)
+void		wait_bin(t_shell *shell);
 void		loop_shell(char **env, char *line);
 int			process_one_built(t_shell *shell, char *line, char ***env);
 int			pars_line(char *line, char ***env);
@@ -260,8 +261,7 @@ void		safe_close(int fd);
 /* /src/tools/file/redirections_utils.c*/
 int			count_redir(char **line);
 int			is_redir(char *redir);
-char		**delete_redir(char **line, int i);
-void		wait_bin(t_shell *shell);
+char		**delete_redir(char **line, int i, int j);
 void		close_in_here(t_shell *shell);
 
 /* SRC/TOOLS/PARSING */
