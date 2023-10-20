@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:22:34 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/20 21:33:58 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 22:14:24 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,22 @@
 static int	ft_str_isdigit(char *s)
 {
 	int	i;
+	int	sign;
 
 	i = 0;
+	sign = 1;
+	while (s[i] && (s[i] == ' ' || (s[i] >= 9 && s[i] <= 13)))
+		i++;
+	if (s[i] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+	while (s[i] >= '0' && s[i] <= '9')
+		i++;
 	while (s[i])
 	{
-		if (s[i] < '0' || s[i] > '9')
+		if (!is_space(s[i]))
 			return (0);
 		i++;
 	}

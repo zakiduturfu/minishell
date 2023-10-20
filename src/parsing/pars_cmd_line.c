@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstephan <hstephan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zlemery <zlemery@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:36:49 by zlemery           #+#    #+#             */
-/*   Updated: 2023/10/20 21:37:09 by hstephan         ###   ########.fr       */
+/*   Updated: 2023/10/20 22:13:37 by zlemery          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	pars_line(char *line, char ***env)
 	char	*av;
 	t_shell	*shell;
 
-	if (!is_empty_line(line))
+	if (is_empty_line(line) == -1)
 		return (-1);
 	shell = create_data();
 	av = syntax_line(line, 0, 0);
